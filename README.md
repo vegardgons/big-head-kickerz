@@ -1,7 +1,7 @@
 # INF112 libGDX + Maven template 
 Simple skeleton with [libGDX](https://libgdx.com/). 
 
-**Important:** Replace this README with info about *your* project! VEggis veggi
+**Important:** Replace this README with info about *your* project!
 
 
 # Maven Setup
