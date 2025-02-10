@@ -3,7 +3,7 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 
 **Important:** 
 
-# INF112 Project – *Kurt-Mario in the Land of the Mushroom Princess*
+# INF112 Project – *Big Head Kickers*
 
 * Team: *Beta Krigerne* (Gruppe 6): *Mikal Arolkar, Andreas Aasheim Farup, Vegard Gjertsen Gonsholt, Olav Hilland Lidal*
 * Lenke til https://git.app.uib.no/inf112/25v/proj/beta-krigerne.
@@ -20,8 +20,7 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 Kurt-Mario blir *mindre* – ikke større – når han spiser sopp fra Nygårdsparken.
 
 ## Credits
-Tileset fra https://opengameart.org/content/2d-cave-platformer-tileset-16x16
-
+Inspirasjon hentet fra https://dnddream.com/dnddream_web/app_game_06.htm 
 
 
 # Maven Setup
