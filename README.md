@@ -17,7 +17,7 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 * Krever Java 21 eller senere
 
 ## Kjente feil
-Kurt-Mario blir *mindre* – ikke større – når han spiser sopp fra Nygårdsparken.
+Vi har ingen kjente feil sålangt
 
 ## Credits
 Inspirasjon hentet fra https://dnddream.com/dnddream_web/app_game_06.htm 
