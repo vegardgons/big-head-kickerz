@@ -11,6 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Beta krigerne!");
 		System.out.println("Vi er best!");
+		System.out.println("Vi er best!");
 		if (SharedLibraryLoader.os == Os.MacOsX) {
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
 		}
