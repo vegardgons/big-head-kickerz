@@ -20,4 +20,4 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 Vi har ingen kjente feil sålangt
 
 ## Credits
-heiheiheiInspirasjonheiheiheihei hentet fra https://dnddream.com/dnddream_web/app_game_06.htm 
+Inspirasjon hentet fra https://dnddream.com/dnddream_web/app_game_06.htm 
