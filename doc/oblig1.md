@@ -10,7 +10,7 @@
 * Olav Hilland Lidal: Kundekontakt 
 
 ## A2
-**Konsept**
+**Konsept:**
 * To spillfigurer som kan styres, kan bevege seg mot høyre og venstre og hoppe
     * Spillfigurene består av et stort hode med et bein
 * Todimensjonalt
