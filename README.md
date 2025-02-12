@@ -13,7 +13,7 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 
 ## Kjøring
 * Kompileres med `mvn package`.
-* Kjøres med `java -jar target/kurt-mario-1.0-SNAPSHOT-fat.jar`
+* Kjøres med `java -jar target/gdx-template-25v-1.0-SNAPSHOT-fat.jar`
 * Krever Java 21 eller senere
 
 ## Kjente feil
