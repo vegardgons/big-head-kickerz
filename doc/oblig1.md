@@ -34,8 +34,10 @@
 3. Flytte spiller ved bruk av piltaster og space 
 4. Spiller interagerer med bakke, ball og motspiller
 5. Spillet registrerer antall mål 
-6. Ball kan interagere med power-ups 
-7. Start-skjerm ved oppstart / Game Over
+6. Start-skjerm ved oppstart / Game Over
+
+**Nice to have:**
+1. Ball interagerer med power-ups
 
 **Brukerhistorier:**
 1. Som spiller ønsker jeg å se en fotballbane i 2D, slik at jeg forstår spillområdet og målene.
