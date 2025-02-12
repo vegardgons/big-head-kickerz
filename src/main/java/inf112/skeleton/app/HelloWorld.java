@@ -61,7 +61,7 @@ public class HelloWorld implements ApplicationListener {
 
 		// Draw calls should be wrapped in batch.begin() ... batch.end()
 		batch.begin();
-		font.draw(batch, "Hello, World!", 200, 200);
+		font.draw(batch, "Hello, Veggi Mikki!", 200, 200);
 		batch.draw(spriteImage, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
 		batch.end();
 
