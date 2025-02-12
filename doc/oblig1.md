@@ -4,8 +4,15 @@
 
 ## A1
 **Rollefordeling:**
-Mikal Arolkar: 
-Andreas Aas 
+Mikal Arolkar: Utvikler
+Andreas Aasheim Farup: Utvikler
+Vegard Gjertsen Gonsholt: Gruppeleder
+Olav Hilland Lidal: Kundekontakt 
+
+## A2
+
+
+## A3
 
 
 ## A2
