@@ -37,3 +37,10 @@
 6. Ball kan interagere med power-ups 
 7. Start-skjerm ved oppstart / Game Over
 
+**Brukerhistorier:**
+1. Som spiller ønsker jeg å se en fotballbane i 2D, slik at jeg forstår spillområdet og målene.
+2. Som spiller ønsker jeg å kunne styre spilleren min med piltaster og space, slik at jeg kan bevege meg rundt på banen og spille spillet.
+3. Som spiller ønsker jeg at spillet skal registrere antall mål, slik at jeg kan se hvem som leder og hvor mange mål jeg har scoret.
+4. Som utvikler ønsker jeg at spillere og ballen skal ha en fysikkmotor, slik at bevegelser og kollisjoner føles naturlige.
+5. Som spiller ønsker jeg å ha en startskjerm ved oppstart og en Game Over-skjerm, slik at jeg vet når spillet starter og slutter.
+6. Som spiller ønsker jeg at spillfigurene skal ha en unik visuell stil, slik at de er enkle å kjenne igjen og gir spillet en morsom identitet.
