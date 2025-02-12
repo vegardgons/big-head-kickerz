@@ -36,3 +36,6 @@
 5. Spillet registrerer antall mål 
 6. Start-skjerm ved oppstart / Game Over
 
+**Nice to have:**
+1. Ball interagerer med power-ups
+
