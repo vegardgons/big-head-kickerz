@@ -16,7 +16,6 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "inf112.skeleton.app.Main",
-            "vmArgs": "-XstartOnFirstThread",
             "projectName": "gdx-template-25v"
         }
     ]
