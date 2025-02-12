@@ -10,8 +10,8 @@
 * Olav Hilland Lidal: Kundekontakt 
 
 ## A2
-**Konsept:**
-* To spillfigurer som kan styres, kan bevege seg mot høyre og venstre og hoppe
+**Konsept**
+* To spillfigurer som kan styres, kan bevege seg mot høyre og venstre, hoppe og sparke
     * Spillfigurene består av et stort hode med et bein
 * Todimensjonalt
     * Et mål på hver side
@@ -21,4 +21,19 @@
     * Kan endre tilstanden til en spiller/målet/ballen dersom ballen treffer den
 * Spillet går ut på å score flest mål i løpet av en gitt tid, eventuelt førstemann til et gitt antall mål
 
+
+## A3
+**Prosess/ prosjekt-organisering:**
+* Vi møtes 2 ganger i uken til et fast tidspunkt for å jobbe med prosjektet
+* Kommunikasjon mellom møter vil foregå på discord samt fysiske møter (møtes på lesesal)
+* Vi vil fordele arbeidsoppgaver så likt som mulig, og slik at alle til enhver tid har noe å jobbe med. 
+
+**MVP:**
+1. Vise en fotballbane i 2D 
+2. Vise 2 spillere og en ball
+3. Flytte spiller ved bruk av piltaster og space 
+4. Spiller interagerer med bakke, ball og motspiller
+5. Spillet registrerer antall mål 
+6. Ball kan interagere med power-ups 
+7. Start-skjerm ved oppstart / Game Over
 
