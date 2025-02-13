@@ -12,7 +12,8 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 *Velkommen til Big Head Kickers – spillet der fysikk er valgfritt og hodestøt er lov! Du er en karikert fotballspiller med et ENORMT hode og en besettelse for å score mål. Ingen regler, ingen dommere, bare ren kaos-fotball der du hopper, sparker og head'er ballen (og motstanderen) i jakten på seier. Bruk spesialangrep som ildkuler, lynnedslag og eksploderende bananer for å utmanøvrere motstanderne. Men pass deg – én feil, og du blir knocket ut som en oppblåsbar badeball i en orkan!*
 
 ## Beskrivelse av spillet
- 
+Big Head Kickerz er et 2D fotballspill hvor to spillere konkurrerer om å score mest mål.
+Spiller skal beveges ved bruk av piltastene og sparke med "p". 
 
 ## Kjøring
 * Kompileres med `mvn package`.

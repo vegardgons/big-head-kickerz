@@ -4,10 +4,12 @@
 
 ## A1
 **Rollefordeling:**
-* Mikal Arolkar: Utvikler
+* Mikal Arolkar: Møteansvarlig 
 * Andreas Aasheim Farup: Utvikler
 * Vegard Gjertsen Gonsholt: Gruppeleder
-* Olav Hilland Lidal: Kundekontakt 
+* Olav Hilland Lidal: Grafisk designer
+
+Alle vil bidra med alle oppgavene, men dette er en grov inndeling av ansvarsområder. 
 
 ## A2
 **Konsept**
