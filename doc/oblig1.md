@@ -48,13 +48,13 @@ Alle vil bidra med alle oppgavene, men dette er en grov inndeling av ansvarsomr�
       Banen har tydelig markerte mål på hver side.
       Bakgrunnen skiller seg visuelt fra spillområdet.
     * Arbeidsoppgaver:
-      Lage en visuell representasjon av banen i Java (bruk f.eks. libGDX's SpriteBatch).
+      Lage en visuell representasjon av banen i Java.
       Tegne mål og andre viktige elementer.
       Sørge for at ball og spillere plasseres innenfor banen.
       Teste at banen vises riktig i ulike skjermoppløsninger.
 2. Som spiller ønsker jeg å kunne styre spilleren min med piltaster og space, slik at jeg kan bevege meg rundt på banen og spille spillet.
     * Akseptansekriterier:
-      Spilleren kan bevege seg venstre/høyre med piltaster (← / →).
+      Spilleren kan bevege seg venstre/høyre med piltaster.
       Spilleren kan hoppe ved å trykke space.
       Spilleren stopper når ingen taster er trykket.
       Bevegelsene føles responsive og realistiske.
@@ -102,3 +102,12 @@ Alle vil bidra med alle oppgavene, men dette er en grov inndeling av ansvarsomr�
       Designe og lage sprites/grafikk for spillerfigurene.
       Implementere figurene i spillet.
       Teste at figurene ser bra ut og er lett gjenkjennelige. 
+
+## A4
+Foreløpig har vi en figur på spillskjermen som kan bevege seg til høyre og venstre, samt hoppe og lande. Han kan ikke bevege seg utenfor spillbrettet. Spillfiguren har også fått et ansikt, men foreløpig snur ikke ansiktet seg i samme retning som bevegelsen til figuren. 
+
+## Oppsummering:
+Det har vært en god start på prosjektet. Alle har møtt til avtalt tidspunkt i løpet av de to siste ukene. Det har vært god kommunikasjon i gruppen, og arbeidsoppgaver har blitt jevnt fordelt. Vi har begynt å skrive kode, og har en spillkarakter som kan beveges med piltastene. 
+
+I neste oppgave vil vi ha mer fokus på å nå målene til vårt minimal viable product. Dette vil bety at vi i større grad må få implementert de ideene vi har gjort oss opp til nå. 
+Vi planlegger å gjøre fortløpende testing av implementasjoner, samt kvalitetssikre koden som skrives ved å la andre på gruppen se over det som blir gjort. 
