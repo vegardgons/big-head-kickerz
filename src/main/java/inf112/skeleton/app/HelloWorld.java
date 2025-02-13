@@ -16,8 +16,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class HelloWorld implements ApplicationListener {
 	private Texture backgroundTexture;
-	private Texture dropTexture;
-	private Sound dropSound;	
 	private SpriteBatch spriteBatch;
 	private FitViewport viewport;
 	private Texture playerTexture;
