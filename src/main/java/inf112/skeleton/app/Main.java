@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("Beta krigerne!");
+		System.out.println("Big Head Kickerz!");
 		if (SharedLibraryLoader.os == Os.MacOsX) {
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
 		}
