@@ -6,31 +6,41 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.Texture;
 
 public class HelloWorld implements ApplicationListener {
-	private SpriteBatch batch;
-	private BitmapFont font;
-	private Texture spriteImage;
-	private Sound bellSound;
-	private Rectangle spriteRect;
-	private Rectangle screenRect = new Rectangle();
-	private float dx = 1, dy = 1;
+	private Texture backgroundTexture;
+	private Texture dropTexture;
+	private Sound dropSound;	
+	private SpriteBatch spriteBatch;
+	private FitViewport viewport;
+	private Texture playerTexture;
+	private Sprite playerSprite; // Declare a new Sprite variable
+	private float velocityY = 0;  
+    private float gravity = -9.81f; 
+    private boolean isJumping = false; 
+
+
+
+
 
 	@Override
 	public void create() {
 		// Called at startup
+		spriteBatch = new SpriteBatch(); 
+		viewport = new FitViewport(8, 5); 
+		playerTexture = new Texture(Gdx.files.internal("PlayerImage.png"));
+		backgroundTexture = new Texture("background.png");
+		playerSprite = new Sprite(playerTexture);
+		playerSprite.setSize(1, 1);
 
-		batch = new SpriteBatch();
-		font = new BitmapFont();
-		font.setColor(Color.RED);
-		spriteImage = new Texture(Gdx.files.internal("obligator.png"));
-		spriteRect = new Rectangle(1, 1, spriteImage.getWidth() / 2, spriteImage.getHeight() / 2);
-		bellSound = Gdx.audio.newSound(Gdx.files.internal("blipp.ogg"));
-		Gdx.graphics.setForegroundFPS(60);
+
 	}
 
 	@Override
@@ -44,59 +54,78 @@ public class HelloWorld implements ApplicationListener {
 		// (We might need to do something like this when loading a new game level in
 		// a large game, for instance, or if the user switches to another application
 		// temporarily (e.g., incoming phone call on a phone, or something).
-		batch.dispose();
-		font.dispose();
-		spriteImage.dispose();
-		bellSound.dispose();
+
 	}
 
-	@Override
-	public void render() {
-		// Called when the application should draw a new frame (many times per second).
+@Override
+public void render() {
+    // organize code into three methods
+    input();
+    logic();
+    draw();
+}
 
-		// This is a minimal example – don't write your application this way!
+private void input() {
+	float speed = 4f;
+    float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta
 
-		// Start with a blank screen
-		ScreenUtils.clear(Color.WHITE);
-
-		// Draw calls should be wrapped in batch.begin() ... batch.end()
-		batch.begin();
-		font.draw(batch, "Hello, Veggi Mikki!", 200, 200);
-		batch.draw(spriteImage, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
-		batch.end();
-
-		// Move the alligator a bit. You normally shouldn't mix rendering with logic in
-		// this way. (Also, movement should probably be based on *time*, not on how
-		// often we update the graphics!)
-		Rectangle.tmp.set(spriteRect);
-		Rectangle.tmp.x += dx;
-		Rectangle.tmp2.set(spriteRect);
-		Rectangle.tmp2.y += dy;
-		if (screenRect.contains(Rectangle.tmp))
-			spriteRect.x += dx;
-		else
-			dx = -dx;
-		if (screenRect.contains(Rectangle.tmp2))
-			spriteRect.y += dy;
-		else
-			dy = -dy;
-
-		// Don't handle input this way – use event handlers!
-		if (Gdx.input.justTouched()) { // check for mouse click
-			bellSound.play();
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
-			Gdx.app.exit();
-		}
+    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        playerSprite.translateX(speed * delta); // Move the bucket right
+    }
+	else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        playerSprite.translateX(-speed * delta); // Move the bucket right
+    }
+	if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
+		velocityY = 4f; // Initial jump speed
+		isJumping = true;
 	}
+
+}
+
+private void logic() {
+	float delta = Gdx.graphics.getDeltaTime(); // retrieve the current delta
+	float worldWidth = viewport.getWorldWidth();
+    float worldHeight = viewport.getWorldHeight();
+
+	float playerWidth = playerSprite.getWidth();
+    float playerHeight = playerSprite.getHeight();
+	// Clamp x to values between 0 and worldWidth
+	playerSprite.setX(MathUtils.clamp(playerSprite.getX(), 0, worldWidth-playerWidth));
+	playerSprite.setY(MathUtils.clamp(playerSprite.getY(), 0, worldHeight-playerHeight));
+
+	 // Apply gravity
+	 velocityY += gravity * delta;
+	 playerSprite.translateY(velocityY * delta);
+
+	 // Check if player hits the "ground"
+	 if (playerSprite.getY() <= 0) {
+		 playerSprite.setY(0);
+		 velocityY = 0;
+		 isJumping = false;
+	 }
+}
+
+private void draw() {
+	ScreenUtils.clear(Color.BLACK);
+    viewport.apply();
+    spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+    spriteBatch.begin();
+
+	float worldWidth = viewport.getWorldWidth();
+    float worldHeight = viewport.getWorldHeight();
+
+	spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight); // draw the background
+    playerSprite.draw(spriteBatch); // Sprites have their own draw method
+
+
+
+    spriteBatch.end();
+}
+
 
 	@Override
 	public void resize(int width, int height) {
-		// Called whenever the window is resized (including with its original site at
-		// startup)
-
-		screenRect.width = width;
-		screenRect.height = height;
+		viewport.update(width, height, true);
 	}
 
 	@Override

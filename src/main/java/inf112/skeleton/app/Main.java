@@ -14,8 +14,11 @@ public class Main {
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
 		}
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
+		cfg.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
 		cfg.setTitle("Big Head Kickerz!");
-		cfg.setWindowedMode(480, 320);
+		cfg.setWindowedMode(800, 500);
+		cfg.useVsync(true);
+
 
 		new Lwjgl3Application(new HelloWorld(), cfg);
 	}
