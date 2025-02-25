@@ -37,8 +37,6 @@ public class HelloWorld implements ApplicationListener {
 		backgroundTexture = new Texture("background.png");
 		playerSprite = new Sprite(playerTexture);
 		playerSprite.setSize(1, 1);
-
-
 	}
 
 	@Override
