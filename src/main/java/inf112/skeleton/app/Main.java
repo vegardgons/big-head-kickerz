@@ -19,7 +19,6 @@ public class Main {
 		cfg.setWindowedMode(800, 500);
 		cfg.useVsync(true);
 
-
-		new Lwjgl3Application(new HelloWorld(), cfg);
+		new Lwjgl3Application(new BigHeadKickerz(), cfg);
 	}
 }
