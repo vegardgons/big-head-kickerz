@@ -10,11 +10,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Player {
     private Sprite sprite;
+    private static final float x = 6;
+    private static final float y = 0;
     private float velocityY = 0;
     private float gravity = -9.81f;
     private boolean isJumping = false;
 
-    public Player(String texturePath, float x, float y) {
+    public Player(String texturePath) {
         Texture texture = new Texture(Gdx.files.internal(texturePath));
         sprite = new Sprite(texture);
         sprite.setSize(1, 1);
