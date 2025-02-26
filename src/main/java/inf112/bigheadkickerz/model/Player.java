@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Player {
+public class Player implements GameObject {
     private Sprite sprite;
     private static final float x = 6;
     private static final float y = 0;
@@ -23,6 +23,8 @@ public class Player {
         sprite.setPosition(x, y);
     }
 
+    
+    @Override
     public void update(Viewport viewport, float delta) {
         float speed = 4f;
 
@@ -56,6 +58,7 @@ public class Player {
         }
     }
 
+    @Override
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }

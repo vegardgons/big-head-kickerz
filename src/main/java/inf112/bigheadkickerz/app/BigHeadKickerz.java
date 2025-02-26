@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.bigheadkickerz.model.Ball;
-import inf112.bigheadkickerz.model.Field;
 import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.view.Field;
 
 public class BigHeadKickerz implements ApplicationListener {
     private SpriteBatch spriteBatch;
@@ -17,8 +17,8 @@ public class BigHeadKickerz implements ApplicationListener {
     private Player player;
     private Field field;
     private Ball ball;
-    private static final float WIDTH = 8;
-    private static final float HEIGHT = 5;
+    private static final float WIDTH = 15;
+    private static final float HEIGHT = 8;
 
     @Override
     public void create() {
@@ -51,7 +51,7 @@ public class BigHeadKickerz implements ApplicationListener {
 
         field.draw(spriteBatch, viewport);
         player.draw(spriteBatch);
-        ball.draw(spriteBatch, viewport);
+        ball.draw(spriteBatch);
 
         spriteBatch.end();
     }
