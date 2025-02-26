@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Ball {
+public class Ball implements GameObject {
     private Texture ballTexture;
     private Sprite sprite;
     private float velocityY = 0;
@@ -22,6 +22,7 @@ public class Ball {
         sprite.setPosition(startX, startY);
     }
 
+    @Override
     public void update(Viewport viewport, float delta) {
         // Bevegelse og kollisjon
         velocityY += gravity * delta;
@@ -43,8 +44,9 @@ public class Ball {
             }
         }
     }
-
-    public void draw(SpriteBatch batch, Viewport viewport) {
+    
+    @Override
+    public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
 
