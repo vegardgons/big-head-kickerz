@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.bigheadkickerz.app;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import inf112.skeleton.model.Player;
-import inf112.skeleton.model.Ball;
-import inf112.skeleton.model.Field;
+
+import inf112.bigheadkickerz.model.Ball;
+import inf112.bigheadkickerz.model.Field;
+import inf112.bigheadkickerz.model.Player;
 
 public class BigHeadKickerz implements ApplicationListener {
     private SpriteBatch spriteBatch;

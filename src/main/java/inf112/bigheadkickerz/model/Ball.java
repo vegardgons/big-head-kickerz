@@ -1,4 +1,4 @@
-package inf112.skeleton.model;
+package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
