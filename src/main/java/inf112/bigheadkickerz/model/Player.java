@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
 
+/** Class for the player object */
 public class Player implements GameObject {
     private Sprite sprite;
     private PlayerController playerController;
 
+    /** Constructor for Player */
     public Player(String texturePath, float startX, float startY) {
         Texture texture = new Texture(Gdx.files.internal(texturePath));
         sprite = new Sprite(texture);

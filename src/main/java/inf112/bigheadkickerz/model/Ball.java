@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/** Class for the ball object */
 public class Ball implements GameObject {
     private Texture ballTexture;
     private Sprite sprite;
@@ -14,6 +15,7 @@ public class Ball implements GameObject {
     private float bounceFactor = 0.7f;
     private final static float BALL_SIZE = 0.6f;
 
+    /** Constructor for Ball */
     public Ball(String texturePath, float startX, float startY) {
         ballTexture = new Texture(texturePath);
         sprite = new Sprite(ballTexture);
