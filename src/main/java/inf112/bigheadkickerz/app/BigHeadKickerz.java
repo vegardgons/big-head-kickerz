@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.bigheadkickerz.model.Ball;
+import inf112.bigheadkickerz.model.Collision;
 import inf112.bigheadkickerz.model.Player;
 import inf112.bigheadkickerz.view.Field;
 import inf112.bigheadkickerz.view.Goal;
@@ -15,11 +16,13 @@ import inf112.bigheadkickerz.view.Goal;
 public class BigHeadKickerz implements ApplicationListener {
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
-    private Player player;
+    private Player player1;
+    private Player player2;
     private Field field;
     private Goal rightGoal;
     private Goal leftGoal;
     private Ball ball;
+    private Collision collision;
     private static final float WIDTH = 15;
     private static final float HEIGHT = 8;
 
@@ -36,12 +39,18 @@ public class BigHeadKickerz implements ApplicationListener {
         float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.2f) - goalWidth;
         leftGoal = new Goal("GoalImage.png", leftGoalX, 0, true);
 
-        float playerX = viewport.getWorldWidth() / 8 * 6.5f;
-        player = new Player("PlayerImage.png", playerX, 0);
+        float player1X = viewport.getWorldWidth() / 8 * 6.5f;
+        player1 = new Player("PlayerImage.png", player1X, 0, false, true);
+
+        float playerWidth = player1.getWidth();
+        float player2X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
+        player2 = new Player("PlayerImage.png", player2X, 0, true, false);
 
         float ballX = viewport.getWorldWidth() / 2;
         float ballY = viewport.getWorldHeight() / 2 + 1.5f;
         ball = new Ball("BallImage.png", ballX, ballY);
+
+        collision = new Collision(player1, player2, ball);
     }
 
     @Override
@@ -52,8 +61,10 @@ public class BigHeadKickerz implements ApplicationListener {
 
     private void update() {
         float delta = Gdx.graphics.getDeltaTime();
-        player.update(viewport, delta);
+        player1.update(viewport, delta);
+        player2.update(viewport, delta);
         ball.update(viewport, delta);
+        collision.checkCollision();
     }
 
     private void draw() {
@@ -63,7 +74,8 @@ public class BigHeadKickerz implements ApplicationListener {
         spriteBatch.begin();
 
         field.draw(spriteBatch, viewport);
-        player.draw(spriteBatch);
+        player1.draw(spriteBatch);
+        player2.draw(spriteBatch);
         rightGoal.draw(spriteBatch);
         leftGoal.draw(spriteBatch);
         ball.draw(spriteBatch);

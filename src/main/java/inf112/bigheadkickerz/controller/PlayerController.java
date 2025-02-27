@@ -14,28 +14,44 @@ public class PlayerController {
     private Sprite sprite;
     private boolean isJumping = false;
     private float gravity = -9.81f;
+    private boolean player1;
 
     /** Constructor for PlayerController */
-    public PlayerController(Sprite sprite) {
+    public PlayerController(Sprite sprite, boolean player1) {
         this.sprite = sprite;
+        this.player1 = player1;
     }
 
     /**
-     * Method for moving the player 
+     * Method for moving the player
      *
      * @param viewport
      * @param delta
      */
     public void movePlayer(Viewport viewport, float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            sprite.translateX(speed * delta);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            sprite.translateX(-speed * delta);
-        }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
-            velocityY = 4f;
-            isJumping = true;
+        if (player1) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                sprite.translateX(speed * delta);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                sprite.translateX(-speed * delta);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
+                velocityY = 4f;
+                isJumping = true;
+            }
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                sprite.translateX(speed * delta);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                sprite.translateX(-speed * delta);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
+                velocityY = 4f;
+                isJumping = true;
+            }
         }
 
         // Bevegelse
@@ -57,4 +73,5 @@ public class PlayerController {
         }
 
     }
+
 }

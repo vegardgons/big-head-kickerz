@@ -13,12 +13,17 @@ public class Player implements GameObject {
     private PlayerController playerController;
 
     /** Constructor for Player */
-    public Player(String texturePath, float startX, float startY) {
+    public Player(String texturePath, float startX, float startY, boolean flip, boolean player1) {
         Texture texture = new Texture(Gdx.files.internal(texturePath));
         sprite = new Sprite(texture);
         sprite.setSize(1, 1);
         sprite.setPosition(startX, startY);
-        playerController = new PlayerController(sprite);
+
+        if (flip) {
+            sprite.flip(true, false);
+        }
+
+        playerController = new PlayerController(sprite, player1);
     }
 
     
@@ -31,4 +36,10 @@ public class Player implements GameObject {
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
+
+
+    public float getWidth() {
+        return sprite.getWidth();
+    }
+
 }
