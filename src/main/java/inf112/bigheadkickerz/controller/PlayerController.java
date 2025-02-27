@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/** Class for controlling the player */
 public class PlayerController {
 
     private float speed = 4f;
@@ -14,12 +15,18 @@ public class PlayerController {
     private boolean isJumping = false;
     private float gravity = -9.81f;
 
+    /** Constructor for PlayerController */
     public PlayerController(Sprite sprite) {
         this.sprite = sprite;
     }
 
+    /**
+     * Method for moving the player 
+     *
+     * @param viewport
+     * @param delta
+     */
     public void movePlayer(Viewport viewport, float delta) {
-        
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             sprite.translateX(speed * delta);
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
