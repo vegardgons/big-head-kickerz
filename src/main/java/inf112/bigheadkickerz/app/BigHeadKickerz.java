@@ -10,12 +10,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.Player;
 import inf112.bigheadkickerz.view.Field;
+import inf112.bigheadkickerz.view.Goal;
 
 public class BigHeadKickerz implements ApplicationListener {
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
     private Player player;
     private Field field;
+    private Goal rightGoal;
+    private Goal leftGoal;
     private Ball ball;
     private static final float WIDTH = 15;
     private static final float HEIGHT = 8;
@@ -26,9 +29,15 @@ public class BigHeadKickerz implements ApplicationListener {
         viewport = new FitViewport(WIDTH, HEIGHT);
         field = new Field("OldTrafford.png");
 
-        float playerX = viewport.getWorldWidth() / 8 * 7;
-        float playerY = 0;
-        player = new Player("PlayerImage.png", playerX, playerY);
+        float rightGoalX = viewport.getWorldWidth() / 8 * 7.2f;
+        rightGoal = new Goal("GoalImage.png", rightGoalX, 0, false);
+
+        float goalWidth = rightGoal.getWidth();
+        float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.2f) - goalWidth;
+        leftGoal = new Goal("GoalImage.png", leftGoalX, 0, true);
+
+        float playerX = viewport.getWorldWidth() / 8 * 6.5f;
+        player = new Player("PlayerImage.png", playerX, 0);
 
         float ballX = viewport.getWorldWidth() / 2;
         float ballY = viewport.getWorldHeight() / 2 + 1.5f;
@@ -54,6 +63,8 @@ public class BigHeadKickerz implements ApplicationListener {
         spriteBatch.begin();
 
         field.draw(spriteBatch, viewport);
+        rightGoal.draw(spriteBatch);
+        leftGoal.draw(spriteBatch);
         player.draw(spriteBatch);
         ball.draw(spriteBatch);
 
