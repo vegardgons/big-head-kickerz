@@ -25,10 +25,14 @@ public class BigHeadKickerz implements ApplicationListener {
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(WIDTH, HEIGHT);
         field = new Field("OldTrafford.png");
-        player = new Player("PlayerImage.png");
-        float startX = viewport.getWorldWidth() / 2;
-        float startY = viewport.getWorldHeight() / 2 + 1.5f;
-        ball = new Ball("BallImage.png", startX, startY);
+
+        float playerX = viewport.getWorldWidth() / 8 * 7;
+        float playerY = 0;
+        player = new Player("PlayerImage.png", playerX, playerY);
+
+        float ballX = viewport.getWorldWidth() / 2;
+        float ballY = viewport.getWorldHeight() / 2 + 1.5f;
+        ball = new Ball("BallImage.png", ballX, ballY);
     }
 
     @Override
