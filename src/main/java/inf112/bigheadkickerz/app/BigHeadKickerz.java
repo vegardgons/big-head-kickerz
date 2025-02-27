@@ -63,9 +63,9 @@ public class BigHeadKickerz implements ApplicationListener {
         spriteBatch.begin();
 
         field.draw(spriteBatch, viewport);
+        player.draw(spriteBatch);
         rightGoal.draw(spriteBatch);
         leftGoal.draw(spriteBatch);
-        player.draw(spriteBatch);
         ball.draw(spriteBatch);
 
         spriteBatch.end();
