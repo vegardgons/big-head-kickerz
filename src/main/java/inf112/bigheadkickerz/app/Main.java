@@ -7,6 +7,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
+import inf112.bigheadkickerz.controller.GameController;
+
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("Big Head Kickerz!");
@@ -19,6 +21,6 @@ public class Main {
 		cfg.setWindowedMode(1500, 800);
 		cfg.useVsync(true);
 
-		new Lwjgl3Application(new BigHeadKickerz(), cfg);
+		new Lwjgl3Application(new GameController(), cfg);
 	}
 }
