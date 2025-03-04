@@ -13,7 +13,7 @@ public class Ball implements GameObject {
     private float velocityY = 0;
     private float velocityX = 0;
     private float gravity = -9.81f;
-    private float bounceFactor = 0.7f;
+    private float bounceFactor = 0.65f;
     private final static float BALL_SIZE = 0.6f;
 
     /** Constructor for Ball */
