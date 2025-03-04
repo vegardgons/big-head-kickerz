@@ -13,20 +13,19 @@ public class Player implements GameObject {
     private PlayerController playerController;
 
     /** Constructor for Player */
-    public Player(String texturePath, float startX, float startY, boolean flip, boolean player1) {
+    public Player(String texturePath, float startX, float startY, boolean isFlipped, boolean player1) {
         Texture texture = new Texture(Gdx.files.internal(texturePath));
         sprite = new Sprite(texture);
         sprite.setSize(1, 1);
         sprite.setPosition(startX, startY);
 
-        if (flip) {
+        if (isFlipped) {
             sprite.flip(true, false);
         }
 
         playerController = new PlayerController(sprite, player1);
     }
 
-    
     @Override
     public void update(Viewport viewport, float delta) {
         playerController.movePlayer(viewport, delta);
@@ -37,9 +36,22 @@ public class Player implements GameObject {
         sprite.draw(batch);
     }
 
-
     public float getWidth() {
         return sprite.getWidth();
     }
 
+    @Override
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    /**
+     * Move player by specified amount in x and y directions
+     * 
+     * @param x amount to move in x direction
+     * @param y amount to move in y direction
+     */
+    public void moveBy(float x, float y) {
+        sprite.translate(x, y);
+    }
 }
