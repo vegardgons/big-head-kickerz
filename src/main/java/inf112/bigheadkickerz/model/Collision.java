@@ -8,10 +8,10 @@ public class Collision {
 
     // World boundary constants
     private static final float WORLD_WIDTH = 15f;
-    
-    Player player1;
-    Player player2;
-    Ball ball;
+
+    private Player player1;
+    private Player player2;
+    private Ball ball;
 
     public Collision(Player player1, Player player2, Ball ball) {
         this.player1 = player1;
@@ -52,15 +52,23 @@ public class Collision {
                     ballCenter.x - playerCenter.x,
                     ballCenter.y - playerCenter.y).nor(); // Normalize
 
+            // Get player velocity
+            Vector2 playerVelocity = player.getVelocity();
+            float playerSpeed = playerVelocity.len();
+
+            // Ensures that the ball is moved even though the player moves slowly
+            // Can be changed to change the touch of the player
+            float impulseMultiplier = Math.max(playerSpeed, 0.1f); // juster 0.5f etter behov
+
             // Check if ball is near ground or in corner
             boolean nearGround = ballSprite.getY() < 0.1f;
             boolean atLeftEdge = ballSprite.getX() < 0.1f;
             boolean atRightEdge = ballSprite.getX() > (WORLD_WIDTH - ballSprite.getWidth() - 0.1f);
-            
+
             // Adjust impulse for ground/corner cases
             float xImpulse = direction.x;
             float yImpulse = direction.y;
-            
+
             // Prevent pushing through ground in corners
             if (nearGround && (atLeftEdge || atRightEdge)) {
                 // Redirect force more upward when in corners
@@ -69,20 +77,20 @@ public class Collision {
                 }
                 xImpulse *= 0.5f; // Reduce horizontal force in corners
             }
-            
+
             // Apply modified impulse to ball
-            ball.applyImpulse(xImpulse * 1f, yImpulse * 1f);
+            ball.applyImpulse(xImpulse * impulseMultiplier, yImpulse * impulseMultiplier);
 
             // Move ball outside of collision
             float overlap = getOverlapDistance(ballSprite, playerSprite);
-            
+
             // Calculate new position
             float newX = ballSprite.getX() + direction.x * overlap;
             float newY = ballSprite.getY() + direction.y * overlap;
-            
+
             // Ensure the ball doesn't go below ground
             newY = Math.max(0, newY);
-            
+
             // Set the adjusted position
             ballSprite.setPosition(newX, newY);
         }

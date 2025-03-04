@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
 
@@ -11,6 +12,8 @@ import inf112.bigheadkickerz.controller.PlayerController;
 public class Player implements GameObject {
     private Sprite sprite;
     private PlayerController playerController;
+    private Vector2 velocity;
+    private Vector2 previousPosition;
 
     /** Constructor for Player */
     public Player(String texturePath, float startX, float startY, boolean isFlipped, boolean player1) {
@@ -18,6 +21,9 @@ public class Player implements GameObject {
         sprite = new Sprite(texture);
         sprite.setSize(1, 1);
         sprite.setPosition(startX, startY);
+
+        previousPosition = new Vector2(startX,startY);
+        velocity = new Vector2(0,0);
 
         if (isFlipped) {
             sprite.flip(true, false);
@@ -28,7 +34,14 @@ public class Player implements GameObject {
 
     @Override
     public void update(Viewport viewport, float delta) {
+        Vector2 currentPos = new Vector2(sprite.getX(), sprite.getY());
+        
         playerController.movePlayer(viewport, delta);
+
+        Vector2 newPos = new Vector2(sprite.getX(), sprite.getY());
+        velocity.set(newPos.x - currentPos.x, newPos.y - currentPos.y);
+
+        previousPosition.set(newPos);
     }
 
     @Override
@@ -53,5 +66,13 @@ public class Player implements GameObject {
      */
     public void moveBy(float x, float y) {
         sprite.translate(x, y);
+    }
+
+    /**
+     * 
+     * @return player velocity as a Vector2
+     */
+    public Vector2 getVelocity () {
+        return velocity;
     }
 }
