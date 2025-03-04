@@ -44,6 +44,7 @@ public class Ball implements GameObject {
         boolean atLeftWall = sprite.getX() <= 0;
         boolean atRightWall = sprite.getX() >= worldWidth - sprite.getWidth();
         boolean atGround = sprite.getY() <= 0;
+        boolean atRoof = sprite.getY() >= worldHeight - sprite.getHeight();
 
         // Handle wall collisions
         if (atLeftWall || atRightWall) {
@@ -68,6 +69,11 @@ public class Ball implements GameObject {
             
             // Apply extra friction when on ground
             velocityX *= 0.9f;
+        }
+
+        if (atRoof) {
+            sprite.setY(worldHeight - sprite.getHeight());
+            velocityY = -Math.abs(velocityY) * bounceFactor;
         }
         
         // Final position clamping to ensure boundaries are respected
