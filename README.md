@@ -1,8 +1,6 @@
 # INF112 libGDX + Maven template 
 Simple skeleton with [libGDX](https://libgdx.com/). 
 
-**Important:** 
-
 # INF112 Project – *Big Head Kickers*
 
 * Team: *Beta Krigerne* (Gruppe 6): *Mikal Arolkar, Andreas Aasheim Farup, Vegard Gjertsen Gonsholt, Olav Hilland Lidal*
@@ -18,10 +16,11 @@ Spiller skal beveges ved bruk av piltastene og sparke med "p".
 ## Kjøring
 * Kompileres med `mvn package`.
 * Kjøres med `java -jar target/gdx-template-25v-1.0-SNAPSHOT-fat.jar`
+* Testes med `mvn verify`
 * Krever Java 21 eller senere
 
 ## Kjente feil
-Vi har ingen kjente feil sålangt
+Trøbbel med fysikken til ballen, og kollisjon mellom spillere. 
 
 ## Credits
 Inspirasjon hentet fra https://dnddream.com/dnddream_web/app_game_06.htm 
