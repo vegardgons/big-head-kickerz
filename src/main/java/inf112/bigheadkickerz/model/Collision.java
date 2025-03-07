@@ -122,8 +122,8 @@ public class Collision {
             float overlap = getOverlapDistance(player1Sprite, player2Sprite);
 
             // Move players away from each other
-            player1.moveBy(direction.x * overlap * 0.5f, direction.y * overlap * 0.5f);
-            player2.moveBy(-direction.x * overlap * 0.5f, -direction.y * overlap * 0.5f);
+            player1.moveBy(direction.x * overlap * 0.5f, 0.005f);
+            player2.moveBy(-direction.x * overlap * 0.5f, 0.005f);
         }
     }
 
