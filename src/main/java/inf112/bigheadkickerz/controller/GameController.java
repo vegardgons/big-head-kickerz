@@ -1,6 +1,5 @@
 package inf112.bigheadkickerz.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.model.GameModel;

@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
-import inf112.bigheadkickerz.controller.GameController;
 
 public class StartScreen implements Screen {
 
