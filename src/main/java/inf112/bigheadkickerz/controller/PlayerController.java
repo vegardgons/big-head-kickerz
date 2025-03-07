@@ -36,10 +36,8 @@ public class PlayerController {
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 sprite.translateX(-speed * delta);
             }
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
                 velocityY = 4.2f;
-                isJumping = true;
             }
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -47,7 +45,6 @@ public class PlayerController {
             } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 sprite.translateX(-speed * delta);
             }
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
                 velocityY = 4.2f;
                 isJumping = true;
@@ -70,8 +67,19 @@ public class PlayerController {
             sprite.setY(0);
             velocityY = 0;
             isJumping = false;
+        } else {
+            isJumping = true;
         }
 
+    }
+
+    /**
+     * Method for getting if the player is jumping
+     *
+     * @return if the player is jumping
+     */
+    public boolean getIsJumping() {
+        return isJumping;
     }
 
 }

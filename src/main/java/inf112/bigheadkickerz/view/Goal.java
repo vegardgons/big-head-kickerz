@@ -11,7 +11,7 @@ public class Goal {
     private Sprite sprite;
 
     public Goal(String texturePath, float x, float y, boolean flip) {
-        Texture texture = new Texture(Gdx.files.internal(texturePath));
+        texture = new Texture(Gdx.files.internal(texturePath));
         sprite = new Sprite(texture);
 
         sprite.setSize(2, 2.4f);
