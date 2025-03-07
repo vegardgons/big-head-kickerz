@@ -46,7 +46,10 @@ Vi lagde følgende krav til innleveringen av oblig1:
 5. Som spiller ønsker jeg å ha en startskjerm ved oppstart og en Game Over-skjerm, slik at jeg vet når spillet starter og slutter.
 6. Som spiller ønsker jeg at spillfigurene skal ha en unik visuell stil, slik at de er enkle å kjenne igjen og gir spillet en morsom identitet.
 
-Akseptansekriterier og arbeidskrav ligger i doc/oblig1.md. Kravene vi så langt har prioritert er krav 1, 2 (som er ferdig), samt delvis 4 og 5. Disse to kravene krever litt mer arbeid. Når det gjelder MVP-en vi lagde så er vi omtrent i mål med de kravene. Vi må finpusse fysikken, men utifra MVP synes vi at det funker godt nok enn så lenge. Vi er heller ikke helt i mål med å registrere antall mål. 
+Akseptansekriterier og arbeidskrav ligger i doc/oblig1.md. Kravene vi så langt har prioritert er krav 1, 2 (som er ferdig), samt delvis 4 og 5. Disse to kravene krever litt mer arbeid. Når det gjelder MVP-en vi lagde så er vi omtrent i mål med de kravene. Vi må finpusse fysikken, men utifra MVP synes vi at det funker godt nok enn så lenge. Vi er heller ikke helt i mål med å registrere antall mål, men har laget en løsning som holder tellingen i terminalen. Vi mangler også at spillerne har en fot som de kan sparke ballen med. Vi må også implementere kollisjon mellom ball og mål, slik at dersom man treffer tverrliggeren spretter ballen tilbake, og at ballen kan havne oppå målet og triller ned igjen. 
+
+### Bugs
+Enn så lenge er det en del bugs når det kommer til fysikken. For eksempel, dersom man står oppå en spiller så vil den spilleren synke sakte ned i bakken og ut av bildet. Ballen spretter også veldig unaturlig. Registreringen av mål må også ordnes opp i, da det tar litt tid fra ballen går i mål, til det registreres at det er mål.
 
 ## Produkt og kode
 
@@ -54,3 +57,4 @@ Akseptansekriterier og arbeidskrav ligger i doc/oblig1.md. Kravene vi så langt 
 Vi har så langt ikke rettet tidligere påpekte feil, da vi ikke tidligere har påpekt noen feil. README.md inneholder hvordan programmet bygges, kjøres, og testes. 
 
 ### Klassediagram
+![img.png](img.png)

@@ -20,7 +20,7 @@ Spiller skal beveges ved bruk av piltastene og sparke med "p".
 * Krever Java 21 eller senere
 
 ## Kjente feil
-Trøbbel med fysikken til ballen, og kollisjon mellom spillere. 
+Trøbbel med fysikken til ballen, og kollisjon mellom spillere. Når en spiller hopper oppå den andre så forsvinner spilleren ned gjennom bakken. 
 
 ## Credits
 Inspirasjon hentet fra https://dnddream.com/dnddream_web/app_game_06.htm 
