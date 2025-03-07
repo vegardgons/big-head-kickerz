@@ -38,7 +38,7 @@ public class PlayerController {
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
-                velocityY = 4f;
+                velocityY = 4.2f;
                 isJumping = true;
             }
         } else {
@@ -49,7 +49,7 @@ public class PlayerController {
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
-                velocityY = 4f;
+                velocityY = 4.2f;
                 isJumping = true;
             }
         }

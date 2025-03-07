@@ -14,6 +14,8 @@ public class Player implements GameObject {
     private PlayerController playerController;
     private Vector2 velocity;
     private Vector2 previousPosition;
+    private Vector2 initialPosition;
+    private boolean canMove = true;
 
     /** Constructor for Player */
     public Player(String texturePath, float startX, float startY, boolean isFlipped, boolean player1) {
@@ -22,8 +24,9 @@ public class Player implements GameObject {
         sprite.setSize(1, 1);
         sprite.setPosition(startX, startY);
 
-        previousPosition = new Vector2(startX,startY);
-        velocity = new Vector2(0,0);
+        previousPosition = new Vector2(startX, startY);
+        initialPosition = new Vector2(startX, startY);
+        velocity = new Vector2(0, 0);
 
         if (isFlipped) {
             sprite.flip(true, false);
@@ -35,8 +38,10 @@ public class Player implements GameObject {
     @Override
     public void update(Viewport viewport, float delta) {
         Vector2 currentPos = new Vector2(sprite.getX(), sprite.getY());
-        
-        playerController.movePlayer(viewport, delta);
+
+        if (canMove) {
+            playerController.movePlayer(viewport, delta);
+        }
 
         Vector2 newPos = new Vector2(sprite.getX(), sprite.getY());
         velocity.set(newPos.x - currentPos.x, newPos.y - currentPos.y);
@@ -72,7 +77,16 @@ public class Player implements GameObject {
      * 
      * @return player velocity as a Vector2
      */
-    public Vector2 getVelocity () {
+    public Vector2 getVelocity() {
         return velocity;
+    }
+
+    /**
+     * Reset the player to their initial position
+     */
+    public void reset() {
+        sprite.setPosition(initialPosition.x, initialPosition.y);
+        previousPosition.set(initialPosition);
+        velocity.set(0, 0);
     }
 }

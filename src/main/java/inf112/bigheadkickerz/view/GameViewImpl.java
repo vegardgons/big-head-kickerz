@@ -60,9 +60,9 @@ public class GameViewImpl implements GameView {
         field.draw(spriteBatch, viewport);
         player1.draw(spriteBatch);
         player2.draw(spriteBatch);
+        ball.draw(spriteBatch);
         rightGoal.draw(spriteBatch);
         leftGoal.draw(spriteBatch);
-        ball.draw(spriteBatch);
         spriteBatch.end();
     }
 
@@ -82,7 +82,6 @@ public class GameViewImpl implements GameView {
 
     @Override
     public void draw(SpriteBatch batch, Viewport viewport) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+
     }
 }
