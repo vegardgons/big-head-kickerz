@@ -143,4 +143,22 @@ public class Ball implements GameObject {
         // Reset velocity to zero
         setVelocity(0, 0);
     }
+
+    /**
+     * Gets the ball's velocity in the x direction
+     *
+     * @return the x-velocity of the ball
+     */
+    public float getVelocityX() {
+        return velocityX;
+    }
+
+    /**
+     * Gets the ball's velocity in the y direction
+     *
+     * @return the y-velocity of the ball
+     */
+    public float getVelocityY() {
+        return velocityY;
+    }
 }
