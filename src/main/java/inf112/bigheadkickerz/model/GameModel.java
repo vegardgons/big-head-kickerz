@@ -1,6 +1,8 @@
 package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
 
 /**
@@ -13,6 +15,7 @@ public class GameModel implements ControllableGameModel {
     private static final float HEIGHT = 8;
 
     // Game objects
+    private BigHeadKickerzGame game;
     private Player player1;
     private Player player2;
     private Ball ball;
@@ -25,13 +28,19 @@ public class GameModel implements ControllableGameModel {
     private static final float GOAL_DELAY = 3f;
     private boolean isGoal;
 
+    // End screen
+    private float endTimer;
+    private static final float END_DELAY = 3f;
+    private boolean isEnd;
+
     // Viewport for game boundaries
     private FitViewport viewport;
 
     /**
      * Constructor initializes game objects and viewport
      */
-    public GameModel() {
+    public GameModel(BigHeadKickerzGame game) {
+        this.game = game;
         viewport = new FitViewport(WIDTH, HEIGHT);
 
         // Initialize ball at center
@@ -55,6 +64,10 @@ public class GameModel implements ControllableGameModel {
         player2Score = 0;
         goalTimer = 0;
         isGoal = false;
+
+        // Initialize end screen timer
+        endTimer = 0;
+        isEnd = false;
     }
 
     /**
@@ -69,37 +82,46 @@ public class GameModel implements ControllableGameModel {
                 goalTimer = 0;
                 resetPositions();
             }
-
         } else {
             checkForGoal();
         }
+
+        if (isEnd) {
+            endTimer += delta;
+            if (endTimer >= END_DELAY) {
+                game.EndScreen();
+                endTimer = 0;
+            }
+        } else {
+            checkIfFinishedGame();
+        }
+
         player1.update(viewport, delta);
         player2.update(viewport, delta);
         ball.update(viewport, delta);
         collision.checkCollision();
+        checkIfFinishedGame();
     }
 
-    private boolean checkForGoal() {
+    private void checkForGoal() {
         float rightGoalX = viewport.getWorldWidth() / 8 * 7.5f;
         float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.5f);
         if (ball.getX() >= rightGoalX) {
             player2Score++;
-            System.out.println("P2 scored!\n");
+            System.out.println("P2 scored!");
             goalReset();
 
         } else if (ball.getX() <= leftGoalX) {
             player1Score++;
-            System.out.println("P1 scored!\n");
+            System.out.println("P1 scored!");
             goalReset();
         }
-        return false;
     }
 
-    private boolean goalReset() {
-        System.out.println("Score:\nP1: " + player1Score + "\nP2: " + player2Score);
+    private void goalReset() {
+        System.out.println("Score:\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
         isGoal = true;
         goalTimer = 0;
-        return true;
     }
 
     /**
@@ -111,6 +133,7 @@ public class GameModel implements ControllableGameModel {
         player2.reset();
     }
 
+    // Getters for game objects and viewport
     public Player getPlayer1() {
         return this.player1;
     }
@@ -127,10 +150,6 @@ public class GameModel implements ControllableGameModel {
         return this.viewport;
     }
 
-    /**
-     * Reset ball position to center after a goal
-     */
-
     @Override
     public int getPlayer1Score() {
         return this.player1Score;
@@ -139,6 +158,15 @@ public class GameModel implements ControllableGameModel {
     @Override
     public int getPlayer2Score() {
         return this.player2Score;
+    }
+
+    @Override
+    public void checkIfFinishedGame() {
+        if (player1Score >= 1 || player2Score >= 1) {
+            isEnd = true;
+            System.out.println("Game over!");
+            System.out.println("Final score:\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
+        }
     }
 
 }
