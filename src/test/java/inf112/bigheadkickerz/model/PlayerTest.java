@@ -24,7 +24,6 @@ public class PlayerTest {
     private Player player;
     private Sprite mockSprite = mock(Sprite.class);
     private SpriteBatch mockBatch = mock(SpriteBatch.class);
-    private Viewport mockViewport = mock(Viewport.class);
 
     @BeforeEach
     void setUp() {

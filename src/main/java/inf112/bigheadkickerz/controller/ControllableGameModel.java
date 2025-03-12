@@ -57,4 +57,6 @@ public interface ControllableGameModel {
      */
     int getPlayer2Score();
 
+    void checkIfFinishedGame();
+
 }
