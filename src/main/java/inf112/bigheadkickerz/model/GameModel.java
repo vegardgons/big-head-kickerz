@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
+import inf112.bigheadkickerz.controller.GameController;
+import inf112.bigheadkickerz.view.Goal;
 
 /**
  * GameModel holds all game state and implements ControllableGameModel
@@ -16,10 +18,14 @@ public class GameModel implements ControllableGameModel {
 
     // Game objects
     private BigHeadKickerzGame game;
+    private GameController controller;
     private Player player1;
     private Player player2;
     private Ball ball;
-    private Collision collision;
+    private Goal leftGoal;
+    private Goal rightGoal;
+    private Collision collisionPlayerBall;
+    private Collision collisionGoalBall;
 
     // Score tracking
     private int player1Score;
@@ -39,8 +45,9 @@ public class GameModel implements ControllableGameModel {
     /**
      * Constructor initializes game objects and viewport
      */
-    public GameModel(BigHeadKickerzGame game) {
+    public GameModel(BigHeadKickerzGame game, GameController controller) {
         this.game = game;
+        this.controller = controller;
         viewport = new FitViewport(WIDTH, HEIGHT);
 
         // Initialize ball at center
@@ -57,7 +64,7 @@ public class GameModel implements ControllableGameModel {
         player2 = new Player("PlayerImage.png", player2X, 0, true, false);
 
         // Initialize collision detector
-        collision = new Collision(player1, player2, ball);
+        collisionPlayerBall = new Collision(player1, player2, ball);
 
         // Initialize score tracking
         player1Score = 0;
@@ -70,9 +77,7 @@ public class GameModel implements ControllableGameModel {
         isEnd = false;
     }
 
-    /**
-     * Update game state
-     */
+    /** Update game state */
     public void update(float delta) {
 
         if (isGoal) {
@@ -99,7 +104,8 @@ public class GameModel implements ControllableGameModel {
         player1.update(viewport, delta);
         player2.update(viewport, delta);
         ball.update(viewport, delta);
-        collision.checkCollision();
+        collisionPlayerBall.checkCollisionPlayerBall();
+        collisionGoalBall.checkCollisionGoalBall();
         checkIfFinishedGame();
     }
 
@@ -119,9 +125,6 @@ public class GameModel implements ControllableGameModel {
 
     }
 
-    /**
-     * Reset positions of all game objects to their starting positions
-     */
     private void resetPositions() {
         ball.reset();
         player1.reset();
@@ -162,6 +165,15 @@ public class GameModel implements ControllableGameModel {
             System.out.println("Game over!");
             System.out.println("Final score:\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
         }
+    }
+
+    /**
+     * Initialize goals for collision detection
+     */
+    public void initGoals() {
+        this.leftGoal = controller.getLeftGoal();
+        this.rightGoal = controller.getRightGoal();
+        collisionGoalBall = new Collision(ball, leftGoal, rightGoal);
     }
 
 }

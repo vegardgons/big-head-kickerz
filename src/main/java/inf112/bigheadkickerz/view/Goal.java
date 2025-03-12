@@ -29,4 +29,13 @@ public class Goal {
     public float getWidth() {
         return sprite.getWidth();
     }
+
+    /**
+     * Get the sprite of the game object for collision detection
+     *
+     * @return the sprite
+     */
+    public Sprite getSprite() {
+        return sprite;
+    }
 }

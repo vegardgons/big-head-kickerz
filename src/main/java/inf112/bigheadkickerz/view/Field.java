@@ -17,4 +17,5 @@ public class Field implements GameView {
     public void draw(SpriteBatch batch, Viewport viewport) {
         batch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
     }
+
 }

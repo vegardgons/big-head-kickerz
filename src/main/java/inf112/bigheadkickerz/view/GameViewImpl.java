@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import inf112.bigheadkickerz.controller.GameController;
 import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.GameModel;
 import inf112.bigheadkickerz.model.Player;
@@ -48,24 +49,14 @@ public class GameViewImpl implements GameView {
      */
     public void render() {
         FitViewport viewport = gameModel.getViewport();
-        Player player1 = gameModel.getPlayer1();
-        Player player2 = gameModel.getPlayer2();
-        Ball ball = gameModel.getBall();
 
         // Clear screen
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
 
-        // Draw all objects
-        spriteBatch.begin();
-        field.draw(spriteBatch, viewport);
-        player1.draw(spriteBatch);
-        player2.draw(spriteBatch);
-        ball.draw(spriteBatch);
-        rightGoal.draw(spriteBatch);
-        leftGoal.draw(spriteBatch);
-        spriteBatch.end();
+        // Draw game objects
+        draw(spriteBatch, viewport);
 
         scoreBoard.updateScores(gameModel.getPlayer1Score(), gameModel.getPlayer2Score());
         float delta = com.badlogic.gdx.Gdx.graphics.getDeltaTime();
@@ -91,6 +82,35 @@ public class GameViewImpl implements GameView {
 
     @Override
     public void draw(SpriteBatch batch, Viewport viewport) {
+        Player player1 = gameModel.getPlayer1();
+        Player player2 = gameModel.getPlayer2();
+        Ball ball = gameModel.getBall();
 
+        spriteBatch.begin();
+        field.draw(spriteBatch, viewport);
+        player1.draw(spriteBatch);
+        player2.draw(spriteBatch);
+        ball.draw(spriteBatch);
+        rightGoal.draw(spriteBatch);
+        leftGoal.draw(spriteBatch);
+        spriteBatch.end();
+    }
+
+    /**
+     * Get right goal
+     * 
+     * @return right goal
+     */
+    public Goal getRightGoal() {
+        return rightGoal;
+    }
+
+    /**
+     * Get left goal
+     * 
+     * @return left goal
+     */
+    public Goal getLeftGoal() {
+        return leftGoal;
     }
 }
