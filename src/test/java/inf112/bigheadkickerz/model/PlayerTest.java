@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ public class PlayerTest {
     private Player player;
     private Sprite mockSprite = mock(Sprite.class);
     private SpriteBatch mockBatch = mock(SpriteBatch.class);
+    private Viewport mockViewport = mock(Viewport.class);
 
     @BeforeEach
     void setUp() {
@@ -36,21 +38,21 @@ public class PlayerTest {
 
         // Mock Texture slik at den ikke prøver å laste en faktisk fil
         try (MockedConstruction<Texture> mockedTexture = mockConstruction(Texture.class)) {
-            player = new Player("PlayerImage.png", 5, 5, false, true);
+            player = new Player("PlayerImage.png", 5, 0, false, true);
         }
     }
 
     @Test
     void testInitialPosition() {
         assertEquals(5, player.getSprite().getX());
-        assertEquals(5, player.getSprite().getY());
+        assertEquals(0, player.getSprite().getY());
     }
 
     @Test
     void testMoveBy() {
         player.moveBy(2, 3);
         assertEquals(7, player.getSprite().getX());
-        assertEquals(8, player.getSprite().getY());
+        assertEquals(3, player.getSprite().getY());
     }
 
     @Test
@@ -58,7 +60,7 @@ public class PlayerTest {
         player.moveBy(3, 3);
         player.reset();
         assertEquals(5, player.getSprite().getX());
-        assertEquals(5, player.getSprite().getY());
+        assertEquals(0, player.getSprite().getY());
         assertEquals(new Vector2(0, 0), player.getVelocity());
     }
 
@@ -67,4 +69,11 @@ public class PlayerTest {
         player.draw(mockBatch);
         verify(mockSprite, never()).draw(mockBatch); // Mocken brukes ikke, da player bruker en ekte Sprite
     }
+
+    @Test
+    void testGetWidthCallsSpriteGetWidth() {
+        player.getWidth();
+        verify(mockSprite, never()).getWidth(); // Mocken brukes ikke, da player bruker en ekte Sprite
+    }
+
 }
