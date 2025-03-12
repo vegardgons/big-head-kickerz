@@ -108,20 +108,15 @@ public class GameModel implements ControllableGameModel {
         float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.5f);
         if (ball.getX() >= rightGoalX) {
             player2Score++;
-            System.out.println("P2 scored!");
-            goalReset();
+            isGoal = true;
+            System.out.println("\nP2 scored!\n");
 
         } else if (ball.getX() <= leftGoalX) {
             player1Score++;
-            System.out.println("P1 scored!");
-            goalReset();
+            isGoal = true;
+            System.out.println("P1 scored!\n");
         }
-    }
 
-    private void goalReset() {
-        System.out.println("Score:\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
-        isGoal = true;
-        goalTimer = 0;
     }
 
     /**

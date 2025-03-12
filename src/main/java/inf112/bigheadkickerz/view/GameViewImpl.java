@@ -19,6 +19,7 @@ public class GameViewImpl implements GameView {
     private Goal rightGoal;
     private Goal leftGoal;
     private GameModel gameModel;
+    private ScoreBoard scoreBoard;
 
     /**
      * Constructor initializes rendering components
@@ -39,6 +40,7 @@ public class GameViewImpl implements GameView {
         float goalWidth = rightGoal.getWidth();
         float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.2f) - goalWidth;
         leftGoal = new Goal("GoalImage.png", leftGoalX, 0, true);
+        scoreBoard = new ScoreBoard(viewport);
     }
 
     /**
@@ -64,6 +66,11 @@ public class GameViewImpl implements GameView {
         rightGoal.draw(spriteBatch);
         leftGoal.draw(spriteBatch);
         spriteBatch.end();
+
+        scoreBoard.updateScores(gameModel.getPlayer1Score(), gameModel.getPlayer2Score());
+        float delta = com.badlogic.gdx.Gdx.graphics.getDeltaTime();
+        scoreBoard.render(delta);
+
     }
 
     /**
@@ -78,6 +85,8 @@ public class GameViewImpl implements GameView {
      */
     public void dispose() {
         spriteBatch.dispose();
+        scoreBoard.dispose();
+
     }
 
     @Override
