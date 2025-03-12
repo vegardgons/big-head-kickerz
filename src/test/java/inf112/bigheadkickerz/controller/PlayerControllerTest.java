@@ -34,17 +34,37 @@ public class PlayerControllerTest {
     }
 
     @Test
-    void testMoveRight() {
+    void testMoveRightPlayer1() {
         when(Gdx.input.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
 
-        playerController.movePlayer(mockViewport, 1f); // delta = 1 for enkel testing
+        playerController.movePlayer(mockViewport, 1f);
 
         verify(mockSprite).translateX(4f); // 4f er hastigheten
     }
 
     @Test
-    void testMoveLeft() {
+    void testMoveLeftPlayer1() {
         when(Gdx.input.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+
+        playerController.movePlayer(mockViewport, 1f);
+
+        verify(mockSprite).translateX(-4f);
+    }
+
+    @Test
+    void testMoveRightPlayer2() {
+        playerController = new PlayerController(mockSprite, false);
+        when(Gdx.input.isKeyPressed(Input.Keys.D)).thenReturn(true);
+
+        playerController.movePlayer(mockViewport, 1f);
+
+        verify(mockSprite).translateX(4f);
+    }
+
+    @Test
+    void testMoveLeftPlayer2() {
+        playerController = new PlayerController(mockSprite, false);
+        when(Gdx.input.isKeyPressed(Input.Keys.A)).thenReturn(true);
 
         playerController.movePlayer(mockViewport, 1f);
 
@@ -101,8 +121,23 @@ public class PlayerControllerTest {
     }
 
     @Test
-    void testJumping() {
-        
-    }   
+    void testJumpingPlayer1() {
+        when(Gdx.input.isKeyJustPressed(Input.Keys.UP)).thenReturn(true);
+        when(mockSprite.getY()).thenReturn(1f);
 
+        playerController.movePlayer(mockViewport, 1f);
+
+        assertTrue(playerController.getIsJumping());
+    }
+
+    @Test
+    void testJumpingPlayer2() {
+        playerController = new PlayerController(mockSprite, false);
+        when(Gdx.input.isKeyJustPressed(Input.Keys.W)).thenReturn(true);
+        when(mockSprite.getY()).thenReturn(1f);
+
+        playerController.movePlayer(mockViewport, 1f);
+
+        assertTrue(playerController.getIsJumping());
+    }
 }

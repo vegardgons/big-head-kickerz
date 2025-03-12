@@ -47,20 +47,12 @@ public class PlayerController {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
                 velocityY = 4.2f;
-                isJumping = true;
             }
         }
 
         // Bevegelse
         velocityY += gravity * delta;
         sprite.translateY(velocityY * delta);
-
-        // Begrens bevegelse til skjerm
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-
-        sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
-        sprite.setY(MathUtils.clamp(sprite.getY(), 0, worldHeight - sprite.getHeight()));
 
         // Stopper spilleren på bakken
         if (sprite.getY() <= 0) {
@@ -71,6 +63,12 @@ public class PlayerController {
             isJumping = true;
         }
 
+        // Begrens bevegelse til skjerm
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
+        sprite.setY(MathUtils.clamp(sprite.getY(), 0, worldHeight - sprite.getHeight()));
     }
 
     /**
