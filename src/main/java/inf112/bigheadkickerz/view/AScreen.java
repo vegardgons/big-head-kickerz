@@ -24,7 +24,7 @@ public abstract class AScreen implements Screen {
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         batch = new SpriteBatch();
-        this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        this.skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         // Load background
         backgroundTexture = new Texture("StartScreen.png");
@@ -34,7 +34,7 @@ public abstract class AScreen implements Screen {
 
         table = new Table();
         table.setFillParent(true);
-        table.center().bottom().padBottom(100);
+        table.center().bottom().padBottom(80);
         stage.addActor(table);
     }
 
