@@ -15,7 +15,7 @@ public class StartScreen extends AScreen {
         super();
         this.game = game;
         setUpScreen();
-        
+
     }
 
     protected void setUpScreen() {
@@ -29,7 +29,7 @@ public class StartScreen extends AScreen {
             }
         });
 
-        table.add(startButton).width(200).height(80).pad(10);
+        table.add(startButton).uniform().fill();
     }
 
 }

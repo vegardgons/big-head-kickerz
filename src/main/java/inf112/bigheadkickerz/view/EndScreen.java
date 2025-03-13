@@ -1,9 +1,15 @@
 package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 
@@ -40,8 +46,8 @@ public class EndScreen extends AScreen {
             }
         });
 
-        table.add(playAgainButton).width(200).height(80).pad(10);
-        table.add(exitButton).width(200).height(80).pad(10);
+        table.add(playAgainButton).uniform().fill().padRight(10);
+        table.add(exitButton).uniform().fill();
     }
 
 }
