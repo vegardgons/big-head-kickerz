@@ -14,8 +14,6 @@ public class Collision {
     private Player player1;
     private Player player2;
     private Ball ball;
-    private Goal leftGoal;
-    private Goal rightGoal;
     private Sprite ballSprite;
     private Sprite player1Sprite;
     private Sprite player2Sprite;
@@ -34,8 +32,6 @@ public class Collision {
 
     public Collision(Ball ball, Goal leftGoal, Goal rightGoal) {
         this.ball = ball;
-        this.leftGoal = leftGoal;
-        this.rightGoal = rightGoal;
 
         this.ballSprite = ball.getSprite();
         this.leftGoalSprite = leftGoal.getSprite();
