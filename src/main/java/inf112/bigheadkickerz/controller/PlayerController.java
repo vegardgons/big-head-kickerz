@@ -57,7 +57,6 @@ public class PlayerController {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
                 velocityY = 4.2f;
-                isJumping = true;
             }
             // Added kick input for Player 2 (Q key)
             if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
@@ -69,13 +68,6 @@ public class PlayerController {
         velocityY += gravity * delta;
         sprite.translateY(velocityY * delta);
 
-        // Constrain movement to the screen bounds
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-
-        sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
-        sprite.setY(MathUtils.clamp(sprite.getY(), 0, worldHeight - sprite.getHeight()));
-
         // Stop the player on the ground
         if (sprite.getY() <= 0) {
             sprite.setY(0);
@@ -84,6 +76,13 @@ public class PlayerController {
         } else {
             isJumping = true;
         }
+
+        // Begrens bevegelse til skjerm
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
+        sprite.setY(MathUtils.clamp(sprite.getY(), 0, worldHeight - sprite.getHeight()));
     }
 
     /**

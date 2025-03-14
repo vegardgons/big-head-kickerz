@@ -9,12 +9,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public interface GameView {
 
     /**
-     * Method for drawing objects in the game
-     *
-     * @param batch    SpriteBatch
-     * @param viewport Viewport
+     * Draw game objects
+     * 
+     * @param batch    SpriteBatch for rendering
+     * @param viewport Viewport for rendering
      */
     void draw(SpriteBatch batch, Viewport viewport);
+
 
     /**
      * Main render method for rendering the entire game

@@ -147,6 +147,20 @@ public class BallTest {
         assertTrue(ball.getVelocityY() > 0); // Ball should bounce and change direction
     }
 
+    @Test
+    void testVelocityStopsOnGround() {
+        when(mockViewport.getWorldWidth()).thenReturn(800f);
+        when(mockViewport.getWorldHeight()).thenReturn(600f);
 
+        ball.setPosition(400, 0); // Place ball at the ground
+        ball.setVelocity(0, -0.05f); // Set a negative velocity (moving down)
+
+        // Update 10 times
+        for (int i = 0; i < 10; i++) {
+            ball.update(mockViewport, 0.016f); // 60 FPS (delta = 1/60)
+        }
+
+        assertEquals(0, ball.getVelocityY(), 0.01f); // Ball should stop moving on the ground
+    }
 
 }
