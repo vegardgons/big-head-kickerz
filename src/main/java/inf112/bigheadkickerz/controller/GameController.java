@@ -7,12 +7,10 @@ import inf112.bigheadkickerz.view.GameViewImpl;
 import inf112.bigheadkickerz.view.Goal;
 
 public class GameController implements Screen {
-    private final BigHeadKickerzGame game;
     private final GameModel gameModel;
     private final GameViewImpl gameView;
 
     public GameController(BigHeadKickerzGame game) {
-        this.game = game;
         this.gameModel = new GameModel(game, this);
         this.gameView = new GameViewImpl(gameModel);
         this.gameModel.initGoals();

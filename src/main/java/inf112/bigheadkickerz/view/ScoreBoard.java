@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * ScoreBoard displays the current game score at the top of the screen
@@ -16,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class ScoreBoard {
     private final SpriteBatch batch;
     private final BitmapFont font;
-    private final Viewport viewport;
     private int player1Score;
     private int player2Score;
     private final GlyphLayout layout;
@@ -24,8 +22,7 @@ public class ScoreBoard {
     /**
      * Constructor initializes rendering components with a custom font
      */
-    public ScoreBoard(Viewport viewport) {
-        this.viewport = viewport;
+    public ScoreBoard() {
         this.batch = new SpriteBatch();
         this.layout = new GlyphLayout();
 
