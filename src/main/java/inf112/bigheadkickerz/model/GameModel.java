@@ -41,11 +41,11 @@ public class GameModel implements ControllableGameModel {
 
         // Initialize players
         float player1X = viewport.getWorldWidth() / 8 * 6.5f;
-        player1 = new Player("PlayerImage.png", player1X, 0, false, true);
+        player1 = new Player("Player_1.png", player1X, 0, false, true);
 
         float playerWidth = player1.getWidth();
         float player2X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
-        player2 = new Player("PlayerImage.png", player2X, 0, true, false);
+        player2 = new Player("Player_1.png", player2X, 0, true, false);
 
         // Initialize collision detector
         collision = new Collision(player1, player2, ball);

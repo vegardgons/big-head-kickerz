@@ -27,7 +27,7 @@ public class PlayerControllerTest {
         when(mockViewport.getWorldWidth()).thenReturn(100f);
         when(mockViewport.getWorldHeight()).thenReturn(50f);
 
-        playerController = new PlayerController(mockSprite, true);
+        playerController = new PlayerController(mockSprite, true, null);
 
         // Mock Gdx.input
         Gdx.input = mock(Input.class);
