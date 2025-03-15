@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import inf112.bigheadkickerz.controller.GameController;
 import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.GameModel;
 import inf112.bigheadkickerz.model.Player;
@@ -41,7 +40,7 @@ public class GameViewImpl implements GameView {
         float goalWidth = rightGoal.getWidth();
         float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.2f) - goalWidth;
         leftGoal = new Goal("GoalImage.png", leftGoalX, 0, true);
-        scoreBoard = new ScoreBoard(viewport);
+        scoreBoard = new ScoreBoard();
     }
 
     /**
