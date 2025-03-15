@@ -27,7 +27,7 @@ public class PlayerControllerTest {
         when(mockViewport.getWorldWidth()).thenReturn(100f);
         when(mockViewport.getWorldHeight()).thenReturn(50f);
 
-        playerController = new PlayerController(mockSprite, true);
+        playerController = new PlayerController(mockSprite, true, null);
 
         // Mock Gdx.input
         Gdx.input = mock(Input.class);
@@ -53,7 +53,7 @@ public class PlayerControllerTest {
 
     @Test
     void testMoveRightPlayer2() {
-        playerController = new PlayerController(mockSprite, false);
+        playerController = new PlayerController(mockSprite, false, null);
         when(Gdx.input.isKeyPressed(Input.Keys.D)).thenReturn(true);
 
         playerController.movePlayer(mockViewport, 1f);
@@ -63,7 +63,7 @@ public class PlayerControllerTest {
 
     @Test
     void testMoveLeftPlayer2() {
-        playerController = new PlayerController(mockSprite, false);
+        playerController = new PlayerController(mockSprite, false, null);
         when(Gdx.input.isKeyPressed(Input.Keys.A)).thenReturn(true);
 
         playerController.movePlayer(mockViewport, 1f);
@@ -132,7 +132,7 @@ public class PlayerControllerTest {
 
     @Test
     void testJumpingPlayer2() {
-        playerController = new PlayerController(mockSprite, false);
+        playerController = new PlayerController(mockSprite, false, null);
         when(Gdx.input.isKeyJustPressed(Input.Keys.W)).thenReturn(true);
         when(mockSprite.getY()).thenReturn(1f);
 

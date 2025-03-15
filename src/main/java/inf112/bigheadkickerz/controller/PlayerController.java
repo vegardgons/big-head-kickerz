@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.bigheadkickerz.model.Player;  // Import the Player class
 
 /** Class for controlling the player */
 public class PlayerController {
@@ -15,18 +16,23 @@ public class PlayerController {
     private boolean isJumping = false;
     private float gravity = -9.81f;
     private boolean player1;
+    private Player player; // Added reference to the Player model
 
-    /** Constructor for PlayerController */
-    public PlayerController(Sprite sprite, boolean player1) {
+    /**
+     * Updated constructor that accepts a Player instance.
+     * (Minimal change: we add only what’s necessary for kicking.)
+     */
+    public PlayerController(Sprite sprite, boolean player1, Player player) {
         this.sprite = sprite;
         this.player1 = player1;
+        this.player = player; // Assign the player so we can call kick()
     }
 
     /**
-     * Method for moving the player
+     * Method for moving the player and detecting kick inputs.
      *
-     * @param viewport
-     * @param delta
+     * @param viewport The viewport for screen boundaries.
+     * @param delta    Time since the last frame.
      */
     public void movePlayer(Viewport viewport, float delta) {
 
@@ -39,6 +45,10 @@ public class PlayerController {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
                 velocityY = 4.2f;
             }
+            // Added kick input for Player 1 (K key)
+            if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+                player.kick();
+            }
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 sprite.translateX(speed * delta);
@@ -48,13 +58,17 @@ public class PlayerController {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
                 velocityY = 4.2f;
             }
+            // Added kick input for Player 2 (Q key)
+            if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+                player.kick();
+            }
         }
 
-        // Bevegelse
+        // Movement: apply gravity and update position
         velocityY += gravity * delta;
         sprite.translateY(velocityY * delta);
 
-        // Stopper spilleren på bakken
+        // Stop the player on the ground
         if (sprite.getY() <= 0) {
             sprite.setY(0);
             velocityY = 0;
@@ -72,12 +86,11 @@ public class PlayerController {
     }
 
     /**
-     * Method for getting if the player is jumping
+     * Method for checking if the player is jumping.
      *
-     * @return if the player is jumping
+     * @return true if jumping, false otherwise.
      */
     public boolean getIsJumping() {
         return isJumping;
     }
-
 }
