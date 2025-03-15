@@ -45,8 +45,8 @@ public class PlayerController {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
                 velocityY = 4.2f;
             }
-            // Added kick input for Player 1 (K key)
-            if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+            // Added kick input for Player 1 (P key)
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
                 player.kick();
             }
         } else {
@@ -58,8 +58,8 @@ public class PlayerController {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
                 velocityY = 4.2f;
             }
-            // Added kick input for Player 2 (Q key)
-            if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+            // Added kick input for Player 2 (Space key)
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 player.kick();
             }
         }
