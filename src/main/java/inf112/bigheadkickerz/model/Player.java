@@ -24,8 +24,10 @@ public class Player implements GameObject, Collideable {
     private Vector2 velocity;
     private Vector2 startPos;
     private Vector2 pos;
+    private boolean player1;
 
-    // New fields for kick animation
+
+    //fields for kick animation
     private boolean isKicking = false;
     private float kickStateTime = 0f;
     private Animation<TextureRegion> kickAnimation;
@@ -39,8 +41,8 @@ public class Player implements GameObject, Collideable {
         pos = new Vector2(startX, startY);
         velocity = new Vector2(0, 0);
         playerController = new PlayerController(player1, this);
+        this.player1 = player1;
 
-        initKickAnimation();
     }
 
     /**
@@ -50,6 +52,7 @@ public class Player implements GameObject, Collideable {
         if (!isKicking) {
             isKicking = true;
             kickStateTime = 0f;
+            initKickAnimation();
         }
     }
 
@@ -64,6 +67,14 @@ public class Player implements GameObject, Collideable {
         boundaries(viewport);
         // System.out.println("Player velocity: " + getVelocity());
         // System.out.println("Player position: " + getPosition());
+
+        if (isKicking) {
+            kickStateTime += delta;
+            if (kickAnimation.isAnimationFinished(kickStateTime)) {
+                isKicking = false;
+            }
+        }
+        
 
     }
 
@@ -124,23 +135,18 @@ public class Player implements GameObject, Collideable {
     }
 
     private void initKickAnimation() {
-        // --- MANUAL FRAME ORDERING HERE ---
-        // 1) Load your atlas
-        // Load the kick atlas
-        // Load the atlas from the assets folder (adjust the path if needed)
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("kick.atlas"));
-
-        // Find all regions with the base name "kick" (ensure it matches the atlas file
-        // exactly)
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("kick_animation.atlas"));
         Array<TextureAtlas.AtlasRegion> frames = atlas.findRegions("kick");
 
-        // Log the number of frames found to help debug
-        Gdx.app.log("Player", "Number of kick frames found: " + frames.size);
-
-        // Sort the frames by their index field
         frames.sort((a, b) -> Integer.compare(a.index, b.index));
 
-        // Create the kick animation from the sorted frames
+        if (player1) {
+            for (TextureAtlas.AtlasRegion region : frames) {
+                if (!region.isFlipX()) {
+                    region.flip(true, false);
+                }
+            }
+        }
         kickAnimation = new Animation<>(0.01f, frames);
         kickAnimation.setPlayMode(Animation.PlayMode.NORMAL);
     }
@@ -168,4 +174,6 @@ public class Player implements GameObject, Collideable {
     public float getWidth() {
         return WIDTH;
     }
+
+    
 }
