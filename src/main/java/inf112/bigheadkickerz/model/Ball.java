@@ -1,136 +1,65 @@
 package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /** Class for the ball object */
-public class Ball implements GameObject {
-    private Texture ballTexture;
-    private Sprite sprite;
-    private float velocityY = 0;
-    private float velocityX = 0;
-    private float gravity = -9.81f;
-    private float bounceFactor = 0.65f;
-    private final static float BALL_SIZE = 0.6f;
-    private float initialX;
-    private float initialY;
+public class Ball implements GameObject, Collideable {
+
+    private static final float BALL_SIZE = 0.6f;
+    private static final float WEIGHT = 1f;
+    private static final float GRAVITY = -9.81f;
+    private static final float BOUNCE_FACTOR = 0.7f;
+
+    private Vector2 startPos;
+    private Vector2 pos;
+    private Vector2 velocity;
+    private Texture texture;
 
     /** Constructor for Ball */
     public Ball(String texturePath, float startX, float startY) {
-        ballTexture = new Texture(texturePath);
-        sprite = new Sprite(ballTexture);
-        sprite.setSize(BALL_SIZE, BALL_SIZE);
-        this.initialX = startX;
-        this.initialY = startY;
-        startX -= sprite.getWidth() / 2;
-        sprite.setPosition(startX, startY);
+        texture = new Texture(texturePath);
+        float centerX = startX - BALL_SIZE / 2;
+        startPos = new Vector2(centerX, startY);
+        pos = new Vector2(centerX, startY);
+        velocity = new Vector2(0, 0);
     }
 
     @Override
     public void update(Viewport viewport, float delta) {
-        // Bevegelse og kollisjon
-        velocityY += gravity * delta;
+        velocity.y += GRAVITY * delta;
+        pos.add(velocity.x * delta, velocity.y * delta);
 
-        // Apply friction to horizontal velocity
-        velocityX *= 0.98f; // Gradually slow down horizontal movement
+        boundaries(viewport, BOUNCE_FACTOR);
 
-        // Move the ball based on both velocity components
-        sprite.translateX(velocityX * delta);
-        sprite.translateY(velocityY * delta);
-
-        // Begrens bevegelse til skjerm
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-
-        boolean atLeftWall = sprite.getX() <= 0;
-        boolean atRightWall = sprite.getX() >= worldWidth - sprite.getWidth();
-        boolean atGround = sprite.getY() <= 0;
-        boolean atRoof = sprite.getY() >= worldHeight - sprite.getHeight();
-
-        // Handle wall collisions
-        if (atLeftWall || atRightWall) {
-            velocityX = -velocityX * bounceFactor;
-            sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
-        }
-        // Handle ground collision
-        if (atGround) {
-            sprite.setY(0); // Ensure ball stays above ground
-            velocityY = Math.abs(velocityY) * bounceFactor;
-            // Stop the ball if velocity is very small
-            if (Math.abs(velocityY) < 0.1f) {
-                velocityY = 0;
-            }
-
-            // Apply extra friction when on ground
-            velocityX *= 0.95f;
-        }
-
-        if (atRoof) {
-            sprite.setY(worldHeight - sprite.getHeight());
-            velocityY = -Math.abs(velocityY) * bounceFactor;
-        }
-
-        // Final position clamping to ensure boundaries are respected
-        sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
-        sprite.setY(MathUtils.clamp(sprite.getY(), 0, worldHeight - sprite.getHeight()));
+        pos = new Vector2(pos.x, pos.y);
+        // System.out.println("Ball velocity: " + getVelocity());
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        sprite.draw(batch);
+        batch.draw(texture, pos.x, pos.y, BALL_SIZE, BALL_SIZE);
     }
 
-    @Override
-    public Sprite getSprite() {
-        return sprite;
-    }
-
-    /**
-     * Apply an impulse to the ball in x and y directions
-     * 
-     * @param x force in x direction
-     * @param y force in y direction
-     */
-    public void applyImpulse(float x, float y) {
-        // Apply impulse to velocity rather than directly translating
-        // This prevents teleporting by affecting the ball's movement speed instead
-        velocityX += x * 10;
-        velocityY += y * 10;
-    }
-
-    /**
-     * Sets the ball's position to the specified coordinates
-     * 
-     * @param x the x-coordinate to set
-     * @param y the y-coordinate to set
-     */
-    public void setPosition(float x, float y) {
-        // Adjust x to account for ball's center alignment
-        x -= sprite.getWidth() / 2;
-        sprite.setPosition(x, y);
-    }
-
-    /**
-     * Sets the ball's velocity to the specified values
-     * 
-     * @param x the x-velocity to set
-     * @param y the y-velocity to set
-     */
-    public void setVelocity(float x, float y) {
-        this.velocityX = x;
-        this.velocityY = y;
-    }
-
-    /**
-     * Gets the ball's X position (center of the ball)
-     * 
-     * @return the x-coordinate of the ball's center
-     */
-    public float getX() {
-        return sprite.getX() + sprite.getWidth() / 2;
+    private void boundaries(Viewport viewport, float bounce) {
+        if (pos.x < 0) {
+            pos.x = 0;
+            velocity.x = -velocity.x * bounce;
+        }
+        if (pos.x + BALL_SIZE > viewport.getWorldWidth()) {
+            pos.x = viewport.getWorldWidth() - BALL_SIZE;
+            velocity.x = -velocity.x * bounce;
+        }
+        if (pos.y < 0) {
+            pos.y = 0;
+            velocity.y = -velocity.y * bounce;
+        }
+        if (pos.y + BALL_SIZE > viewport.getWorldHeight()) {
+            pos.y = viewport.getWorldHeight() - BALL_SIZE;
+            velocity.y = -velocity.y * bounce;
+        }
     }
 
     /**
@@ -138,27 +67,48 @@ public class Ball implements GameObject {
      */
     public void reset() {
         // Reset position to initial values
-        setPosition(initialX, initialY);
-
+        setPosition(startPos);
         // Reset velocity to zero
-        setVelocity(0, 0);
+        setVelocity(new Vector2(0, 0));
     }
 
-    /**
-     * Gets the ball's velocity in the x direction
-     *
-     * @return the x-velocity of the ball
-     */
-    public float getVelocityX() {
-        return velocityX;
+    @Override
+    public float getWeight() {
+        return WEIGHT;
     }
 
-    /**
-     * Gets the ball's velocity in the y direction
-     *
-     * @return the y-velocity of the ball
-     */
-    public float getVelocityY() {
-        return velocityY;
+    @Override
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    @Override
+    public void collision(Collideable other) {
+
+    }
+
+    @Override
+    public boolean collides(Collideable other) {
+        return true;
+    }
+
+    @Override
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public void setPosition(Vector2 pos) {
+        this.pos = pos;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return pos;
+    }
+
+    @Override
+    public float getWidth() {
+        return BALL_SIZE;
     }
 }

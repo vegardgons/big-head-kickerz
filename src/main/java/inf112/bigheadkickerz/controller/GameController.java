@@ -4,7 +4,6 @@ import com.badlogic.gdx.Screen;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.model.GameModel;
 import inf112.bigheadkickerz.view.GameViewImpl;
-import inf112.bigheadkickerz.view.Goal;
 
 public class GameController implements Screen {
     private final GameModel gameModel;
@@ -13,7 +12,6 @@ public class GameController implements Screen {
     public GameController(BigHeadKickerzGame game) {
         this.gameModel = new GameModel(game, this);
         this.gameView = new GameViewImpl(gameModel);
-        this.gameModel.initGoals();
     }
 
     @Override
@@ -48,12 +46,4 @@ public class GameController implements Screen {
         gameView.dispose();
     }
 
-    // Getters for goals
-    public Goal getLeftGoal() {
-        return this.gameView.getLeftGoal();
-    }
-
-    public Goal getRightGoal() {
-        return this.gameView.getRightGoal();
-    }
 }

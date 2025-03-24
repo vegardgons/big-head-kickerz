@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-
 public abstract class AScreen implements Screen {
 
-    protected Stage stage;
-    protected Texture backgroundTexture;
-    protected SpriteBatch batch;
+    private Stage stage;
+    private Texture backgroundTexture;
+    private SpriteBatch batch;
+
     protected Skin skin;
     protected Table table;
 
