@@ -1,11 +1,12 @@
 package inf112.bigheadkickerz.model;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
 import inf112.bigheadkickerz.controller.GameController;
-import inf112.bigheadkickerz.view.Goal;
 
 /**
  * GameModel holds all game state and implements ControllableGameModel
@@ -18,14 +19,13 @@ public class GameModel implements ControllableGameModel {
 
     // Game objects
     private BigHeadKickerzGame game;
-    private GameController controller;
     private Player player1;
     private Player player2;
     private Ball ball;
     private Goal leftGoal;
     private Goal rightGoal;
-    private Collision collisionPlayerBall;
-    private Collision collisionGoalBall;
+    private ArrayList<Collideable> collideables;
+    private Collision collisionHandler;
 
     // Score tracking
     private int player1Score;
@@ -47,39 +47,16 @@ public class GameModel implements ControllableGameModel {
      */
     public GameModel(BigHeadKickerzGame game, GameController controller) {
         this.game = game;
-        this.controller = controller;
         viewport = new FitViewport(WIDTH, HEIGHT);
 
-        // Initialize ball at center
-        float ballX = viewport.getWorldWidth() / 2;
-        float ballY = viewport.getWorldHeight() / 2 + 1.5f;
-        ball = new Ball("BallImage.png", ballX, ballY);
-
-        // Initialize players
-        float player1X = viewport.getWorldWidth() / 8 * 6.5f;
-        player1 = new Player("Player_1.png", player1X, 0, false, true);
-
-        float playerWidth = player1.getWidth();
-        float player2X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
-        player2 = new Player("Player_1.png", player2X, 0, true, false);
-
-        // Initialize collision detector
-        collisionPlayerBall = new Collision(player1, player2, ball);
-
-        // Initialize score tracking
-        player1Score = 0;
-        player2Score = 0;
-        goalTimer = 0;
-        isGoal = false;
-
-        // Initialize end screen timer
-        endTimer = 0;
-        isEnd = false;
+        initGameObjects();
+        initCollideables();
+        initScoreTracking();
+        initEndScreenTimer();
     }
 
     /** Update game state */
     public void update(float delta) {
-
         if (isGoal) {
             goalTimer += delta;
             if (goalTimer >= GOAL_DELAY) {
@@ -94,7 +71,7 @@ public class GameModel implements ControllableGameModel {
         if (isEnd) {
             endTimer += delta;
             if (endTimer >= END_DELAY) {
-                game.EndScreen();
+                game.endScreen();
                 endTimer = 0;
             }
         } else {
@@ -104,25 +81,22 @@ public class GameModel implements ControllableGameModel {
         player1.update(viewport, delta);
         player2.update(viewport, delta);
         ball.update(viewport, delta);
-        collisionPlayerBall.checkCollisionPlayerBall();
-        collisionGoalBall.checkCollisionGoalBall();
+        collisionHandler.checkCollision();
         checkIfFinishedGame();
     }
 
     private void checkForGoal() {
-        float rightGoalX = viewport.getWorldWidth() / 8 * 7.5f;
-        float leftGoalX = viewport.getWorldWidth() / 8 * (8 - 7.5f);
-        if (ball.getX() >= rightGoalX) {
+        float rightGoalX = rightGoal.getPosition().x;
+        float leftGoalX = leftGoal.getPosition().x;
+        if (ball.getPosition().x >= rightGoalX) {
             player2Score++;
             isGoal = true;
             System.out.println("\nP2 scored!\n");
-
-        } else if (ball.getX() <= leftGoalX) {
+        } else if (ball.getPosition().x <= leftGoalX) {
             player1Score++;
             isGoal = true;
             System.out.println("P1 scored!\n");
         }
-
     }
 
     private void resetPositions() {
@@ -142,6 +116,14 @@ public class GameModel implements ControllableGameModel {
 
     public Ball getBall() {
         return this.ball;
+    }
+
+    public Goal getRightGoal() {
+        return this.rightGoal;
+    }
+
+    public Goal getLeftGoal() {
+        return this.leftGoal;
     }
 
     public FitViewport getViewport() {
@@ -167,13 +149,61 @@ public class GameModel implements ControllableGameModel {
         }
     }
 
-    /**
-     * Initialize goals for collision detection
-     */
-    public void initGoals() {
-        this.leftGoal = controller.getLeftGoal();
-        this.rightGoal = controller.getRightGoal();
-        collisionGoalBall = new Collision(ball, leftGoal, rightGoal);
+    private void initGameObjects() {
+        // Initialize ball at center
+        float ballX = viewport.getWorldWidth() / 2;
+        float ballY = viewport.getWorldHeight() / 2 + 1.5f;
+        ball = new Ball("BallImage.png", ballX, ballY);
+
+        // Initialize players
+        float player1X = viewport.getWorldWidth() / 8 * 6.5f;
+        player1 = new Player("player_1.png", player1X, 0, true);
+
+        float playerWidth = player1.getWidth();
+        float player2X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
+        player2 = new Player("player_2.png", player2X, 0, false);
+
+        leftGoal = new Goal("GoalLeft.png", 0, 0, false);
+
+        float rightGoalX = viewport.getWorldWidth() - leftGoal.getWidth();
+        rightGoal = new Goal("GoalRight.png", rightGoalX, 0, true);
+
     }
+
+    private void initCollideables() {
+        collideables = new ArrayList<>();
+        collideables.add(player1);
+        collideables.add(player2);
+        collideables.add(ball);
+        collideables.add(leftGoal);
+        collideables.add(rightGoal);
+
+        // Initialize collision handler
+        collisionHandler = new Collision(collideables);
+    }
+
+    private void initScoreTracking() {
+        player1Score = 0;
+        player2Score = 0;
+        goalTimer = 0;
+        isGoal = false;
+    }
+
+    private void initEndScreenTimer() {
+        endTimer = 0;
+        isEnd = false;
+    }
+
+    // public Sprite getBallSprite() {
+    // return ball.getSprite();
+    // }
+
+    // public Sprite getPlayer1Sprite() {
+    // return player1.getSprite();
+    // }
+
+    // public Sprite getPlayer2Sprite() {
+    // return player2.getSprite();
+    // }
 
 }

@@ -2,28 +2,25 @@ package inf112.bigheadkickerz.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import inf112.bigheadkickerz.model.Player;  // Import the Player class
+import inf112.bigheadkickerz.model.Player; // Import the Player class
 
 /** Class for controlling the player */
 public class PlayerController {
 
-    private float speed = 4f;
-    private float velocityY = 0;
-    private Sprite sprite;
-    private boolean isJumping = false;
-    private float gravity = -9.81f;
+    private static final float MOVE_SPEED = 4f;
+    private static final float JUMP_SPEED = 4f;
+
+    private boolean isJumping;
     private boolean player1;
-    private Player player; // Added reference to the Player model
+    private Player player;
 
     /**
      * Updated constructor that accepts a Player instance.
      * (Minimal change: we add only what’s necessary for kicking.)
      */
-    public PlayerController(Sprite sprite, boolean player1, Player player) {
-        this.sprite = sprite;
+    public PlayerController(boolean player1, Player player) {
         this.player1 = player1;
         this.player = player; // Assign the player so we can call kick()
     }
@@ -35,62 +32,49 @@ public class PlayerController {
      * @param delta    Time since the last frame.
      */
     public void movePlayer(Viewport viewport, float delta) {
+        float currentVx = player.getVelocity().x;
+        float currentVy = player.getVelocity().y;
+        if (player.getVelocity().y == 0) {
+            isJumping = false;
+        }
 
         if (player1) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                sprite.translateX(speed * delta);
+                currentVx = MOVE_SPEED;
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                sprite.translateX(-speed * delta);
+                currentVx = -MOVE_SPEED;
+            } else {
+                currentVx = 0;
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
-                velocityY = 4.2f;
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                if (!isJumping) {
+                    currentVy = JUMP_SPEED;
+                    isJumping = true;
+                }
             }
-            // Added kick input for Player 1 (P key)
             if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
                 player.kick();
             }
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                sprite.translateX(speed * delta);
+                currentVx = MOVE_SPEED;
             } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                sprite.translateX(-speed * delta);
+                currentVx = -MOVE_SPEED;
+            } else {
+                currentVx = 0;
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
-                velocityY = 4.2f;
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+                if (!isJumping) {
+                    currentVy = JUMP_SPEED;
+                    isJumping = true;
+                }
             }
-            // Added kick input for Player 2 (Space key)
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 player.kick();
             }
         }
+        player.setVelocity(new Vector2(currentVx, currentVy));
 
-        // Movement: apply gravity and update position
-        velocityY += gravity * delta;
-        sprite.translateY(velocityY * delta);
-
-        // Stop the player on the ground
-        if (sprite.getY() <= 0) {
-            sprite.setY(0);
-            velocityY = 0;
-            isJumping = false;
-        } else {
-            isJumping = true;
-        }
-
-        // Begrens bevegelse til skjerm
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-
-        sprite.setX(MathUtils.clamp(sprite.getX(), 0, worldWidth - sprite.getWidth()));
-        sprite.setY(MathUtils.clamp(sprite.getY(), 0, worldHeight - sprite.getHeight()));
     }
 
-    /**
-     * Method for checking if the player is jumping.
-     *
-     * @return true if jumping, false otherwise.
-     */
-    public boolean getIsJumping() {
-        return isJumping;
-    }
 }

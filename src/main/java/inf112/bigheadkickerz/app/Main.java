@@ -15,7 +15,7 @@ public class Main {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         cfg.setForegroundFPS(60);
         cfg.setTitle("Big Head Kickerz!");
-        cfg.setWindowedMode(1500, 800);
+        cfg.setWindowedMode(1500, 600);
         cfg.useVsync(true);
 
         new Lwjgl3Application(new BigHeadKickerzGame(), cfg);

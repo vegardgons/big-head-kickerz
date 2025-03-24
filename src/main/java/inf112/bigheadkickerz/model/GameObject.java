@@ -1,7 +1,7 @@
 package inf112.bigheadkickerz.model;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /** Interface for game objects */
@@ -23,9 +23,27 @@ public interface GameObject {
     void draw(SpriteBatch batch);
 
     /**
-     * Get the sprite of the game object for collision detection
+     * Get the speed of the game object
      *
-     * @return the sprite
+     * @return the velocity
      */
-    Sprite getSprite();
+    Vector2 getVelocity();
+
+    /**
+     * Set the speed of the game object in the x direction
+     *
+     * @param velocity
+     */
+    void setVelocity(Vector2 velocity);
+
+    /**
+     * Get the position of the game object
+     *
+     * @return the position
+     */
+    void setPosition(Vector2 pos);
+
+    Vector2 getPosition();
+
+    float getWidth();
 }

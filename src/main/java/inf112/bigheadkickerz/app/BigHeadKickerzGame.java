@@ -19,7 +19,7 @@ public class BigHeadKickerzGame extends Game {
     }
 
     /** Screen when game ends */
-    public void EndScreen() {
+    public void endScreen() {
         setScreen(new EndScreen(this));
     }
 }
