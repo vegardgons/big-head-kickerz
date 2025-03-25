@@ -9,7 +9,7 @@ public class Goal implements GameObject, Collideable {
 
     private Texture texture;
     private Vector2 pos;
-    private static final float WIDTH = 2f;
+    private static final float WIDTH = 1.6f;
     private static final float HEIGHT = 3f;
 
     public Goal(String texturePath, float x, float y, boolean rightGoal) {
@@ -46,7 +46,7 @@ public class Goal implements GameObject, Collideable {
 
     @Override
     public boolean collides(Collideable other) {
-        return true;
+        return false;
     }
 
     @Override

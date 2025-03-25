@@ -28,22 +28,4 @@ public interface GameObject {
      * @return the velocity
      */
     Vector2 getVelocity();
-
-    /**
-     * Set the speed of the game object in the x direction
-     *
-     * @param velocity
-     */
-    void setVelocity(Vector2 velocity);
-
-    /**
-     * Get the position of the game object
-     *
-     * @return the position
-     */
-    void setPosition(Vector2 pos);
-
-    Vector2 getPosition();
-
-    float getWidth();
 }

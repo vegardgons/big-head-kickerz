@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Ball implements GameObject, Collideable {
 
     private static final float BALL_SIZE = 0.6f;
-    private static final float WEIGHT = 1f;
+    private static final float WEIGHT = 0.5f;
     private static final float GRAVITY = -9.81f;
     private static final float BOUNCE_FACTOR = 0.7f;
 
@@ -30,12 +30,10 @@ public class Ball implements GameObject, Collideable {
     @Override
     public void update(Viewport viewport, float delta) {
         velocity.y += GRAVITY * delta;
+        velocity.x *= 0.98f;
         pos.add(velocity.x * delta, velocity.y * delta);
 
         boundaries(viewport, BOUNCE_FACTOR);
-
-        pos = new Vector2(pos.x, pos.y);
-        // System.out.println("Ball velocity: " + getVelocity());
     }
 
     @Override
@@ -84,12 +82,24 @@ public class Ball implements GameObject, Collideable {
 
     @Override
     public void collision(Collideable other) {
-
+        if (other instanceof Player) {
+            Player player = (Player) other;
+            player.collision(this);
+        }
     }
 
     @Override
     public boolean collides(Collideable other) {
-        return true;
+        Vector2 otherPos = other.getPosition();
+
+        // Simple rectangular collision detection
+        boolean xOverlap = pos.x < otherPos.x + other.getWidth() &&
+                pos.x + BALL_SIZE > otherPos.x;
+
+        boolean yOverlap = pos.y < otherPos.y + other.getWidth() &&
+                pos.y + BALL_SIZE > otherPos.y;
+
+        return xOverlap && yOverlap;
     }
 
     @Override
