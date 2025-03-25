@@ -17,7 +17,7 @@ public class Player implements GameObject, Collideable {
     private static final float GRAVITY = -9.81f;
     private static final float WIDTH = 1f;
     private static final float HEIGHT = 1.2f;
-    private static final float WEIGHT = 1f;
+    private static final float WEIGHT = 300;
 
     private Texture texture;
     private PlayerController playerController;
@@ -26,8 +26,7 @@ public class Player implements GameObject, Collideable {
     private Vector2 pos;
     private boolean player1;
 
-
-    //fields for kick animation
+    // fields for kick animation
     private boolean isKicking = false;
     private float kickStateTime = 0f;
     private Animation<TextureRegion> kickAnimation;
@@ -42,7 +41,6 @@ public class Player implements GameObject, Collideable {
         velocity = new Vector2(0, 0);
         playerController = new PlayerController(player1, this);
         this.player1 = player1;
-
     }
 
     /**
@@ -59,14 +57,12 @@ public class Player implements GameObject, Collideable {
     @Override
     public void update(Viewport viewport, float delta) {
 
-        playerController.movePlayer(viewport, delta);
         velocity.y += GRAVITY * delta;
-        // move();
+        Vector2 newVel = playerController.movePlayer(viewport, delta);
+        setVelocity(new Vector2(newVel));
         pos.add(velocity.x * delta, velocity.y * delta);
 
         boundaries(viewport);
-        // System.out.println("Player velocity: " + getVelocity());
-        // System.out.println("Player position: " + getPosition());
 
         if (isKicking) {
             kickStateTime += delta;
@@ -74,8 +70,6 @@ public class Player implements GameObject, Collideable {
                 isKicking = false;
             }
         }
-        
-
     }
 
     private void boundaries(Viewport viewport) {
@@ -98,21 +92,6 @@ public class Player implements GameObject, Collideable {
     }
 
     @Override
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
-    }
-
-    @Override
-    public void setPosition(Vector2 pos) {
-        this.pos = pos;
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        return pos;
-    }
-
-    @Override
     public void draw(SpriteBatch batch) {
         TextureRegion currentFrame;
         if (isKicking) {
@@ -124,13 +103,9 @@ public class Player implements GameObject, Collideable {
         batch.draw(currentFrame, pos.x, pos.y, WIDTH, HEIGHT);
     }
 
-    public void move() {
-        this.pos = new Vector2(pos.x + velocity.x, pos.y + velocity.y);
-    }
-
     /** Reset the player to their initial position */
     public void reset() {
-        setPosition(startPos);
+        setPosition(new Vector2(startPos));
         setVelocity(new Vector2(0, 0));
     }
 
@@ -152,22 +127,70 @@ public class Player implements GameObject, Collideable {
     }
 
     @Override
-    public float getWeight() {
-        return WEIGHT;
-    }
-
-    @Override
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    @Override
     public void collision(Collideable other) {
+        Vector2 x1 = this.getPosition();
+        Vector2 x2 = other.getPosition();
+
+        Vector2 v1 = this.getVelocity();
+        Vector2 v2 = other.getVelocity();
+
+        float m1 = this.getWeight();
+        float m2 = other.getWeight();
+
+        Vector2 collisionNormal = new Vector2(x1).sub(x2);
+        if (collisionNormal.len2() == 0)
+            return;
+
+        collisionNormal.nor();
+        float distanceSquared = collisionNormal.len2();
+        float dotProduct = v1.cpy().sub(v2).dot(collisionNormal);
+        float impulse = 2 * m2 / (m1 + m2);
+        float scale = impulse * dotProduct / distanceSquared;
+        
+        Vector2 collisionNormal2 = new Vector2(x2).sub(x1);
+        if (collisionNormal2.len2() == 0)
+        return;
+        
+        collisionNormal2.nor();
+        float distanceSquared2 = collisionNormal2.len2();
+        float dotProduct2 = v2.cpy().sub(v1).dot(collisionNormal2);
+        float impulse2 = 2 * m1 / (m1 + m2);
+        float scale2 = impulse2 * dotProduct2 / distanceSquared2;
+
+        this.setVelocity(v1.cpy().sub(collisionNormal.scl(scale)));
+        other.setVelocity(v2.cpy().sub(collisionNormal2.scl(scale2)));
     }
 
     @Override
     public boolean collides(Collideable other) {
-        return true;
+        Vector2 otherPos = other.getPosition();
+
+        // Rectangular collision detection
+        boolean xOverlap = pos.x < otherPos.x + other.getWidth() &&
+                pos.x + WIDTH > otherPos.x;
+
+        boolean yOverlap = pos.y < otherPos.y + other.getWidth() &&
+                pos.y + HEIGHT > otherPos.y;
+
+        if (other instanceof Goal) {
+            return xOverlap;
+        }
+        return xOverlap && yOverlap;
+    }
+
+    @Override
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public void setPosition(Vector2 pos) {
+        this.pos = pos;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return pos;
     }
 
     @Override
@@ -175,5 +198,14 @@ public class Player implements GameObject, Collideable {
         return WIDTH;
     }
 
-    
+    @Override
+    public float getWeight() {
+        return WEIGHT;
+    }
+
+    @Override
+    public Vector2 getVelocity() {
+        return velocity.cpy();
+    }
+
 }

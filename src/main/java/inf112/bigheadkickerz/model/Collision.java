@@ -13,6 +13,7 @@ public class Collision {
     }
 
     public void checkCollision() {
+
         for (ArrayList<Collideable> pair : collideablePairs) {
             Collideable collideable1 = pair.get(0);
             Collideable collideable2 = pair.get(1);
@@ -20,6 +21,7 @@ public class Collision {
                 collideable1.collision(collideable2);
             }
         }
+
     }
 
     private ArrayList<ArrayList<Collideable>> getCollideablePairs() {

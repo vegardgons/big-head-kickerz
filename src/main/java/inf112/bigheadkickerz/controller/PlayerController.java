@@ -31,10 +31,10 @@ public class PlayerController {
      * @param viewport The viewport for screen boundaries.
      * @param delta    Time since the last frame.
      */
-    public void movePlayer(Viewport viewport, float delta) {
+    public Vector2 movePlayer(Viewport viewport, float delta) {
         float currentVx = player.getVelocity().x;
         float currentVy = player.getVelocity().y;
-        if (player.getVelocity().y == 0) {
+        if (player.getPosition().y == 0) {
             isJumping = false;
         }
 
@@ -73,7 +73,7 @@ public class PlayerController {
                 player.kick();
             }
         }
-        player.setVelocity(new Vector2(currentVx, currentVy));
+        return new Vector2(currentVx, currentVy);
 
     }
 

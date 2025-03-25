@@ -78,21 +78,21 @@ public class GameModel implements ControllableGameModel {
             checkIfFinishedGame();
         }
 
+        collisionHandler.checkCollision();
         player1.update(viewport, delta);
         player2.update(viewport, delta);
         ball.update(viewport, delta);
-        collisionHandler.checkCollision();
         checkIfFinishedGame();
     }
 
     private void checkForGoal() {
         float rightGoalX = rightGoal.getPosition().x;
         float leftGoalX = leftGoal.getPosition().x;
-        if (ball.getPosition().x >= rightGoalX) {
+        if (ball.getPosition().x > rightGoalX) {
             player2Score++;
             isGoal = true;
             System.out.println("\nP2 scored!\n");
-        } else if (ball.getPosition().x <= leftGoalX) {
+        } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()) {
             player1Score++;
             isGoal = true;
             System.out.println("P1 scored!\n");
@@ -172,11 +172,12 @@ public class GameModel implements ControllableGameModel {
 
     private void initCollideables() {
         collideables = new ArrayList<>();
+
+        collideables.add(ball);
         collideables.add(player1);
         collideables.add(player2);
-        collideables.add(ball);
-        collideables.add(leftGoal);
-        collideables.add(rightGoal);
+        // collideables.add(leftGoal);
+        // collideables.add(rightGoal);
 
         // Initialize collision handler
         collisionHandler = new Collision(collideables);
@@ -193,17 +194,4 @@ public class GameModel implements ControllableGameModel {
         endTimer = 0;
         isEnd = false;
     }
-
-    // public Sprite getBallSprite() {
-    // return ball.getSprite();
-    // }
-
-    // public Sprite getPlayer1Sprite() {
-    // return player1.getSprite();
-    // }
-
-    // public Sprite getPlayer2Sprite() {
-    // return player2.getSprite();
-    // }
-
 }
