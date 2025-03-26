@@ -32,4 +32,13 @@ public class StartScreen extends AScreen {
         table.add(startButton).uniform().fill();
     }
 
+    @Override
+    public void show() {
+        Assets.playMenuMusic();
+    }
+
+    @Override
+    public void hide() {
+        Assets.stopMenuMusic();
+    }
 }

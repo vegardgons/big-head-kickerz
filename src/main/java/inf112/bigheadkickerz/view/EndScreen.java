@@ -44,4 +44,14 @@ public class EndScreen extends AScreen {
         table.add(exitButton).uniform().fill();
     }
 
+    @Override
+    public void show() {
+        Assets.playMenuMusic();
+    }
+
+    @Override
+    public void hide() {
+        Assets.stopMenuMusic();
+    }
+
 }

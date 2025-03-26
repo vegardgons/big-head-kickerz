@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
 import inf112.bigheadkickerz.controller.GameController;
+import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.ScoreBoard;
 
 /**
@@ -60,6 +61,7 @@ public class GameModel implements ControllableGameModel {
     /** Update game state */
     public void update(float delta) {
         if (isGoal) {
+            Assets.playGoalSound();
             goalTimer += delta;
             if (goalTimer >= GOAL_DELAY) {
                 isGoal = false;
