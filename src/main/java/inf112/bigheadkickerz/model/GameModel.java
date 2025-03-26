@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
 import inf112.bigheadkickerz.controller.GameController;
+import inf112.bigheadkickerz.view.ScoreBoard;
 
 /**
  * GameModel holds all game state and implements ControllableGameModel
@@ -24,6 +25,7 @@ public class GameModel implements ControllableGameModel {
     private Ball ball;
     private Goal leftGoal;
     private Goal rightGoal;
+    private ScoreBoard scoreBoard;
     private ArrayList<Collideable> collideables;
     private Collision collisionHandler;
 
@@ -79,39 +81,43 @@ public class GameModel implements ControllableGameModel {
         }
 
         collisionHandler.checkCollision();
-        player1.update(viewport, delta);
         player2.update(viewport, delta);
+        player1.update(viewport, delta);
         ball.update(viewport, delta);
+
         checkIfFinishedGame();
     }
 
     private void checkForGoal() {
         float rightGoalX = rightGoal.getPosition().x;
         float leftGoalX = leftGoal.getPosition().x;
-        if (ball.getPosition().x > rightGoalX) {
-            player2Score++;
-            isGoal = true;
-            System.out.println("\nP2 scored!\n");
-        } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()) {
+        if (ball.getPosition().x > rightGoalX && ball.getPosition().y < rightGoal.getHeight()) {
             player1Score++;
             isGoal = true;
-            System.out.println("P1 scored!\n");
+            System.out.println("\nP1 scored!\n");
+            System.out.println("P1: " + player1Score + "\nP2: " + player2Score + "\n");
+        } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()
+                && ball.getPosition().y < leftGoal.getHeight()) {
+            player2Score++;
+            isGoal = true;
+            System.out.println("P2 scored!\n");
+            System.out.println("P1: " + player1Score + "\nP2: " + player2Score + "\n");
         }
     }
 
     private void resetPositions() {
         ball.reset();
-        player1.reset();
         player2.reset();
+        player1.reset();
     }
 
     // Getters for game objects and viewport
-    public Player getPlayer1() {
-        return this.player1;
-    }
-
     public Player getPlayer2() {
         return this.player2;
+    }
+
+    public Player getPlayer1() {
+        return this.player1;
     }
 
     public Ball getBall() {
@@ -140,9 +146,13 @@ public class GameModel implements ControllableGameModel {
         return this.player2Score;
     }
 
+    public ScoreBoard getScoreBoard() {
+        return this.scoreBoard;
+    }
+
     @Override
     public void checkIfFinishedGame() {
-        if (player1Score >= 1 || player2Score >= 1) {
+        if (player1Score >= 2 || player2Score >= 2) {
             isEnd = true;
             System.out.println("Game over!");
             System.out.println("Final score:\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
@@ -155,13 +165,13 @@ public class GameModel implements ControllableGameModel {
         float ballY = viewport.getWorldHeight() / 2 + 1.5f;
         ball = new Ball("BallImage.png", ballX, ballY);
 
-        // Initialize players
-        float player1X = viewport.getWorldWidth() / 8 * 6.5f;
-        player1 = new Player("player_1.png", player1X, 0, true);
-
-        float playerWidth = player1.getWidth();
-        float player2X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
+        // Initialize players at opposite ends
+        float player2X = viewport.getWorldWidth() / 8 * 6.5f;
         player2 = new Player("player_2.png", player2X, 0, false);
+
+        float playerWidth = player2.getWidth();
+        float player1X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
+        player1 = new Player("player_1.png", player1X, 0, true);
 
         leftGoal = new Goal("GoalLeft.png", 0, 0, false);
 
@@ -174,8 +184,8 @@ public class GameModel implements ControllableGameModel {
         collideables = new ArrayList<>();
 
         collideables.add(ball);
-        collideables.add(player1);
         collideables.add(player2);
+        collideables.add(player1);
         // collideables.add(leftGoal);
         // collideables.add(rightGoal);
 
@@ -184,6 +194,7 @@ public class GameModel implements ControllableGameModel {
     }
 
     private void initScoreTracking() {
+        scoreBoard = new ScoreBoard();
         player1Score = 0;
         player2Score = 0;
         goalTimer = 0;
@@ -194,4 +205,5 @@ public class GameModel implements ControllableGameModel {
         endTimer = 0;
         isEnd = false;
     }
+
 }

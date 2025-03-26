@@ -1,8 +1,6 @@
 package inf112.bigheadkickerz.view;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -14,11 +12,9 @@ import inf112.bigheadkickerz.model.Player;
 /**
  * GameViewImpl is responsible for rendering all game objects
  */
-public class GameViewImpl implements GameView {
+public class GameViewImpl extends AScreen {
     private SpriteBatch spriteBatch;
     private Field field;
-    private Goal rightGoal;
-    private Goal leftGoal;
     private GameModel gameModel;
     private ScoreBoard scoreBoard;
 
@@ -31,8 +27,7 @@ public class GameViewImpl implements GameView {
 
         // Initialize field
         field = new Field("OldTrafford.png");
-
-        scoreBoard = new ScoreBoard();
+        scoreBoard = gameModel.getScoreBoard();
     }
 
     /**
@@ -40,18 +35,9 @@ public class GameViewImpl implements GameView {
      */
     public void render() {
         FitViewport viewport = gameModel.getViewport();
-
-        // Clear screen
-        ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-
-        // Draw game objects
         draw(spriteBatch, viewport);
-
-        scoreBoard.updateScores(gameModel.getPlayer1Score(), gameModel.getPlayer2Score());
-        float delta = com.badlogic.gdx.Gdx.graphics.getDeltaTime();
-        scoreBoard.render(delta);
 
     }
 
@@ -68,42 +54,25 @@ public class GameViewImpl implements GameView {
     public void dispose() {
         spriteBatch.dispose();
         scoreBoard.dispose();
-
+        field.dispose();
     }
 
-    @Override
     public void draw(SpriteBatch batch, Viewport viewport) {
-        Player player1 = gameModel.getPlayer1();
-        Player player2 = gameModel.getPlayer2();
+        Player player1 = gameModel.getPlayer2();
+        Player player2 = gameModel.getPlayer1();
         Ball ball = gameModel.getBall();
         Goal rightGoal = gameModel.getRightGoal();
         Goal leftGoal = gameModel.getLeftGoal();
 
-        spriteBatch.begin();
-        field.draw(spriteBatch, viewport);
-        player1.draw(spriteBatch);
-        player2.draw(spriteBatch);
-        ball.draw(spriteBatch);
-        rightGoal.draw(spriteBatch);
-        leftGoal.draw(spriteBatch);
-        spriteBatch.end();
+        batch.begin();
+        field.draw(batch, viewport);
+        player1.draw(batch);
+        player2.draw(batch);
+        ball.draw(batch);
+        leftGoal.draw(batch);
+        rightGoal.draw(batch);
+        batch.end();
+        scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score());
     }
 
-    /**
-     * Get right goal
-     * 
-     * @return right goal
-     */
-    public Goal getRightGoal() {
-        return rightGoal;
-    }
-
-    /**
-     * Get left goal
-     * 
-     * @return left goal
-     */
-    public Goal getLeftGoal() {
-        return leftGoal;
-    }
 }

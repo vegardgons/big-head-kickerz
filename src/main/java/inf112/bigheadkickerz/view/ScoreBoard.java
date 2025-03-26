@@ -13,19 +13,16 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  * using a custom font for better scaling
  */
 public class ScoreBoard {
-    private final SpriteBatch batch;
     private final BitmapFont font;
-    private int player1Score;
-    private int player2Score;
     private final GlyphLayout layout;
+    private SpriteBatch spriteBatch;
 
     /**
      * Constructor initializes rendering components with a custom font
      */
     public ScoreBoard() {
-        this.batch = new SpriteBatch();
         this.layout = new GlyphLayout();
-
+        this.spriteBatch = new SpriteBatch();
         // Generate a custom font using FreeType
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
                 Gdx.files.internal("fonts/Nasa21.ttf"));
@@ -36,26 +33,13 @@ public class ScoreBoard {
         parameter.borderColor = Color.BLACK;
         this.font = generator.generateFont(parameter);
         generator.dispose();
-
-        // Initialize scores
-        player1Score = 0;
-        player2Score = 0;
-    }
-
-    /**
-     * Update the current scores
-     */
-    public void updateScores(int player1Score, int player2Score) {
-        this.player1Score = player1Score;
-        this.player2Score = player2Score;
     }
 
     /**
      * Render the scoreboard
      */
-    public void render(float delta) {
-        // Prepare score text
-        String scoreText = player2Score + " - " + player1Score;
+    public void render(SpriteBatch batch, int player1Score, int player2Score) {
+        String scoreText = player1Score + " - " + player2Score;
 
         // Calculate text dimensions
         layout.setText(font, scoreText);
@@ -65,17 +49,15 @@ public class ScoreBoard {
         float x = (Gdx.graphics.getWidth() - textWidth) / 2;
         float y = Gdx.graphics.getHeight() - 20; // 20 pixels from the top
 
-        // Draw scoreboard
-        batch.begin();
-        font.draw(batch, scoreText, x, y);
-        batch.end();
+        spriteBatch.begin();
+        font.draw(spriteBatch, scoreText, x, y);
+        spriteBatch.end();
     }
 
     /**
      * Dispose resources
      */
     public void dispose() {
-        batch.dispose();
         font.dispose();
     }
 }
