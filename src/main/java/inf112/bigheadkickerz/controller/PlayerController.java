@@ -39,23 +39,6 @@ public class PlayerController {
         }
 
         if (player1) {
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                currentVx = MOVE_SPEED;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                currentVx = -MOVE_SPEED;
-            } else {
-                currentVx = 0;
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-                if (!isJumping) {
-                    currentVy = JUMP_SPEED;
-                    isJumping = true;
-                }
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-                player.kick();
-            }
-        } else {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 currentVx = MOVE_SPEED;
             } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -72,6 +55,24 @@ public class PlayerController {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 player.kick();
             }
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                currentVx = MOVE_SPEED;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                currentVx = -MOVE_SPEED;
+            } else {
+                currentVx = 0;
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                if (!isJumping) {
+                    currentVy = JUMP_SPEED;
+                    isJumping = true;
+                }
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+                player.kick();
+            }
+
         }
         return new Vector2(currentVx, currentVy);
 

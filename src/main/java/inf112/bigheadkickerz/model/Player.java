@@ -115,11 +115,9 @@ public class Player implements GameObject, Collideable {
 
         frames.sort((a, b) -> Integer.compare(a.index, b.index));
 
-        if (player1) {
+        if (!player1) {
             for (TextureAtlas.AtlasRegion region : frames) {
-                if (!region.isFlipX()) {
-                    region.flip(true, false);
-                }
+                region.flip(true, false);
             }
         }
         kickAnimation = new Animation<>(0.01f, frames);
@@ -146,11 +144,11 @@ public class Player implements GameObject, Collideable {
         float dotProduct = v1.cpy().sub(v2).dot(collisionNormal);
         float impulse = 2 * m2 / (m1 + m2);
         float scale = impulse * dotProduct / distanceSquared;
-        
+
         Vector2 collisionNormal2 = new Vector2(x2).sub(x1);
         if (collisionNormal2.len2() == 0)
-        return;
-        
+            return;
+
         collisionNormal2.nor();
         float distanceSquared2 = collisionNormal2.len2();
         float dotProduct2 = v2.cpy().sub(v1).dot(collisionNormal2);

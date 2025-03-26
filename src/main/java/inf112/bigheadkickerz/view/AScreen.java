@@ -37,8 +37,6 @@ public abstract class AScreen implements Screen {
         stage.addActor(table);
     }
 
-    protected abstract void setUpScreen();
-
     @Override
     public void show() {
     }

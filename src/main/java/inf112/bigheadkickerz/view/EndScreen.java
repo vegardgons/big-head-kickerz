@@ -19,7 +19,7 @@ public class EndScreen extends AScreen {
         setUpScreen();
     }
 
-    protected void setUpScreen() {
+    private void setUpScreen() {
         // Create Play Again Button
         playAgainButton = new TextButton("Play Again", skin);
         playAgainButton.addListener(new InputListener() {

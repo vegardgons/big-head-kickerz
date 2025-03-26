@@ -18,7 +18,7 @@ public class StartScreen extends AScreen {
 
     }
 
-    protected void setUpScreen() {
+    private void setUpScreen() {
         // Create Start Button
         startButton = new TextButton("Start Game", skin);
         startButton.addListener(new InputListener() {

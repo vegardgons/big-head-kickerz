@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
 public class Main {
+    public static final int WINDOW_WIDTH = 1350, WINDOW_HEIGHT = 720;
+
     public static void main(String[] args) {
         System.out.println("Big Head Kickerz!");
         if (SharedLibraryLoader.os == Os.MacOsX) {
@@ -15,7 +17,8 @@ public class Main {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         cfg.setForegroundFPS(60);
         cfg.setTitle("Big Head Kickerz!");
-        cfg.setWindowedMode(1500, 600);
+        cfg.setWindowedMode(WINDOW_WIDTH, WINDOW_HEIGHT);
+        cfg.setResizable(false);
         cfg.useVsync(true);
 
         new Lwjgl3Application(new BigHeadKickerzGame(), cfg);
