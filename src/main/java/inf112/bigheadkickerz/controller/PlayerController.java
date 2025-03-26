@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import inf112.bigheadkickerz.model.Player; // Import the Player class
 
 /** Class for controlling the player */
 public class PlayerController {
 
     private static final float MOVE_SPEED = 4f;
-    private static final float JUMP_SPEED = 4f;
+    private static final float JUMP_SPEED = 6f;
 
     private boolean isJumping;
     private boolean player1;
@@ -22,7 +23,7 @@ public class PlayerController {
      */
     public PlayerController(boolean player1, Player player) {
         this.player1 = player1;
-        this.player = player; // Assign the player so we can call kick()
+        this.player = player;
     }
 
     /**
@@ -34,6 +35,7 @@ public class PlayerController {
     public Vector2 movePlayer(Viewport viewport, float delta) {
         float currentVx = player.getVelocity().x;
         float currentVy = player.getVelocity().y;
+
         if (player.getPosition().y == 0) {
             isJumping = false;
         }

@@ -82,22 +82,47 @@ public class Ball implements GameObject, Collideable {
 
     @Override
     public void collision(Collideable other) {
-        if (other instanceof Player) {
-            Player player = (Player) other;
-            player.collision(this);
+        Vector2 otherPos = other.getPosition();
+        Vector2 normal = pos.cpy().sub(otherPos).nor(); // Normalized collision direction
+
+        // Basic elastic collision
+        float relativeVelocity = velocity.dot(normal) - other.getVelocity().dot(normal);
+        if (relativeVelocity > 0)
+            return; // Ignore separating objects
+
+        float impulse = (-relativeVelocity) / (1 / WEIGHT + 1 / other.getWeight());
+        Vector2 impulseVector = normal.scl(impulse);
+
+        boolean isPlayer = other instanceof Player;
+
+        if (isPlayer) {
+            Vector2 playerVelocity = other.getVelocity();
+
+            // Boost the ball more when hit by a player
+            Vector2 kickBoost = playerVelocity.cpy();
+            if (playerVelocity.len() > 0.3f) { // Lower threshold to avoid excessive boosts
+                kickBoost.y += 2f; // Lowered from 6f
+            }
+
+            // If the ball collides with both players at the same time, add an upward force
+
+            velocity.set(impulseVector.scl(1 / WEIGHT).add(kickBoost));
+        } else {
+            velocity.add(impulseVector.scl(1 / WEIGHT));
         }
+
+        // Apply opposite force to the other object
+        other.setVelocity(other.getVelocity().sub(impulseVector.scl(1 / other.getWeight())));
     }
 
     @Override
     public boolean collides(Collideable other) {
         Vector2 otherPos = other.getPosition();
+        float otherWidth = other.getWidth();
+        float otherHeight = other.getHeight();
 
-        // Simple rectangular collision detection
-        boolean xOverlap = pos.x < otherPos.x + other.getWidth() &&
-                pos.x + BALL_SIZE > otherPos.x;
-
-        boolean yOverlap = pos.y < otherPos.y + other.getWidth() &&
-                pos.y + BALL_SIZE > otherPos.y;
+        boolean xOverlap = pos.x + BALL_SIZE > otherPos.x && otherPos.x + otherWidth > pos.x;
+        boolean yOverlap = pos.y + BALL_SIZE > otherPos.y && otherPos.y + otherHeight > pos.y;
 
         return xOverlap && yOverlap;
     }
@@ -119,6 +144,11 @@ public class Ball implements GameObject, Collideable {
 
     @Override
     public float getWidth() {
+        return BALL_SIZE;
+    }
+
+    @Override
+    public float getHeight() {
         return BALL_SIZE;
     }
 }

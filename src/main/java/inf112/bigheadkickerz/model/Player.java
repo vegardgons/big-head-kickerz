@@ -126,49 +126,49 @@ public class Player implements GameObject, Collideable {
 
     @Override
     public void collision(Collideable other) {
-        Vector2 x1 = this.getPosition();
-        Vector2 x2 = other.getPosition();
+        if (other instanceof Ball) {
+            return; // Skip collision handling if it's with a Ball (if desired)
+        }
 
-        Vector2 v1 = this.getVelocity();
-        Vector2 v2 = other.getVelocity();
+        Vector2 otherPos = other.getPosition();
 
-        float m1 = this.getWeight();
-        float m2 = other.getWeight();
+        // Compute penetration depth
+        float xOverlap = Math.min(pos.x + WIDTH - otherPos.x, otherPos.x + other.getWidth() - pos.x);
+        float yOverlap = Math.min(pos.y + HEIGHT - otherPos.y, otherPos.y + HEIGHT - pos.y);
 
-        Vector2 collisionNormal = new Vector2(x1).sub(x2);
-        if (collisionNormal.len2() == 0)
-            return;
+        // Resolve based on the smaller penetration axis
+        if (xOverlap < yOverlap) {
+            if (pos.x < otherPos.x) {
+                setPosition(new Vector2(pos.x - xOverlap / 2, pos.y)); // Move left
+                other.setPosition(new Vector2(otherPos.x + xOverlap / 2, otherPos.y)); // Move right
+            } else {
+                setPosition(new Vector2(pos.x + xOverlap / 2, pos.y)); // Move right
+                other.setPosition(new Vector2(otherPos.x - xOverlap / 2, otherPos.y)); // Move left
+            }
+        } else {
+            if (pos.y < otherPos.y) {
+                other.setPosition(new Vector2(otherPos.x, otherPos.y + yOverlap / 2)); // Move up
+            } else {
+                setPosition(new Vector2(pos.x, pos.y + yOverlap / 2)); // Move up
+            }
+        }
 
-        collisionNormal.nor();
-        float distanceSquared = collisionNormal.len2();
-        float dotProduct = v1.cpy().sub(v2).dot(collisionNormal);
-        float impulse = 2 * m2 / (m1 + m2);
-        float scale = impulse * dotProduct / distanceSquared;
-
-        Vector2 collisionNormal2 = new Vector2(x2).sub(x1);
-        if (collisionNormal2.len2() == 0)
-            return;
-
-        collisionNormal2.nor();
-        float distanceSquared2 = collisionNormal2.len2();
-        float dotProduct2 = v2.cpy().sub(v1).dot(collisionNormal2);
-        float impulse2 = 2 * m1 / (m1 + m2);
-        float scale2 = impulse2 * dotProduct2 / distanceSquared2;
-
-        this.setVelocity(v1.cpy().sub(collisionNormal.scl(scale)));
-        other.setVelocity(v2.cpy().sub(collisionNormal2.scl(scale2)));
+        // Adjust velocities (simple elastic collision)
+        Vector2 tempVel = velocity.cpy();
+        velocity.set(other.getVelocity());
+        other.setVelocity(tempVel);
     }
 
     @Override
     public boolean collides(Collideable other) {
         Vector2 otherPos = other.getPosition();
+        float otherWidth = other.getWidth();
+        float otherHeight = other.getHeight();
 
         // Rectangular collision detection
-        boolean xOverlap = pos.x < otherPos.x + other.getWidth() &&
-                pos.x + WIDTH > otherPos.x;
+        boolean xOverlap = pos.x < otherPos.x + otherWidth && pos.x + WIDTH > otherPos.x;
 
-        boolean yOverlap = pos.y < otherPos.y + other.getWidth() &&
-                pos.y + HEIGHT > otherPos.y;
+        boolean yOverlap = pos.y < otherPos.y + otherHeight && pos.y + HEIGHT > otherPos.y;
 
         if (other instanceof Goal) {
             return xOverlap;
@@ -192,13 +192,18 @@ public class Player implements GameObject, Collideable {
     }
 
     @Override
+    public float getWeight() {
+        return WEIGHT;
+    }
+
+    @Override
     public float getWidth() {
         return WIDTH;
     }
 
     @Override
-    public float getWeight() {
-        return WEIGHT;
+    public float getHeight() {
+        return HEIGHT;
     }
 
     @Override

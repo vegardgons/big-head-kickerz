@@ -1,7 +1,6 @@
 package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /** Interface for game objects */
@@ -22,10 +21,4 @@ public interface GameObject {
      */
     void draw(SpriteBatch batch);
 
-    /**
-     * Get the speed of the game object
-     *
-     * @return the velocity
-     */
-    Vector2 getVelocity();
 }
