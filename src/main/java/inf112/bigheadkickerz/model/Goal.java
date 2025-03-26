@@ -17,14 +17,17 @@ public class Goal implements GameObject, Collideable {
         pos = new Vector2(x, y);
     }
 
+    @Override
     public void draw(SpriteBatch batch) {
         batch.draw(texture, pos.x, pos.y, WIDTH, HEIGHT);
     }
 
+    @Override
     public float getWidth() {
         return WIDTH;
     }
 
+    @Override
     public float getHeight() {
         return HEIGHT;
     }

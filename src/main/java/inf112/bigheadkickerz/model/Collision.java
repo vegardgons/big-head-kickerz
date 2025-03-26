@@ -19,6 +19,7 @@ public class Collision {
             Collideable collideable2 = pair.get(1);
             if (collideable1.collides(collideable2)) {
                 collideable1.collision(collideable2);
+                collideable2.collision(collideable1);
             }
         }
 

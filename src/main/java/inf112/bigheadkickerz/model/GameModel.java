@@ -80,11 +80,10 @@ public class GameModel implements ControllableGameModel {
             checkIfFinishedGame();
         }
 
-        collisionHandler.checkCollision();
         player2.update(viewport, delta);
         player1.update(viewport, delta);
         ball.update(viewport, delta);
-
+        collisionHandler.checkCollision();
         checkIfFinishedGame();
     }
 

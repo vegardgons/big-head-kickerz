@@ -8,6 +8,8 @@ public interface Collideable {
 
     float getWidth();
 
+    float getHeight();
+
     Vector2 getVelocity();
 
     Vector2 getPosition();
