@@ -73,7 +73,6 @@ public class GameModel implements ControllableGameModel {
     /** Update game state */
     public void update(float delta) {
         if (isGoal) {
-            Assets.playGoalSound();
         }
         if (gameState == GameState.TIMED) {
 
@@ -95,7 +94,6 @@ public class GameModel implements ControllableGameModel {
             if (!isGoal) {
                 checkForGoal();
             } else {
-                Assets.playGoalSound();
                 goalTimer += delta;
                 if (goalTimer >= GOAL_DELAY) {
                     isGoal = false;
@@ -125,12 +123,14 @@ public class GameModel implements ControllableGameModel {
         if (ball.getPosition().x > rightGoalX && ball.getPosition().y < rightGoal.getHeight()) {
             player1Score++;
             isGoal = true;
+            Assets.playGoalSound();
             System.out.println("\nP1 scored!\n");
             System.out.println("P1: " + player1Score + "\nP2: " + player2Score + "\n");
         } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()
                 && ball.getPosition().y < leftGoal.getHeight()) {
             player2Score++;
             isGoal = true;
+            Assets.playGoalSound();
             System.out.println("P2 scored!\n");
             System.out.println("P1: " + player1Score + "\nP2: " + player2Score + "\n");
         }
