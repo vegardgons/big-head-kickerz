@@ -3,14 +3,15 @@ package inf112.bigheadkickerz.controller;
 import com.badlogic.gdx.Screen;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.model.GameModel;
+import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.view.GameViewImpl;
 
 public class GameController implements Screen {
     private final GameModel gameModel;
     private final GameViewImpl gameView;
 
-    public GameController(BigHeadKickerzGame game) {
-        this.gameModel = new GameModel(game, this);
+    public GameController(BigHeadKickerzGame game, GameState gameState) {
+        this.gameModel = new GameModel(game, this, gameState);
         this.gameView = new GameViewImpl(gameModel);
     }
 

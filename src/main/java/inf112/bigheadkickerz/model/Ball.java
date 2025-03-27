@@ -65,7 +65,8 @@ public class Ball implements GameObject, Collideable {
      */
     public void reset() {
         // Reset position to initial values
-        setPosition(startPos);
+        setPosition(new Vector2(startPos));
+
         // Reset velocity to zero
         setVelocity(new Vector2(0, 0));
     }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.GameModel;
+import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.model.Goal;
 import inf112.bigheadkickerz.model.Player;
 
@@ -72,7 +73,13 @@ public class GameViewImpl extends AScreen {
         leftGoal.draw(batch);
         rightGoal.draw(batch);
         batch.end();
-        scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score());
+        if (gameModel.getGameState() == GameState.TIMED) {
+            scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score(),
+                    gameModel.getRemainingTime());
+        } else if (gameModel.getGameState() == GameState.FIRST_TO_SEVEN) {
+            scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score(), 0);
+        }
+
     }
 
 }

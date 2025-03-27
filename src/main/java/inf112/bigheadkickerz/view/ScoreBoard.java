@@ -38,8 +38,14 @@ public class ScoreBoard {
     /**
      * Render the scoreboard
      */
-    public void render(SpriteBatch batch, int player1Score, int player2Score) {
-        String scoreText = player1Score + " - " + player2Score;
+    public void render(SpriteBatch batch, int player1Score, int player2Score, float remainingTime) {
+        String scoreText;
+
+        if (remainingTime == 0) {
+            scoreText = player1Score + " - " + player2Score;
+        } else {
+            scoreText = player1Score + " - " + player2Score + "   Time: " + (int) remainingTime;
+        }
 
         // Calculate text dimensions
         layout.setText(font, scoreText);

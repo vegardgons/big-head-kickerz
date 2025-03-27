@@ -34,59 +34,89 @@ public class GameModel implements ControllableGameModel {
     private int player1Score;
     private int player2Score;
     private float goalTimer;
-    private static final float GOAL_DELAY = 3f;
+    private static final float GOAL_DELAY = 2f;
     private boolean isGoal;
 
     // End screen
     private float endTimer;
-    private static final float END_DELAY = 3f;
+    private static final float END_DELAY = 2f;
     private boolean isEnd;
 
     // Viewport for game boundaries
     private FitViewport viewport;
 
+    private GameState gameState;
+    private float gameTime; // Total tid i timed mode (sekunder)
+    private static final float DEFAULT_GAME_TIME = 60f; // f.eks. 60 sekunder
+    private int goalThreshold; // For first-to-seven mode, threshold = 7
+
     /**
      * Constructor initializes game objects and viewport
      */
-    public GameModel(BigHeadKickerzGame game, GameController controller) {
+    public GameModel(BigHeadKickerzGame game, GameController controller, GameState gameState) {
         this.game = game;
-        viewport = new FitViewport(WIDTH, HEIGHT);
+        this.gameState = gameState;
+        this.viewport = new FitViewport(WIDTH, HEIGHT);
 
         initGameObjects();
         initCollideables();
         initScoreTracking();
         initEndScreenTimer();
+
+        if (gameState == GameState.TIMED) {
+            gameTime = DEFAULT_GAME_TIME;
+        } else if (gameState == GameState.FIRST_TO_SEVEN) {
+            goalThreshold = 7;
+        }
     }
 
     /** Update game state */
     public void update(float delta) {
         if (isGoal) {
             Assets.playGoalSound();
-            goalTimer += delta;
-            if (goalTimer >= GOAL_DELAY) {
-                isGoal = false;
-                goalTimer = 0;
-                resetPositions();
+        }
+        if (gameState == GameState.TIMED) {
+
+            gameTime -= delta;
+            if (gameTime <= 0) {
+                isEnd = true;
+                System.out.println("Game over!" + "\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
             }
-        } else {
-            checkForGoal();
+        } else if (gameState == GameState.FIRST_TO_SEVEN) {
+
+            if (player1Score >= goalThreshold || player2Score >= goalThreshold) {
+                isEnd = true;
+                System.out.println("Game over!" + "\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
+            }
         }
 
-        if (isEnd) {
+        // Vanlig oppdatering av mål og slutt-sjekk
+        if (!isEnd) {
+            if (!isGoal) {
+                checkForGoal();
+            } else {
+                Assets.playGoalSound();
+                goalTimer += delta;
+                if (goalTimer >= GOAL_DELAY) {
+                    isGoal = false;
+                    goalTimer = 0;
+                    resetPositions();
+                }
+            }
+        } else {
+            gameTime = 0;
             endTimer += delta;
             if (endTimer >= END_DELAY) {
                 game.endScreen();
                 endTimer = 0;
             }
-        } else {
-            checkIfFinishedGame();
         }
 
+        // Oppdater spillobjekter og kollisjoner
         player2.update(viewport, delta);
         player1.update(viewport, delta);
         ball.update(viewport, delta);
         collisionHandler.checkCollision();
-        checkIfFinishedGame();
     }
 
     private void checkForGoal() {
@@ -151,15 +181,6 @@ public class GameModel implements ControllableGameModel {
         return this.scoreBoard;
     }
 
-    @Override
-    public void checkIfFinishedGame() {
-        if (player1Score >= 2 || player2Score >= 2) {
-            isEnd = true;
-            System.out.println("Game over!");
-            System.out.println("Final score:\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
-        }
-    }
-
     private void initGameObjects() {
         // Initialize ball at center
         float ballX = viewport.getWorldWidth() / 2;
@@ -205,6 +226,15 @@ public class GameModel implements ControllableGameModel {
     private void initEndScreenTimer() {
         endTimer = 0;
         isEnd = false;
+    }
+
+    @Override
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+    public float getRemainingTime() {
+        return gameTime;
     }
 
 }
