@@ -24,8 +24,7 @@ public class EndScreen extends AScreen {
         playAgainButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.create();
-                ;
+                game.setScreen(new StartScreen(game));
             }
         });
 
