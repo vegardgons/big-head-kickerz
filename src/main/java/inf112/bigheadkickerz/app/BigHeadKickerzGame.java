@@ -6,6 +6,7 @@ import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.EndScreen;
 import inf112.bigheadkickerz.view.StartScreen;
 import inf112.bigheadkickerz.controller.GameController;
+import inf112.bigheadkickerz.model.GameState;
 
 public class BigHeadKickerzGame extends Game {
 
@@ -15,10 +16,16 @@ public class BigHeadKickerzGame extends Game {
         setScreen(new StartScreen(this));
     }
 
-    /** Starts the game */
-    public void startGame() {
+    /** Starts timed mode */
+    public void startTimedMode() {
         Assets.playStartWhistle();
-        setScreen(new GameController(this));
+        setScreen(new GameController(this, GameState.TIMED));
+    }
+
+    /** Starts first to seven mode */
+    public void startFirstToSevenMode() {
+        Assets.playStartWhistle();
+        setScreen(new GameController(this, GameState.FIRST_TO_SEVEN));
     }
 
     /** Screen when game ends */

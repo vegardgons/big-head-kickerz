@@ -1,15 +1,16 @@
 package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 
 public class StartScreen extends AScreen {
 
     private BigHeadKickerzGame game;
-    private TextButton startButton;
+    private TextButton timedButton;
+    private TextButton firstToSevenButton;
 
     public StartScreen(BigHeadKickerzGame game) {
         super();
@@ -20,16 +21,34 @@ public class StartScreen extends AScreen {
 
     private void setUpScreen() {
         // Create Start Button
-        startButton = new TextButton("Start Game", skin);
-        startButton.addListener(new InputListener() {
+        createTimedButton();
+        createFirstToSevenButton();
+        // Create Change PlayType Button: "First To Seven", "Timed"
+
+        // Create Change PlayerType Button: "Human", "AI"
+
+    }
+
+    private void createTimedButton() {
+        timedButton = new TextButton("Timed", skin);
+        timedButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.startGame();
-                return true;
+            public void clicked(InputEvent event, float x, float y) {
+                game.startTimedMode();
             }
         });
+        table.add(timedButton).uniform().fill();
+    }
 
-        table.add(startButton).uniform().fill();
+    private void createFirstToSevenButton() {
+        firstToSevenButton = new TextButton("First To Seven", skin);
+        firstToSevenButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.startFirstToSevenMode();
+            }
+        });
+        table.add(firstToSevenButton).uniform().fill();
     }
 
     @Override

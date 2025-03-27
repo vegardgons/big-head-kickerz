@@ -2,8 +2,8 @@ package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 
@@ -20,23 +20,21 @@ public class EndScreen extends AScreen {
     }
 
     private void setUpScreen() {
-        // Create Play Again Button
         playAgainButton = new TextButton("Play Again", skin);
-        playAgainButton.addListener(new InputListener() {
+        playAgainButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.startGame();
-                return true;
+            public void clicked(InputEvent event, float x, float y) {
+                game.create();
+                ;
             }
         });
 
         // Create Exit Button
         exitButton = new TextButton("Exit", skin);
-        exitButton.addListener(new InputListener() {
+        exitButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
-                return true;
             }
         });
 
