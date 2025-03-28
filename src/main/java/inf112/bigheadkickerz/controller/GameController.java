@@ -1,9 +1,12 @@
 package inf112.bigheadkickerz.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.model.GameModel;
 import inf112.bigheadkickerz.model.GameState;
+import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.GameViewImpl;
 
 public class GameController implements Screen {
@@ -21,8 +24,20 @@ public class GameController implements Screen {
 
     @Override
     public void render(float delta) {
-        gameModel.update(delta);
-        gameView.render();
+        if (gameModel.isShowControls()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                gameModel.dismissControls();
+                Assets.playStartWhistle();
+            }
+            // Draw the overlay on top of the game screen
+            gameView.render(); // It will draw the world…
+            // And then you might call your controls overlay drawing here:
+            gameView.drawControlsOverlay(); // A new method in GameViewImpl that uses your ControlsOverlay
+        } else {
+            gameModel.update(delta);
+            gameView.render();
+        }
+
     }
 
     @Override

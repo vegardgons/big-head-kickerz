@@ -18,13 +18,11 @@ public class BigHeadKickerzGame extends Game {
 
     /** Starts timed mode */
     public void startTimedMode() {
-        Assets.playStartWhistle();
         setScreen(new GameController(this, GameState.TIMED));
     }
 
     /** Starts first to seven mode */
     public void startFirstToSevenMode() {
-        Assets.playStartWhistle();
         setScreen(new GameController(this, GameState.FIRST_TO_SEVEN));
     }
 

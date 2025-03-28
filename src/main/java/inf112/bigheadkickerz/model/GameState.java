@@ -1,5 +1,5 @@
 package inf112.bigheadkickerz.model;
 
 public enum GameState {
-    MENU, TIMED, FIRST_TO_SEVEN, END
+    MENU, CONTROLS, TIMED, FIRST_TO_SEVEN, END
 }

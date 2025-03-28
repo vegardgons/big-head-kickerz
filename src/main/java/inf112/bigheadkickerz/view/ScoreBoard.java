@@ -36,27 +36,46 @@ public class ScoreBoard {
     }
 
     /**
-     * Render the scoreboard
+     * Draw player1 score
      */
-    public void render(SpriteBatch batch, int player1Score, int player2Score, float remainingTime) {
-        String scoreText;
+    public void drawPlayer1Score(int player1Score) {
+        String score = String.valueOf(player1Score);
+        layout.setText(font, score);
 
-        if (remainingTime == 0) {
-            scoreText = player1Score + " - " + player2Score;
-        } else {
-            scoreText = player1Score + " - " + player2Score + "   Time: " + (int) remainingTime;
-        }
-
-        // Calculate text dimensions
-        layout.setText(font, scoreText);
-        float textWidth = layout.width;
-
-        // Position text at the top center of the screen
-        float x = (Gdx.graphics.getWidth() - textWidth) / 2;
+        float x = 20;
         float y = Gdx.graphics.getHeight() - 20; // 20 pixels from the top
 
         spriteBatch.begin();
-        font.draw(spriteBatch, scoreText, x, y);
+        font.draw(spriteBatch, score, x, y);
+        spriteBatch.end();
+    }
+
+    /**
+     * Draw player2 score
+     */
+    public void drawPlayer2Score(int player2Score) {
+        String score = String.valueOf(player2Score);
+        layout.setText(font, score);
+        float textWidth = layout.width;
+
+        float x = (Gdx.graphics.getWidth() - textWidth) - 20;
+        float y = Gdx.graphics.getHeight() - 20;
+
+        spriteBatch.begin();
+        font.draw(spriteBatch, score, x, y);
+        spriteBatch.end();
+    }
+
+    public void drawTimer(float remainingTime) {
+        String time = String.valueOf((int) remainingTime);
+        layout.setText(font, time);
+        float textWidth = layout.width;
+
+        float x = (Gdx.graphics.getWidth() - textWidth) / 2;
+        float y = Gdx.graphics.getHeight() - 20;
+
+        spriteBatch.begin();
+        font.draw(spriteBatch, time, x, y);
         spriteBatch.end();
     }
 
@@ -65,5 +84,6 @@ public class ScoreBoard {
      */
     public void dispose() {
         font.dispose();
+        spriteBatch.dispose();
     }
 }

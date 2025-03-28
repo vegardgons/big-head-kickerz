@@ -18,6 +18,7 @@ public class GameViewImpl extends AScreen {
     private Field field;
     private GameModel gameModel;
     private ScoreBoard scoreBoard;
+    private ControlsOverlay controlsOverlay;
 
     /**
      * Constructor initializes rendering components
@@ -29,6 +30,7 @@ public class GameViewImpl extends AScreen {
         // Initialize field
         field = new Field("OldTrafford.png");
         scoreBoard = gameModel.getScoreBoard();
+        controlsOverlay = new ControlsOverlay();
     }
 
     /**
@@ -75,17 +77,17 @@ public class GameViewImpl extends AScreen {
         if (gameModel.getCurrentPowerup() != null) {
             gameModel.getCurrentPowerup().draw(batch);
         }
-        
+
         batch.end();
         if (gameModel.getGameState() == GameState.TIMED) {
-            scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score(),
-                    gameModel.getRemainingTime());
-        } else if (gameModel.getGameState() == GameState.FIRST_TO_SEVEN) {
-            scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score(), 0);
+            scoreBoard.drawTimer(gameModel.getRemainingTime());
         }
+        scoreBoard.drawPlayer1Score(gameModel.getPlayer1Score());
+        scoreBoard.drawPlayer2Score(gameModel.getPlayer2Score());
+    }
 
-       
-
+    public void drawControlsOverlay() {
+        controlsOverlay.draw();
     }
 
 }
