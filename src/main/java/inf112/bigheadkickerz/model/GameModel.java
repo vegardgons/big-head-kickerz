@@ -48,6 +48,8 @@ public class GameModel implements ControllableGameModel {
     private static final float GOAL_DELAY = 2f;
     private boolean isGoal;
 
+    private boolean showControls = true; // Always start by showing controls
+
     // End screen
     private float endTimer;
     private static final float END_DELAY = 2f;
@@ -83,6 +85,10 @@ public class GameModel implements ControllableGameModel {
 
     /** Update game state */
     public void update(float delta) {
+        if (showControls) {
+            return;
+        }
+
         if (isGoal) {
         }
         if (gameState == GameState.TIMED) {
@@ -130,6 +136,14 @@ public class GameModel implements ControllableGameModel {
         
         // Update active powerups (their durations, etc.)
         PowerupManager.getInstance().update(delta);
+    }
+
+    public boolean isShowControls() {
+        return showControls;
+    }
+
+    public void dismissControls() {
+        showControls = false;
     }
 
     private void checkForGoal() {
