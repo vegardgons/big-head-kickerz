@@ -10,13 +10,16 @@ public class Ball implements GameObject, Collideable {
 
     private static final float BALL_SIZE = 0.6f;
     private static final float WEIGHT = 0.5f;
-    private static final float GRAVITY = -9.81f;
     private static final float BOUNCE_FACTOR = 0.7f;
+    private float gravity = -9.81f;
+
 
     private Vector2 startPos;
     private Vector2 pos;
     private Vector2 velocity;
     private Texture texture;
+
+
 
     /** Constructor for Ball */
     public Ball(String texturePath, float startX, float startY) {
@@ -29,7 +32,7 @@ public class Ball implements GameObject, Collideable {
 
     @Override
     public void update(Viewport viewport, float delta) {
-        velocity.y += GRAVITY * delta;
+        velocity.y += gravity * delta;
         velocity.x *= 0.98f;
         pos.add(velocity.x * delta, velocity.y * delta);
 
@@ -110,7 +113,7 @@ public class Ball implements GameObject, Collideable {
                 Vector2 facing = playerVelocity.cpy().nor();
                 float dot = facing.dot(normal);
                 if (dot > 0.7f) {
-                    Vector2 extraBoost = facing.scl(40f); // Adjust boost magnitude as needed
+                    Vector2 extraBoost = facing.scl(player.getKickPower()); // Adjust boost magnitude as needed
                     kickBoost.add(extraBoost);
                 }
         }
@@ -161,4 +164,12 @@ public class Ball implements GameObject, Collideable {
     public float getHeight() {
         return BALL_SIZE;
     }
+
+    public float getGravity() {
+        return gravity;
+    }
+
+    public float setGravity(float gravity) {
+        return this.gravity = gravity;
+    }   
 }

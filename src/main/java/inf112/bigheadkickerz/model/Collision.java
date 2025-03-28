@@ -13,17 +13,21 @@ public class Collision {
     }
 
     public void checkCollision() {
-
-        for (ArrayList<Collideable> pair : collideablePairs) {
-            Collideable collideable1 = pair.get(0);
-            Collideable collideable2 = pair.get(1);
-            if (collideable1.collides(collideable2)) {
-                collideable1.collision(collideable2);
-                collideable2.collision(collideable1);
+        for (int i = 0; i < collideables.size(); i++) {
+            for (int j = i + 1; j < collideables.size(); j++) {
+                Collideable a = collideables.get(i);
+                Collideable b = collideables.get(j);
+                // Debug print: show which objects are being checked
+                System.out.println("Checking collision: " + a + " vs " + b);
+                if (a.collides(b)) {
+                    System.out.println("Collision detected between: " + a + " and " + b);
+                    a.collision(b);
+                    b.collision(a);
+                }
             }
         }
-
     }
+    
 
     private ArrayList<ArrayList<Collideable>> getCollideablePairs() {
         ArrayList<ArrayList<Collideable>> pairs = new ArrayList<>();

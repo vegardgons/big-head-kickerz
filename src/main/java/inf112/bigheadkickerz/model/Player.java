@@ -12,12 +12,16 @@ import inf112.bigheadkickerz.controller.PlayerController;
 import com.badlogic.gdx.utils.Array;
 
 /** Class for the player object */
-public class Player implements GameObject, Collideable {
+public class Player implements GameObject, Collideable, IPowerup {
 
-    private static final float GRAVITY = -9.81f;
-    private static final float WIDTH = 1f;
-    private static final float HEIGHT = 1.2f;
     private static final float WEIGHT = 300;
+    private float WIDTH = 1f;
+    private float HEIGHT = 1.2f;
+    private float gravity = -9.81f;
+    private float movementSpeed = 4f;
+    private float jumpHeight = 6f;
+    private float kickPower = 4f;
+
 
     private Texture texture;
     private PlayerController playerController;
@@ -57,7 +61,7 @@ public class Player implements GameObject, Collideable {
     @Override
     public void update(Viewport viewport, float delta) {
 
-        velocity.y += GRAVITY * delta;
+        velocity.y += gravity * delta;
         Vector2 newVel = playerController.movePlayer(viewport, delta);
         setVelocity(new Vector2(newVel));
         pos.add(velocity.x * delta, velocity.y * delta);
@@ -213,6 +217,56 @@ public class Player implements GameObject, Collideable {
 
     public boolean isKicking() {
         return isKicking;
+    }
+
+    @Override
+    public float getGravity() {
+        return gravity;
+    }
+    
+    @Override
+    public float setGravity(float gravity) {
+        return this.gravity = gravity;
+    }   
+    
+    @Override
+    public float setHeight(float height) {
+        return this.HEIGHT = height;
+    }
+
+    @Override
+    public float setWidth(float width) {
+        return this.WIDTH = width;
+    }
+
+    @Override
+    public float getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    @Override
+    public float setMovementSpeed(float movementSpeed) {
+        return this.movementSpeed = movementSpeed;
+    }
+
+    @Override
+    public float getJumpHeight() {
+        return jumpHeight;
+    }
+
+    @Override
+    public float setJumpHeight(float jumpHeight) {
+        return this.jumpHeight = jumpHeight;
+    }
+
+    @Override
+    public float getKickPower() {
+        return kickPower;
+    }
+
+    @Override
+    public float setKickPower(float kickPower) {
+        return this.kickPower = kickPower;
     }
 
 }

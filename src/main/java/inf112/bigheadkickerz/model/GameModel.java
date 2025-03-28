@@ -2,13 +2,18 @@ package inf112.bigheadkickerz.model;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
 import inf112.bigheadkickerz.controller.GameController;
+import inf112.bigheadkickerz.model.powerups.Powerup;
+import inf112.bigheadkickerz.model.powerups.PowerupFactory;
+import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.ScoreBoard;
+import inf112.bigheadkickerz.model.powerups.PowerupManager;
 
 /**
  * GameModel holds all game state and implements ControllableGameModel
@@ -18,6 +23,12 @@ public class GameModel implements ControllableGameModel {
     // Game dimensions
     private static final float WIDTH = 15;
     private static final float HEIGHT = 8;
+
+
+    // Powerup variables
+    private PowerupPickup currentPowerup;
+    private float powerupSpawnTimer = 0f;
+    private float nextSpawnDelay = 2f;
 
     // Game objects
     private BigHeadKickerzGame game;
@@ -46,8 +57,8 @@ public class GameModel implements ControllableGameModel {
     private FitViewport viewport;
 
     private GameState gameState;
-    private float gameTime; // Total tid i timed mode (sekunder)
-    private static final float DEFAULT_GAME_TIME = 60f; // f.eks. 60 sekunder
+    private float gameTime; // Total time in timed mode (seconds)
+    private static final float DEFAULT_GAME_TIME = 60f; // e.g., 60 seconds
     private int goalThreshold; // For first-to-seven mode, threshold = 7
 
     /**
@@ -75,21 +86,19 @@ public class GameModel implements ControllableGameModel {
         if (isGoal) {
         }
         if (gameState == GameState.TIMED) {
-
             gameTime -= delta;
             if (gameTime <= 0) {
                 isEnd = true;
                 System.out.println("Game over!" + "\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
             }
         } else if (gameState == GameState.FIRST_TO_SEVEN) {
-
             if (player1Score >= goalThreshold || player2Score >= goalThreshold) {
                 isEnd = true;
                 System.out.println("Game over!" + "\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
             }
         }
 
-        // Vanlig oppdatering av mål og slutt-sjekk
+        // Normal goal and end-screen update
         if (!isEnd) {
             if (!isGoal) {
                 checkForGoal();
@@ -110,11 +119,17 @@ public class GameModel implements ControllableGameModel {
             }
         }
 
-        // Oppdater spillobjekter og kollisjoner
+        // Update game objects and collisions
         player2.update(viewport, delta);
         player1.update(viewport, delta);
         ball.update(viewport, delta);
         collisionHandler.checkCollision();
+
+        // Update powerup spawning (only one active at a time)
+        updatePowerupSpawning(delta);
+        
+        // Update active powerups (their durations, etc.)
+        PowerupManager.getInstance().update(delta);
     }
 
     private void checkForGoal() {
@@ -199,15 +214,14 @@ public class GameModel implements ControllableGameModel {
 
         float rightGoalX = viewport.getWorldWidth() - leftGoal.getWidth();
         rightGoal = new Goal("GoalRight.png", rightGoalX, 0, true);
-
     }
 
     private void initCollideables() {
         collideables = new ArrayList<>();
-
         collideables.add(ball);
         collideables.add(player2);
         collideables.add(player1);
+        // Optionally add goals if needed:
         // collideables.add(leftGoal);
         // collideables.add(rightGoal);
 
@@ -236,5 +250,49 @@ public class GameModel implements ControllableGameModel {
     public float getRemainingTime() {
         return gameTime;
     }
+    
+    // ----------- Powerup Spawning Logic ---------------
+    // Only one powerup on screen at a time.
+    // There must be at least 5 seconds before spawning a new powerup after the last one disappears,
+    // and a new powerup should spawn within 10 seconds.
+    
+    
+    private float getRandomSpawnDelay() {
+        // Delay between 5 and 10 seconds
+        return 2f + (float)Math.random() * 5f;
+    }
+    
+    private void updatePowerupSpawning(float delta) {
+        if (currentPowerup == null) {
+            powerupSpawnTimer += delta;
+            if (powerupSpawnTimer >= nextSpawnDelay) {
+                spawnPowerup();
+                powerupSpawnTimer = 0f;
+                nextSpawnDelay = getRandomSpawnDelay();
+            }
+        } else {
+            // If the powerup is active, check if it's been collected.
+            if (currentPowerup.isCollected()) {
+                collideables.remove(currentPowerup);
+                currentPowerup = null;
+                powerupSpawnTimer = 0f;
+                nextSpawnDelay = getRandomSpawnDelay();
+            }
+        }
+    }
+    
+    private void spawnPowerup() {
+        Powerup randomPowerup = PowerupFactory.getRandomPowerup();
+        float spawnX = (float)Math.random() * viewport.getWorldWidth()-1f;
+        float spawnY = (float)Math.random() * viewport.getWorldHeight()/4;
+        currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), "Powerup.png", 1f);
+        collideables.add(currentPowerup);
+        System.out.println("Spawned powerup at " + currentPowerup.getPosition());
 
+    }
+
+    public PowerupPickup getCurrentPowerup() {
+        return currentPowerup;
+    }
+    
 }
