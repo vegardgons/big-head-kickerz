@@ -120,7 +120,7 @@ public class Player implements GameObject, Collideable {
                 region.flip(true, false);
             }
         }
-        kickAnimation = new Animation<>(0.01f, frames);
+        kickAnimation = new Animation<>(0.015f, frames);
         kickAnimation.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
@@ -209,6 +209,10 @@ public class Player implements GameObject, Collideable {
     @Override
     public Vector2 getVelocity() {
         return velocity.cpy();
+    }
+
+    public boolean isKicking() {
+        return isKicking;
     }
 
 }

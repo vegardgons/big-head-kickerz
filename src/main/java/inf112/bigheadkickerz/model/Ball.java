@@ -104,7 +104,16 @@ public class Ball implements GameObject, Collideable {
             if (playerVelocity.len() > 0.3f) { // Lower threshold to avoid excessive boosts
                 kickBoost.y += 2f; // Lowered from 6f
             }
-
+                // Extra boost if the player is kicking
+            Player player = (Player) other;
+            if (player.isKicking() && playerVelocity.len() > 0.1f) {
+                Vector2 facing = playerVelocity.cpy().nor();
+                float dot = facing.dot(normal);
+                if (dot > 0.7f) {
+                    Vector2 extraBoost = facing.scl(40f); // Adjust boost magnitude as needed
+                    kickBoost.add(extraBoost);
+                }
+        }
             // If the ball collides with both players at the same time, add an upward force
 
             velocity.set(impulseVector.scl(1 / WEIGHT).add(kickBoost));
