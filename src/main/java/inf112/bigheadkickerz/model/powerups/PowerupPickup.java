@@ -1,0 +1,98 @@
+package inf112.bigheadkickerz.model.powerups;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.bigheadkickerz.model.GameObject;
+import inf112.bigheadkickerz.model.Collideable;
+import inf112.bigheadkickerz.model.Player;
+
+public class PowerupPickup implements GameObject, Collideable {
+    private Powerup powerup;
+    private Vector2 pos;
+    private Texture texture;
+    private float size; // size of the pickup
+    private boolean collected = false; // flag to mark if it has been picked up
+
+    public PowerupPickup(Powerup powerup, Vector2 pos, String texturePath, float size) {
+        this.powerup = powerup;
+        this.pos = pos;
+        this.texture = new Texture(texturePath);
+        this.size = size;
+    }
+
+    @Override
+    public void update(Viewport viewport, float delta) {
+        // Optional: Add a simple animation or floating effect
+    }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+        if (!collected) {
+            batch.draw(texture, pos.x, pos.y, size, size);
+        }
+    }
+
+    @Override
+    public float getWeight() {
+        return 1;
+    }
+
+    @Override
+    public Vector2 getVelocity() {
+        return new Vector2(0, 0);
+    }
+
+    @Override
+    public void collision(Collideable other) {
+        if (!collected && other instanceof Player) {
+            Player player = (Player) other;
+            powerup.apply(player);
+            PowerupManager.getInstance().addPowerup(player, powerup);
+            collected = true;
+        }
+    }
+
+    @Override
+    public boolean collides(Collideable other) {
+        Vector2 otherPos = other.getPosition();
+        float otherWidth = other.getWidth();
+        float otherHeight = other.getHeight();
+
+        boolean xOverlap = pos.x < otherPos.x + otherWidth && pos.x + size > otherPos.x;
+        boolean yOverlap = pos.y < otherPos.y + otherHeight && pos.y + size > otherPos.y;
+        System.out.println("Collision");
+        return xOverlap && yOverlap;
+    }
+
+
+    @Override
+    public void setVelocity(Vector2 velocity) {
+        // No movement
+    }
+
+    @Override
+    public void setPosition(Vector2 pos) {
+        this.pos = pos;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return pos;
+    }
+
+    @Override
+    public float getWidth() {
+        return size;
+    }
+
+    @Override
+    public float getHeight() {
+        return size;
+    }
+    
+    public boolean isCollected() {
+        return collected;
+    }
+}

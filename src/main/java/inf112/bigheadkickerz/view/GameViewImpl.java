@@ -72,6 +72,10 @@ public class GameViewImpl extends AScreen {
         ball.draw(batch);
         leftGoal.draw(batch);
         rightGoal.draw(batch);
+        if (gameModel.getCurrentPowerup() != null) {
+            gameModel.getCurrentPowerup().draw(batch);
+        }
+        
         batch.end();
         if (gameModel.getGameState() == GameState.TIMED) {
             scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score(),
@@ -79,6 +83,8 @@ public class GameViewImpl extends AScreen {
         } else if (gameModel.getGameState() == GameState.FIRST_TO_SEVEN) {
             scoreBoard.render(batch, gameModel.getPlayer1Score(), gameModel.getPlayer2Score(), 0);
         }
+
+       
 
     }
 

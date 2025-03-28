@@ -10,8 +10,7 @@ import inf112.bigheadkickerz.model.Player; // Import the Player class
 /** Class for controlling the player */
 public class PlayerController {
 
-    private static final float MOVE_SPEED = 4f;
-    private static final float JUMP_SPEED = 6f;
+    
 
     private boolean isJumping;
     private boolean player1;
@@ -35,6 +34,9 @@ public class PlayerController {
     public Vector2 movePlayer(Viewport viewport, float delta) {
         float currentVx = player.getVelocity().x;
         float currentVy = player.getVelocity().y;
+        float movementSpeed = player.getMovementSpeed();
+        float jumpHeight = player.getJumpHeight();
+
 
         if (player.getPosition().y == 0) {
             isJumping = false;
@@ -42,15 +44,15 @@ public class PlayerController {
 
         if (player1) {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                currentVx = MOVE_SPEED;
+                currentVx = movementSpeed;
             } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                currentVx = -MOVE_SPEED;
+                currentVx = -movementSpeed;
             } else {
                 currentVx = 0;
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
                 if (!isJumping) {
-                    currentVy = JUMP_SPEED;
+                    currentVy = jumpHeight;
                     isJumping = true;
                 }
             }
@@ -59,15 +61,15 @@ public class PlayerController {
             }
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                currentVx = MOVE_SPEED;
+                currentVx = movementSpeed;
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                currentVx = -MOVE_SPEED;
+                currentVx = -movementSpeed;
             } else {
                 currentVx = 0;
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 if (!isJumping) {
-                    currentVy = JUMP_SPEED;
+                    currentVy = jumpHeight;
                     isJumping = true;
                 }
             }
