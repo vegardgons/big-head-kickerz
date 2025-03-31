@@ -88,9 +88,6 @@ public class GameModel implements ControllableGameModel {
         if (showControls) {
             return;
         }
-
-        if (isGoal) {
-        }
         if (gameState == GameState.TIMED) {
             gameTime -= delta;
             if (gameTime <= 0) {
