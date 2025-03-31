@@ -95,12 +95,10 @@ public class GameModel implements ControllableGameModel {
             gameTime -= delta;
             if (gameTime <= 0) {
                 isEnd = true;
-                System.out.println("Game over!" + "\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
             }
         } else if (gameState == GameState.FIRST_TO_SEVEN) {
             if (player1Score >= goalThreshold || player2Score >= goalThreshold) {
                 isEnd = true;
-                System.out.println("Game over!" + "\nP1: " + player1Score + "\nP2: " + player2Score + "\n");
             }
         }
 
@@ -149,19 +147,15 @@ public class GameModel implements ControllableGameModel {
     private void checkForGoal() {
         float rightGoalX = rightGoal.getPosition().x;
         float leftGoalX = leftGoal.getPosition().x;
-        if (ball.getPosition().x > rightGoalX && ball.getPosition().y < rightGoal.getHeight()) {
+        if (ball.getPosition().x > rightGoalX && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
             player1Score++;
             isGoal = true;
             Assets.playGoalSound();
-            System.out.println("\nP1 scored!\n");
-            System.out.println("P1: " + player1Score + "\nP2: " + player2Score + "\n");
         } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()
-                && ball.getPosition().y < leftGoal.getHeight()) {
+                && ball.getPosition().y + ball.getHeight() < leftGoal.getHeight()) {
             player2Score++;
             isGoal = true;
             Assets.playGoalSound();
-            System.out.println("P2 scored!\n");
-            System.out.println("P1: " + player1Score + "\nP2: " + player2Score + "\n");
         }
     }
 
@@ -235,9 +229,8 @@ public class GameModel implements ControllableGameModel {
         collideables.add(ball);
         collideables.add(player2);
         collideables.add(player1);
-        // Optionally add goals if needed:
-        // collideables.add(leftGoal);
-        // collideables.add(rightGoal);
+        collideables.add(leftGoal);
+        collideables.add(rightGoal);
 
         // Initialize collision handler
         collisionHandler = new Collision(collideables);
@@ -301,8 +294,6 @@ public class GameModel implements ControllableGameModel {
         float spawnY = (float)Math.random() * viewport.getWorldHeight()/4;
         currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), "Powerup.png", 1f);
         collideables.add(currentPowerup);
-        System.out.println("Spawned powerup at " + currentPowerup.getPosition());
-
     }
 
     public PowerupPickup getCurrentPowerup() {

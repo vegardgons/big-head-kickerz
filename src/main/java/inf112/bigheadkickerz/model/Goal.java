@@ -11,6 +11,7 @@ public class Goal implements GameObject, Collideable {
     private Vector2 pos;
     private static final float WIDTH = 1.6f;
     private static final float HEIGHT = 3f;
+    private static final float WEIGHT = 1000;
 
     public Goal(String texturePath, float x, float y, boolean rightGoal) {
         texture = new Texture(texturePath);
@@ -34,7 +35,7 @@ public class Goal implements GameObject, Collideable {
 
     @Override
     public float getWeight() {
-        return 0;
+        return WEIGHT;
     }
 
     @Override
@@ -44,12 +45,49 @@ public class Goal implements GameObject, Collideable {
 
     @Override
     public void collision(Collideable other) {
+        if (other instanceof Player) {
+            Player player = (Player) other;
+            Vector2 playerPos = player.getPosition();
+            Vector2 playerVelocity = player.getVelocity();
 
+            if (playerPos.y + player.getHeight() < HEIGHT) {
+                player.setVelocity(new Vector2(playerVelocity.x, 0));
+            } else {
+                player.setPosition(new Vector2(playerPos.x, HEIGHT - 0.15f));
+                player.setVelocity(new Vector2(playerVelocity.x, 0));
+            }
+        } else if (other instanceof Ball) {
+            Ball ball = (Ball) other;
+            Vector2 ballPos = ball.getPosition();
+            Vector2 ballVelocity = ball.getVelocity();
+
+            if (ballPos.y + ball.getHeight() < HEIGHT) {
+                ball.setVelocity(new Vector2(ballVelocity.x, 0));
+            } else {
+                ball.setPosition(new Vector2(ballPos.x, HEIGHT - 0.1f));
+                ball.setVelocity(new Vector2(ballVelocity.x, -ballVelocity.y * 0.8f));
+            }
+        }
     }
 
     @Override
     public boolean collides(Collideable other) {
-        return false;
+        float otherX = other.getPosition().x;
+        float otherRightX = otherX + other.getWidth();
+        float otherY = other.getPosition().y;
+        float otherHeight = other.getHeight();
+
+        float crossbarY = HEIGHT - 0.1f;
+        float crossbarXEnd = pos.x + WIDTH;
+
+        boolean withinGoalWidth = otherRightX > pos.x && otherX < crossbarXEnd;
+
+        boolean hitsCrossbarFromBelow = otherY < crossbarY && otherY + otherHeight > crossbarY
+                && other.getVelocity().y > 0;
+        boolean hitsCrossbarFromAbove = otherY + otherHeight > crossbarY && otherY < crossbarY + 0.2f
+                && other.getVelocity().y < 0;
+
+        return withinGoalWidth && (hitsCrossbarFromBelow || hitsCrossbarFromAbove);
     }
 
     @Override
@@ -64,7 +102,7 @@ public class Goal implements GameObject, Collideable {
 
     @Override
     public void setPosition(Vector2 pos) {
-        this.pos = pos;
+
     }
 
     @Override

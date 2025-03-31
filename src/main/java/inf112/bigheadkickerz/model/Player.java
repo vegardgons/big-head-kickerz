@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
+
 import com.badlogic.gdx.utils.Array;
 
 /** Class for the player object */
@@ -19,7 +20,7 @@ public class Player implements GameObject, Collideable, IPowerup {
     private float HEIGHT = 1.2f;
     private float gravity = -9.81f;
     private float movementSpeed = 4f;
-    private float jumpHeight = 6f;
+    private float jumpHeight = 8f;
     private float kickPower = 4f;
 
 
@@ -130,17 +131,15 @@ public class Player implements GameObject, Collideable, IPowerup {
 
     @Override
     public void collision(Collideable other) {
-        if (other instanceof Ball) {
-            return; // Skip collision handling if it's with a Ball (if desired)
+        if (other instanceof Ball || other instanceof Goal) {
+            return; // Skip collision handling if it's with a Ball or Goal
         }
 
         Vector2 otherPos = other.getPosition();
 
-        // Compute penetration depth
         float xOverlap = Math.min(pos.x + WIDTH - otherPos.x, otherPos.x + other.getWidth() - pos.x);
         float yOverlap = Math.min(pos.y + HEIGHT - otherPos.y, otherPos.y + HEIGHT - pos.y);
 
-        // Resolve based on the smaller penetration axis
         if (xOverlap < yOverlap) {
             if (pos.x < otherPos.x) {
                 setPosition(new Vector2(pos.x - xOverlap / 2, pos.y)); // Move left
@@ -165,6 +164,11 @@ public class Player implements GameObject, Collideable, IPowerup {
 
     @Override
     public boolean collides(Collideable other) {
+        if (other instanceof Goal) {
+            Goal goal = (Goal) other;
+            return goal.collides(this);
+        }
+        
         Vector2 otherPos = other.getPosition();
         float otherWidth = other.getWidth();
         float otherHeight = other.getHeight();
@@ -174,9 +178,6 @@ public class Player implements GameObject, Collideable, IPowerup {
 
         boolean yOverlap = pos.y < otherPos.y + otherHeight && pos.y + HEIGHT > otherPos.y;
 
-        if (other instanceof Goal) {
-            return xOverlap;
-        }
         return xOverlap && yOverlap;
     }
 
