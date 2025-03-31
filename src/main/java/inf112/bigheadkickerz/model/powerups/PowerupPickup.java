@@ -62,7 +62,6 @@ public class PowerupPickup implements GameObject, Collideable {
 
         boolean xOverlap = pos.x < otherPos.x + otherWidth && pos.x + size > otherPos.x;
         boolean yOverlap = pos.y < otherPos.y + otherHeight && pos.y + size > otherPos.y;
-        System.out.println("Collision");
         return xOverlap && yOverlap;
     }
 

@@ -13,13 +13,10 @@ public class Ball implements GameObject, Collideable {
     private static final float BOUNCE_FACTOR = 0.7f;
     private float gravity = -9.81f;
 
-
     private Vector2 startPos;
     private Vector2 pos;
     private Vector2 velocity;
     private Texture texture;
-
-
 
     /** Constructor for Ball */
     public Ball(String texturePath, float startX, float startY) {
@@ -86,6 +83,10 @@ public class Ball implements GameObject, Collideable {
 
     @Override
     public void collision(Collideable other) {
+        if (other instanceof Goal) {
+            return;
+        }
+
         Vector2 otherPos = other.getPosition();
         Vector2 normal = pos.cpy().sub(otherPos).nor(); // Normalized collision direction
 
@@ -107,18 +108,16 @@ public class Ball implements GameObject, Collideable {
             if (playerVelocity.len() > 0.3f) { // Lower threshold to avoid excessive boosts
                 kickBoost.y += 2f; // Lowered from 6f
             }
-                // Extra boost if the player is kicking
+            // Extra boost if the player is kicking
             Player player = (Player) other;
             if (player.isKicking() && playerVelocity.len() > 0.1f) {
                 Vector2 facing = playerVelocity.cpy().nor();
                 float dot = facing.dot(normal);
                 if (dot > 0.7f) {
-                    Vector2 extraBoost = facing.scl(player.getKickPower()); // Adjust boost magnitude as needed
+                    Vector2 extraBoost = facing.scl(player.getKickPower());
                     kickBoost.add(extraBoost);
                 }
-        }
-            // If the ball collides with both players at the same time, add an upward force
-
+            }
             velocity.set(impulseVector.scl(1 / WEIGHT).add(kickBoost));
         } else {
             velocity.add(impulseVector.scl(1 / WEIGHT));
@@ -130,6 +129,11 @@ public class Ball implements GameObject, Collideable {
 
     @Override
     public boolean collides(Collideable other) {
+        if (other instanceof Goal) {
+            Goal goal = (Goal) other;
+            return goal.collides(this);
+        }
+
         Vector2 otherPos = other.getPosition();
         float otherWidth = other.getWidth();
         float otherHeight = other.getHeight();
@@ -171,5 +175,5 @@ public class Ball implements GameObject, Collideable {
 
     public float setGravity(float gravity) {
         return this.gravity = gravity;
-    }   
+    }
 }
