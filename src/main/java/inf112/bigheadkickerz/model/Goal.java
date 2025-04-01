@@ -13,9 +13,9 @@ public class Goal implements GameObject, Collideable {
     private static final float HEIGHT = 3f;
     private static final float WEIGHT = 1000;
 
-    public Goal(String texturePath, float x, float y, boolean rightGoal) {
-        texture = new Texture(texturePath);
-        pos = new Vector2(x, y);
+    public Goal(Texture texture, float x, float y, boolean rightGoal) {
+        this.texture = texture;
+        this.pos = new Vector2(x, y);
     }
 
     @Override

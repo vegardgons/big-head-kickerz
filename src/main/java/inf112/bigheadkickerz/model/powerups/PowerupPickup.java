@@ -15,10 +15,10 @@ public class PowerupPickup implements GameObject, Collideable {
     private float size; // size of the pickup
     private boolean collected = false; // flag to mark if it has been picked up
 
-    public PowerupPickup(Powerup powerup, Vector2 pos, String texturePath, float size) {
+    public PowerupPickup(Powerup powerup, Vector2 pos, Texture texture, float size) {
         this.powerup = powerup;
         this.pos = pos;
-        this.texture = new Texture(texturePath);
+        this.texture = texture;
         this.size = size;
     }
 

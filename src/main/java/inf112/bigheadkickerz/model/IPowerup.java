@@ -1,33 +1,33 @@
 package inf112.bigheadkickerz.model;
 
 public interface IPowerup {
-    // Movement Speed
-    float getMovementSpeed();
+  // Movement Speed
+  float getMovementSpeed();
 
-    float setMovementSpeed(float movementSpeed);
+  float setMovementSpeed(float movementSpeed);
 
-    // Gravity
-    float getGravity();
+  // Gravity
+  float getGravity();
 
-    float setGravity(float gravity);
+  float setGravity(float gravity);
 
-    // Kick Power
-    float getKickPower();
+  // Kick Power
+  float getKickPower();
 
-    float setKickPower(float kickPower);
+  float setKickPower(float kickPower);
 
-    // Size: Width
-    float getWidth();
+  // Size: Width
+  float getWidth();
 
-    float setWidth(float width);
+  float setWidth(float width);
 
-    // Size: Height
-    float getHeight();
+  // Size: Height
+  float getHeight();
 
-    float setHeight(float height);
+  float setHeight(float height);
 
-    // Jump Height
-    float getJumpHeight();
-    
-    float setJumpHeight(float jumpHeight);
+  // Jump Height
+  float getJumpHeight();
+
+  float setJumpHeight(float jumpHeight);
 }
