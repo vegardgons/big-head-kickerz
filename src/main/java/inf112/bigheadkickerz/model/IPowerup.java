@@ -1,33 +1,98 @@
 package inf112.bigheadkickerz.model;
 
+/**
+ * Interface for powerups in the game.
+ * This interface defines the methods that all powerups must implement.
+ */
 public interface IPowerup {
-  // Movement Speed
+
+  /**
+   * Get current movement speed.
+   *
+   * @return current movement speed
+   */
   float getMovementSpeed();
 
+  /**
+   * Set movement speed.
+   *
+   * @param movementSpeed new movement speed
+   * @return the new movement speed
+   */
   float setMovementSpeed(float movementSpeed);
 
-  // Gravity
+  /**
+   * Get gravity.
+   *
+   * @return gravity
+   */
   float getGravity();
 
+  /**
+   * Set gravity.
+   *
+   * @param gravity new gravity
+   * @return the new gravity
+   */
   float setGravity(float gravity);
 
-  // Kick Power
+  /**
+   * Get kick power.
+   *
+   * @return kick power
+   */
   float getKickPower();
 
+  /**
+   * Set kick power.
+   *
+   * @param kickPower new kick power
+   * @return the new kick power
+   */
   float setKickPower(float kickPower);
 
-  // Size: Width
+  /**
+   * Get width.
+   *
+   * @return width
+   */
   float getWidth();
 
+  /**
+   * Set width.
+   *
+   * @param width new width
+   * @return the new width
+   */
   float setWidth(float width);
 
-  // Size: Height
+  /**
+   * Get height.
+   *
+   * @return height
+   */
   float getHeight();
 
+  /**
+   * Set height.
+   *
+   * @param height new height
+   * @return the new height
+   */
   float setHeight(float height);
 
-  // Jump Height
+  /**
+   * Get jump height.
+   *
+   * @return jump height
+   */
   float getJumpHeight();
 
+  /**
+   * Set jump height.
+   *
+   * @param jumpHeight new jump height
+   * @return the new jump height
+   */
   float setJumpHeight(float jumpHeight);
 }
