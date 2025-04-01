@@ -6,7 +6,7 @@ import inf112.bigheadkickerz.model.Player;
  * Reduces the gravity affecting the player.
  */
 public class LowGravityPowerup extends AbstractPowerup {
-  private float gravityMultiplier;
+  private final float gravityMultiplier;
 
   public LowGravityPowerup(float duration, float gravityMultiplier) {
     super(duration);

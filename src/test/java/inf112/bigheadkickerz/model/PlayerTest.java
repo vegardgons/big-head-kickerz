@@ -71,7 +71,7 @@ public class PlayerTest {
     player.reset();
     assertEquals(new Vector2(5, 10), player.getPosition());
     assertEquals(new Vector2(0, 0), player.getVelocity());
-    assertEquals(false, player.isKicking());
+    assertFalse(player.isKicking());
   }
 
   @Test

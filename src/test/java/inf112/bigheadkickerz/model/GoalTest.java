@@ -25,7 +25,7 @@ class GoalTest {
   @BeforeEach
   void setUp() {
     Texture textureMock = mock(Texture.class);
-    goal = new Goal(textureMock, 5, 10, true);
+    goal = new Goal(textureMock, 5, 10);
     batch = mock(SpriteBatch.class);
   }
 

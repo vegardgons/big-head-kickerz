@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
-import inf112.bigheadkickerz.controller.GameController;
 import inf112.bigheadkickerz.model.powerups.Powerup;
 import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
@@ -29,7 +28,7 @@ public class GameModel implements ControllableGameModel {
   private float nextSpawnDelay = 2f;
 
   // Game objects
-  private BigHeadKickerzGame game;
+  private final BigHeadKickerzGame game;
   private Player player1;
   private Player player2;
   private Ball ball;
@@ -54,9 +53,9 @@ public class GameModel implements ControllableGameModel {
   private boolean isEnd;
 
   // Viewport for game boundaries
-  private FitViewport viewport;
+  private final FitViewport viewport;
 
-  private GameState gameState;
+  private final GameState gameState;
   private float gameTime; // Total time in timed mode (seconds)
   private static final float DEFAULT_GAME_TIME = 60f; // e.g., 60 seconds
   private int goalThreshold; // For first-to-seven mode, threshold = 7
@@ -64,7 +63,7 @@ public class GameModel implements ControllableGameModel {
   /**
    * Constructor initializes game objects and viewport.
    */
-  public GameModel(BigHeadKickerzGame game, GameController controller, GameState gameState) {
+  public GameModel(BigHeadKickerzGame game, GameState gameState) {
     this.game = game;
     this.gameState = gameState;
     this.viewport = new FitViewport(WIDTH, HEIGHT);
@@ -225,11 +224,11 @@ public class GameModel implements ControllableGameModel {
     player1 = new Player(player1Texture, player1X, 0, true);
 
     Texture leftGoalTexture = new Texture("GoalLeft.png");
-    leftGoal = new Goal(leftGoalTexture, 0, 0, false);
+    leftGoal = new Goal(leftGoalTexture, 0, 0);
 
     Texture rightGoalTexture = new Texture("GoalRight.png");
     float rightGoalX = viewport.getWorldWidth() - leftGoal.getWidth();
-    rightGoal = new Goal(rightGoalTexture, rightGoalX, 0, true);
+    rightGoal = new Goal(rightGoalTexture, rightGoalX, 0);
   }
 
   private void initCollideables() {

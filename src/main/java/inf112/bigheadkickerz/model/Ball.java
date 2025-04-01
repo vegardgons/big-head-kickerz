@@ -13,10 +13,10 @@ public class Ball implements GameObject, Collideable {
   private static final float BOUNCE_FACTOR = 0.7f;
   private float gravity = -9.81f;
 
-  private Vector2 startPos;
+  private final Vector2 startPos;
   private Vector2 pos;
   private Vector2 velocity;
-  private Texture texture;
+  private final Texture texture;
 
   /** Constructor for Ball. */
   public Ball(Texture texture, float startX, float startY) {
@@ -33,7 +33,7 @@ public class Ball implements GameObject, Collideable {
     velocity.x *= 0.98f;
     pos.add(velocity.x * delta, velocity.y * delta);
 
-    boundaries(viewport, BOUNCE_FACTOR);
+    boundaries(viewport);
   }
 
   @Override
@@ -41,22 +41,22 @@ public class Ball implements GameObject, Collideable {
     batch.draw(texture, pos.x, pos.y, BALL_SIZE, BALL_SIZE);
   }
 
-  private void boundaries(Viewport viewport, float bounce) {
+  private void boundaries(Viewport viewport) {
     if (pos.x < 0) {
       pos.x = 0;
-      velocity.x = -velocity.x * bounce;
+      velocity.x = -velocity.x * Ball.BOUNCE_FACTOR;
     }
     if (pos.x + BALL_SIZE > viewport.getWorldWidth()) {
       pos.x = viewport.getWorldWidth() - BALL_SIZE;
-      velocity.x = -velocity.x * bounce;
+      velocity.x = -velocity.x * Ball.BOUNCE_FACTOR;
     }
     if (pos.y < 0) {
       pos.y = 0;
-      velocity.y = -velocity.y * bounce;
+      velocity.y = -velocity.y * Ball.BOUNCE_FACTOR;
     }
     if (pos.y + BALL_SIZE > viewport.getWorldHeight()) {
       pos.y = viewport.getWorldHeight() - BALL_SIZE;
-      velocity.y = -velocity.y * bounce;
+      velocity.y = -velocity.y * Ball.BOUNCE_FACTOR;
     }
   }
 
@@ -130,8 +130,7 @@ public class Ball implements GameObject, Collideable {
 
   @Override
   public boolean collides(Collideable other) {
-    if (other instanceof Goal) {
-      Goal goal = (Goal) other;
+    if (other instanceof Goal goal) {
       return goal.collides(this);
     }
 
@@ -174,7 +173,7 @@ public class Ball implements GameObject, Collideable {
     return gravity;
   }
 
-  public float setGravity(float gravity) {
-    return this.gravity = gravity;
+  public void setGravity(float gravity) {
+    this.gravity = gravity;
   }
 }

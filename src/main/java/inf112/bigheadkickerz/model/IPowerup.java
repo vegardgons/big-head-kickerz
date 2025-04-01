@@ -17,9 +17,8 @@ public interface IPowerup {
    * Set movement speed.
    *
    * @param movementSpeed new movement speed
-   * @return the new movement speed
    */
-  float setMovementSpeed(float movementSpeed);
+  void setMovementSpeed(float movementSpeed);
 
   /**
    * Get gravity.
@@ -32,9 +31,8 @@ public interface IPowerup {
    * Set gravity.
    *
    * @param gravity new gravity
-   * @return the new gravity
    */
-  float setGravity(float gravity);
+  void setGravity(float gravity);
 
   /**
    * Get kick power.
@@ -47,9 +45,8 @@ public interface IPowerup {
    * Set kick power.
    *
    * @param kickPower new kick power
-   * @return the new kick power
    */
-  float setKickPower(float kickPower);
+  void setKickPower(float kickPower);
 
   /**
    * Get width.
@@ -62,9 +59,8 @@ public interface IPowerup {
    * Set width.
    *
    * @param width new width
-   * @return the new width
    */
-  float setWidth(float width);
+  void setWidth(float width);
 
   /**
    * Get height.
@@ -77,9 +73,8 @@ public interface IPowerup {
    * Set height.
    *
    * @param height new height
-   * @return the new height
    */
-  float setHeight(float height);
+  void setHeight(float height);
 
   /**
    * Get jump height.
@@ -92,7 +87,6 @@ public interface IPowerup {
    * Set jump height.
    *
    * @param jumpHeight new jump height
-   * @return the new jump height
    */
-  float setJumpHeight(float jumpHeight);
+  void setJumpHeight(float jumpHeight);
 }

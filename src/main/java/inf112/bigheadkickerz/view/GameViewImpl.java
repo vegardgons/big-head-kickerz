@@ -13,11 +13,11 @@ import inf112.bigheadkickerz.model.Player;
  * GameViewImpl is responsible for rendering all game objects.
  */
 public class GameViewImpl extends AScreen {
-  private SpriteBatch spriteBatch;
-  private Field field;
-  private GameModel gameModel;
-  private ScoreBoard scoreBoard;
-  private ControlsOverlay controlsOverlay;
+  private final SpriteBatch spriteBatch;
+  private final Field field;
+  private final GameModel gameModel;
+  private final ScoreBoard scoreBoard;
+  private final ControlsOverlay controlsOverlay;
 
   /**
    * Constructor initializes rendering components.

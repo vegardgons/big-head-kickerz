@@ -12,7 +12,7 @@ import inf112.bigheadkickerz.app.BigHeadKickerzGame;
  */
 public class EndScreen extends AScreen {
 
-  private BigHeadKickerzGame game;
+  private final BigHeadKickerzGame game;
   private TextButton playAgainButton;
   private TextButton exitButton;
 
@@ -59,4 +59,9 @@ public class EndScreen extends AScreen {
     Assets.stopMenuMusic();
   }
 
+  public void dispose() {
+    playAgainButton.remove();
+    exitButton.remove();
+    skin.dispose();
+  }
 }

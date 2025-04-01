@@ -13,10 +13,10 @@ import inf112.bigheadkickerz.model.Player;
  * It is a collectible item that players can pick up to gain powerups.
  */
 public class PowerupPickup implements GameObject, Collideable {
-  private Powerup powerup;
+  private final Powerup powerup;
   private Vector2 pos;
-  private Texture texture;
-  private float size; // size of the pickup
+  private final Texture texture;
+  private final float size; // size of the pickup
   private boolean collected = false; // flag to mark if it has been picked up
 
   /**
@@ -58,8 +58,7 @@ public class PowerupPickup implements GameObject, Collideable {
 
   @Override
   public void collision(Collideable other) {
-    if (!collected && other instanceof Player) {
-      Player player = (Player) other;
+    if (!collected && other instanceof Player player ) {
       powerup.apply(player);
       PowerupManager.getInstance().addPowerup(player, powerup);
       collected = true;

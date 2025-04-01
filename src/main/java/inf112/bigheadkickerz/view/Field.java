@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 /** Class for the field object. */
 public class Field implements GameView {
-  private Texture backgroundTexture;
+  private final Texture backgroundTexture;
 
   /** Constructor for Field. */
   public Field(String texturePath) {

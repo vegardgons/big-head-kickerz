@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 
-/** Class to represent the startscreen of the game. */
+/**
+ * Class to represent the start screen of the game.
+ */
 public class StartScreen extends AScreen {
 
-  private BigHeadKickerzGame game;
-  private TextButton timedButton;
-  private TextButton firstToSevenButton;
+  private final BigHeadKickerzGame game;
 
   /**
    * Constructor for the StartScreen.
@@ -35,7 +35,7 @@ public class StartScreen extends AScreen {
   }
 
   private void createTimedButton() {
-    timedButton = new TextButton("Timed", skin);
+    TextButton timedButton = new TextButton("Timed", skin);
     timedButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -46,7 +46,7 @@ public class StartScreen extends AScreen {
   }
 
   private void createFirstToSevenButton() {
-    firstToSevenButton = new TextButton("First To Seven", skin);
+    TextButton firstToSevenButton = new TextButton("First To Seven", skin);
     firstToSevenButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {

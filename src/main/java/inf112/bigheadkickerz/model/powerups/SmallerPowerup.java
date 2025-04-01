@@ -6,7 +6,7 @@ import inf112.bigheadkickerz.model.Player;
  * Decreases the player's size.
  */
 public class SmallerPowerup extends AbstractPowerup {
-  private float sizeMultiplier;
+  private final float sizeMultiplier;
 
   public SmallerPowerup(float duration, float sizeMultiplier) {
     super(duration);

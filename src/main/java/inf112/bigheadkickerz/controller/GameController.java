@@ -18,7 +18,7 @@ public class GameController implements Screen {
   private final GameViewImpl gameView;
 
   public GameController(BigHeadKickerzGame game, GameState gameState) {
-    this.gameModel = new GameModel(game, this, gameState);
+    this.gameModel = new GameModel(game, gameState);
     this.gameView = new GameViewImpl(gameModel);
   }
 
