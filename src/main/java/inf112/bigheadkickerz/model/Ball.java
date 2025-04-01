@@ -139,10 +139,10 @@ public class Ball implements GameObject, Collideable {
     float otherWidth = other.getWidth();
     float otherHeight = other.getHeight();
 
-    boolean xOverlap = pos.x + BALL_SIZE > otherPos.x && otherPos.x + otherWidth > pos.x;
-    boolean yOverlap = pos.y + BALL_SIZE > otherPos.y && otherPos.y + otherHeight > pos.y;
+    boolean overlapX = pos.x + BALL_SIZE > otherPos.x && otherPos.x + otherWidth > pos.x;
+    boolean overlapY = pos.y + BALL_SIZE > otherPos.y && otherPos.y + otherHeight > pos.y;
 
-    return xOverlap && yOverlap;
+    return overlapX && overlapY;
   }
 
   @Override

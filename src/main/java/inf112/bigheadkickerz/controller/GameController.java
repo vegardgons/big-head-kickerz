@@ -9,57 +9,61 @@ import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.GameViewImpl;
 
+/**
+ * Controller for the game screen.
+ * This class handles the game logic and rendering.
+ */
 public class GameController implements Screen {
-    private final GameModel gameModel;
-    private final GameViewImpl gameView;
+  private final GameModel gameModel;
+  private final GameViewImpl gameView;
 
-    public GameController(BigHeadKickerzGame game, GameState gameState) {
-        this.gameModel = new GameModel(game, this, gameState);
-        this.gameView = new GameViewImpl(gameModel);
+  public GameController(BigHeadKickerzGame game, GameState gameState) {
+    this.gameModel = new GameModel(game, this, gameState);
+    this.gameView = new GameViewImpl(gameModel);
+  }
+
+  @Override
+  public void show() {
+  }
+
+  @Override
+  public void render(float delta) {
+    if (gameModel.isShowControls()) {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        gameModel.dismissControls();
+        Assets.playStartWhistle();
+      }
+      // Draw the overlay on top of the game screen
+      gameView.render(); // It will draw the world…
+      // And then you might call your controls overlay drawing here:
+      gameView.drawControlsOverlay(); // A new method in GameViewImpl that uses your ControlsOverlay
+    } else {
+      gameModel.update(delta);
+      gameView.render();
     }
 
-    @Override
-    public void show() {
-    }
+  }
 
-    @Override
-    public void render(float delta) {
-        if (gameModel.isShowControls()) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                gameModel.dismissControls();
-                Assets.playStartWhistle();
-            }
-            // Draw the overlay on top of the game screen
-            gameView.render(); // It will draw the world…
-            // And then you might call your controls overlay drawing here:
-            gameView.drawControlsOverlay(); // A new method in GameViewImpl that uses your ControlsOverlay
-        } else {
-            gameModel.update(delta);
-            gameView.render();
-        }
+  @Override
+  public void resize(int width, int height) {
+    gameView.resize(width, height);
+  }
 
-    }
+  @Override
+  public void pause() {
+  }
 
-    @Override
-    public void resize(int width, int height) {
-        gameView.resize(width, height);
-    }
+  @Override
+  public void resume() {
+  }
 
-    @Override
-    public void pause() {
-    }
+  @Override
+  public void hide() {
+  }
 
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
-        gameView.dispose();
-    }
+  @Override
+  public void dispose() {
+    gameView.dispose();
+  }
 
 }

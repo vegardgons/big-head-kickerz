@@ -7,265 +7,263 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
 
-import com.badlogic.gdx.utils.Array;
-
-/** Class for the player object */
+/** Class for the player object. */
 public class Player implements GameObject, Collideable, IPowerup {
 
-    private static final float WEIGHT = 300;
-    private float WIDTH = 1f;
-    private float HEIGHT = 1.2f;
-    private float gravity = -9.81f;
-    private float movementSpeed = 4f;
-    private float jumpHeight = 6f;
-    private float kickPower = 4f;
+  private static final float WEIGHT = 300;
+  private float width = 1f;
+  private float height = 1.2f;
+  private float gravity = -9.81f;
+  private float movementSpeed = 4f;
+  private float jumpHeight = 6f;
+  private float kickPower = 4f;
 
+  private PlayerController playerController;
+  private Vector2 velocity;
+  private Vector2 startPos;
+  private Vector2 pos;
+  private boolean player1;
 
-    private PlayerController playerController;
-    private Vector2 velocity;
-    private Vector2 startPos;
-    private Vector2 pos;
-    private boolean player1;
+  // fields for kick animation
+  private boolean isKicking = false;
+  private float kickStateTime = 0f;
+  private Animation<TextureRegion> kickAnimation;
+  private TextureRegion idleFrame;
 
-    // fields for kick animation
-    private boolean isKicking = false;
-    private float kickStateTime = 0f;
-    private Animation<TextureRegion> kickAnimation;
-    private TextureRegion idleFrame;
+  /** Constructor for Player. */
+  public Player(Texture texture, float startX, float startY, boolean player1) {
+    this.idleFrame = new TextureRegion(texture);
+    this.startPos = new Vector2(startX, startY);
+    this.pos = new Vector2(startX, startY);
+    this.velocity = new Vector2(0, 0);
+    this.playerController = new PlayerController(player1, this);
+    this.player1 = player1;
+  }
 
-    /** Constructor for Player */
-    public Player(Texture texture, float startX, float startY, boolean player1) {
-        this.idleFrame = new TextureRegion(texture);
-        this.startPos = new Vector2(startX, startY);
-        this.pos = new Vector2(startX, startY);
-        this.velocity = new Vector2(0, 0);
-        this.playerController = new PlayerController(player1, this);
-        this.player1 = player1;
+  /**
+   * Called when we want the player to start kicking.
+   */
+  public void kick() {
+    if (!isKicking) {
+      isKicking = true;
+      kickStateTime = 0f;
+      initKickAnimation();
+    }
+  }
+
+  @Override
+  public void update(Viewport viewport, float delta) {
+
+    velocity.y += gravity * delta;
+    Vector2 newVel = playerController.movePlayer(viewport, delta);
+    setVelocity(new Vector2(newVel));
+    pos.add(velocity.x * delta, velocity.y * delta);
+
+    boundaries(viewport);
+
+    if (isKicking) {
+      kickStateTime += delta;
+      if (kickAnimation.isAnimationFinished(kickStateTime)) {
+        isKicking = false;
+      }
+    }
+  }
+
+  private void boundaries(Viewport viewport) {
+    if (pos.x < 0) {
+      pos.x = 0;
+      velocity.x = 0;
+    }
+    if (pos.x + width > viewport.getWorldWidth()) {
+      pos.x = viewport.getWorldWidth() - width;
+      velocity.x = 0;
+    }
+    if (pos.y < 0) {
+      pos.y = 0;
+      velocity.y = 0;
+    }
+    if (pos.y + height > viewport.getWorldHeight()) {
+      pos.y = viewport.getWorldHeight() - height;
+      velocity.y = 0;
+    }
+  }
+
+  @Override
+  public void draw(SpriteBatch batch) {
+    TextureRegion currentFrame;
+    if (isKicking) {
+      currentFrame = kickAnimation.getKeyFrame(kickStateTime, false);
+    } else {
+      // Default (idle) appearance
+      currentFrame = idleFrame;
+    }
+    batch.draw(currentFrame, pos.x, pos.y, width, height);
+  }
+
+  /** Reset the player to their initial position. */
+  public void reset() {
+    setPosition(new Vector2(startPos));
+    setVelocity(new Vector2(0, 0));
+  }
+
+  private void initKickAnimation() {
+    TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("kick_animation.atlas"));
+    Array<TextureAtlas.AtlasRegion> frames = atlas.findRegions("kick");
+
+    frames.sort((a, b) -> Integer.compare(a.index, b.index));
+
+    if (!player1) {
+      for (TextureAtlas.AtlasRegion region : frames) {
+        region.flip(true, false);
+      }
+    }
+    kickAnimation = new Animation<>(0.015f, frames);
+    kickAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+  }
+
+  @Override
+  public void collision(Collideable other) {
+    if (other instanceof Ball || other instanceof Goal) {
+      return; // Skip collision handling if it's with a Ball or Goal
     }
 
-    /**
-     * Called when we want the player to start kicking.
-     */
-    public void kick() {
-        if (!isKicking) {
-            isKicking = true;
-            kickStateTime = 0f;
-            initKickAnimation();
-        }
+    Vector2 otherPos = other.getPosition();
+
+    float overlapX = Math.min(pos.x + width - otherPos.x, otherPos.x + other.getWidth() - pos.x);
+    float overlapY = Math.min(pos.y + height - otherPos.y, otherPos.y + height - pos.y);
+
+    if (overlapX < overlapY) {
+      if (pos.x < otherPos.x) {
+        setPosition(new Vector2(pos.x - overlapX / 2, pos.y)); // Move left
+        other.setPosition(new Vector2(otherPos.x + overlapX / 2, otherPos.y)); // Move right
+      } else {
+        setPosition(new Vector2(pos.x + overlapX / 2, pos.y)); // Move right
+        other.setPosition(new Vector2(otherPos.x - overlapX / 2, otherPos.y)); // Move left
+      }
+    } else {
+      if (pos.y < otherPos.y) {
+        other.setPosition(new Vector2(otherPos.x, otherPos.y + overlapY / 2)); // Move up
+      } else {
+        setPosition(new Vector2(pos.x, pos.y + overlapY / 2)); // Move up
+      }
     }
 
-    @Override
-    public void update(Viewport viewport, float delta) {
+    // Adjust velocities (simple elastic collision)
+    Vector2 tempVel = velocity.cpy();
+    velocity.set(other.getVelocity());
+    other.setVelocity(tempVel);
+  }
 
-        velocity.y += gravity * delta;
-        Vector2 newVel = playerController.movePlayer(viewport, delta);
-        setVelocity(new Vector2(newVel));
-        pos.add(velocity.x * delta, velocity.y * delta);
-
-        boundaries(viewport);
-
-        if (isKicking) {
-            kickStateTime += delta;
-            if (kickAnimation.isAnimationFinished(kickStateTime)) {
-                isKicking = false;
-            }
-        }
+  @Override
+  public boolean collides(Collideable other) {
+    if (other instanceof Goal) {
+      Goal goal = (Goal) other;
+      return goal.collides(this);
     }
 
-    private void boundaries(Viewport viewport) {
-        if (pos.x < 0) {
-            pos.x = 0;
-            velocity.x = 0;
-        }
-        if (pos.x + WIDTH > viewport.getWorldWidth()) {
-            pos.x = viewport.getWorldWidth() - WIDTH;
-            velocity.x = 0;
-        }
-        if (pos.y < 0) {
-            pos.y = 0;
-            velocity.y = 0;
-        }
-        if (pos.y + HEIGHT > viewport.getWorldHeight()) {
-            pos.y = viewport.getWorldHeight() - HEIGHT;
-            velocity.y = 0;
-        }
-    }
+    Vector2 otherPos = other.getPosition();
+    float otherWidth = other.getWidth();
+    float otherHeight = other.getHeight();
 
-    @Override
-    public void draw(SpriteBatch batch) {
-        TextureRegion currentFrame;
-        if (isKicking) {
-            currentFrame = kickAnimation.getKeyFrame(kickStateTime, false);
-        } else {
-            // Default (idle) appearance
-            currentFrame = idleFrame;
-        }
-        batch.draw(currentFrame, pos.x, pos.y, WIDTH, HEIGHT);
-    }
+    // Rectangular collision detection
+    boolean overlapX = pos.x < otherPos.x + otherWidth && pos.x + width > otherPos.x;
 
-    /** Reset the player to their initial position */
-    public void reset() {
-        setPosition(new Vector2(startPos));
-        setVelocity(new Vector2(0, 0));
-    }
+    boolean overlapY = pos.y < otherPos.y + otherHeight && pos.y + height > otherPos.y;
 
-    private void initKickAnimation() {
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("kick_animation.atlas"));
-        Array<TextureAtlas.AtlasRegion> frames = atlas.findRegions("kick");
+    return overlapX && overlapY;
+  }
 
-        frames.sort((a, b) -> Integer.compare(a.index, b.index));
+  @Override
+  public void setVelocity(Vector2 velocity) {
+    this.velocity = velocity;
+  }
 
-        if (!player1) {
-            for (TextureAtlas.AtlasRegion region : frames) {
-                region.flip(true, false);
-            }
-        }
-        kickAnimation = new Animation<>(0.015f, frames);
-        kickAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-    }
+  @Override
+  public void setPosition(Vector2 pos) {
+    this.pos = pos;
+  }
 
-    @Override
-    public void collision(Collideable other) {
-        if (other instanceof Ball || other instanceof Goal) {
-            return; // Skip collision handling if it's with a Ball or Goal
-        }
+  @Override
+  public Vector2 getPosition() {
+    return pos;
+  }
 
-        Vector2 otherPos = other.getPosition();
+  @Override
+  public float getWeight() {
+    return WEIGHT;
+  }
 
-        float xOverlap = Math.min(pos.x + WIDTH - otherPos.x, otherPos.x + other.getWidth() - pos.x);
-        float yOverlap = Math.min(pos.y + HEIGHT - otherPos.y, otherPos.y + HEIGHT - pos.y);
+  @Override
+  public float getWidth() {
+    return width;
+  }
 
-        if (xOverlap < yOverlap) {
-            if (pos.x < otherPos.x) {
-                setPosition(new Vector2(pos.x - xOverlap / 2, pos.y)); // Move left
-                other.setPosition(new Vector2(otherPos.x + xOverlap / 2, otherPos.y)); // Move right
-            } else {
-                setPosition(new Vector2(pos.x + xOverlap / 2, pos.y)); // Move right
-                other.setPosition(new Vector2(otherPos.x - xOverlap / 2, otherPos.y)); // Move left
-            }
-        } else {
-            if (pos.y < otherPos.y) {
-                other.setPosition(new Vector2(otherPos.x, otherPos.y + yOverlap / 2)); // Move up
-            } else {
-                setPosition(new Vector2(pos.x, pos.y + yOverlap / 2)); // Move up
-            }
-        }
+  @Override
+  public float getHeight() {
+    return height;
+  }
 
-        // Adjust velocities (simple elastic collision)
-        Vector2 tempVel = velocity.cpy();
-        velocity.set(other.getVelocity());
-        other.setVelocity(tempVel);
-    }
+  @Override
+  public Vector2 getVelocity() {
+    return velocity.cpy();
+  }
 
-    @Override
-    public boolean collides(Collideable other) {
-        if (other instanceof Goal) {
-            Goal goal = (Goal) other;
-            return goal.collides(this);
-        }
-        
-        Vector2 otherPos = other.getPosition();
-        float otherWidth = other.getWidth();
-        float otherHeight = other.getHeight();
+  public boolean isKicking() {
+    return isKicking;
+  }
 
-        // Rectangular collision detection
-        boolean xOverlap = pos.x < otherPos.x + otherWidth && pos.x + WIDTH > otherPos.x;
+  @Override
+  public float getGravity() {
+    return gravity;
+  }
 
-        boolean yOverlap = pos.y < otherPos.y + otherHeight && pos.y + HEIGHT > otherPos.y;
+  @Override
+  public float setGravity(float gravity) {
+    return this.gravity = gravity;
+  }
 
-        return xOverlap && yOverlap;
-    }
+  @Override
+  public float setHeight(float height) {
+    return this.height = height;
+  }
 
-    @Override
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
-    }
+  @Override
+  public float setWidth(float width) {
+    return this.width = width;
+  }
 
-    @Override
-    public void setPosition(Vector2 pos) {
-        this.pos = pos;
-    }
+  @Override
+  public float getMovementSpeed() {
+    return movementSpeed;
+  }
 
-    @Override
-    public Vector2 getPosition() {
-        return pos;
-    }
+  @Override
+  public float setMovementSpeed(float movementSpeed) {
+    return this.movementSpeed = movementSpeed;
+  }
 
-    @Override
-    public float getWeight() {
-        return WEIGHT;
-    }
+  @Override
+  public float getJumpHeight() {
+    return jumpHeight;
+  }
 
-    @Override
-    public float getWidth() {
-        return WIDTH;
-    }
+  @Override
+  public float setJumpHeight(float jumpHeight) {
+    return this.jumpHeight = jumpHeight;
+  }
 
-    @Override
-    public float getHeight() {
-        return HEIGHT;
-    }
+  @Override
+  public float getKickPower() {
+    return kickPower;
+  }
 
-    @Override
-    public Vector2 getVelocity() {
-        return velocity.cpy();
-    }
-
-    public boolean isKicking() {
-        return isKicking;
-    }
-
-    @Override
-    public float getGravity() {
-        return gravity;
-    }
-    
-    @Override
-    public float setGravity(float gravity) {
-        return this.gravity = gravity;
-    }   
-    
-    @Override
-    public float setHeight(float height) {
-        return this.HEIGHT = height;
-    }
-
-    @Override
-    public float setWidth(float width) {
-        return this.WIDTH = width;
-    }
-
-    @Override
-    public float getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    @Override
-    public float setMovementSpeed(float movementSpeed) {
-        return this.movementSpeed = movementSpeed;
-    }
-
-    @Override
-    public float getJumpHeight() {
-        return jumpHeight;
-    }
-
-    @Override
-    public float setJumpHeight(float jumpHeight) {
-        return this.jumpHeight = jumpHeight;
-    }
-
-    @Override
-    public float getKickPower() {
-        return kickPower;
-    }
-
-    @Override
-    public float setKickPower(float kickPower) {
-        return this.kickPower = kickPower;
-    }
+  @Override
+  public float setKickPower(float kickPower) {
+    return this.kickPower = kickPower;
+  }
 
 }
