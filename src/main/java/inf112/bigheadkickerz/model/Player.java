@@ -20,11 +20,10 @@ public class Player implements GameObject, Collideable, IPowerup {
     private float HEIGHT = 1.2f;
     private float gravity = -9.81f;
     private float movementSpeed = 4f;
-    private float jumpHeight = 8f;
+    private float jumpHeight = 6f;
     private float kickPower = 4f;
 
 
-    private Texture texture;
     private PlayerController playerController;
     private Vector2 velocity;
     private Vector2 startPos;
@@ -38,13 +37,12 @@ public class Player implements GameObject, Collideable, IPowerup {
     private TextureRegion idleFrame;
 
     /** Constructor for Player */
-    public Player(String texturePath, float startX, float startY, boolean player1) {
-        texture = new Texture(texturePath);
-        idleFrame = new TextureRegion(texture);
-        startPos = new Vector2(startX, startY);
-        pos = new Vector2(startX, startY);
-        velocity = new Vector2(0, 0);
-        playerController = new PlayerController(player1, this);
+    public Player(Texture texture, float startX, float startY, boolean player1) {
+        this.idleFrame = new TextureRegion(texture);
+        this.startPos = new Vector2(startX, startY);
+        this.pos = new Vector2(startX, startY);
+        this.velocity = new Vector2(0, 0);
+        this.playerController = new PlayerController(player1, this);
         this.player1 = player1;
     }
 

@@ -2,6 +2,7 @@ package inf112.bigheadkickerz.model;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -23,7 +24,6 @@ public class GameModel implements ControllableGameModel {
     // Game dimensions
     private static final float WIDTH = 15;
     private static final float HEIGHT = 8;
-
 
     // Powerup variables
     private PowerupPickup currentPowerup;
@@ -128,7 +128,7 @@ public class GameModel implements ControllableGameModel {
 
         // Update powerup spawning (only one active at a time)
         updatePowerupSpawning(delta);
-        
+
         // Update active powerups (their durations, etc.)
         PowerupManager.getInstance().update(delta);
     }
@@ -205,20 +205,25 @@ public class GameModel implements ControllableGameModel {
         // Initialize ball at center
         float ballX = viewport.getWorldWidth() / 2;
         float ballY = viewport.getWorldHeight() / 2 + 1.5f;
-        ball = new Ball("BallImage.png", ballX, ballY);
+        Texture ballTexture = new Texture("BallImage.png");
+        ball = new Ball(ballTexture, ballX, ballY);
 
         // Initialize players at opposite ends
         float player2X = viewport.getWorldWidth() / 8 * 6.5f;
-        player2 = new Player("player_2.png", player2X, 0, false);
+        Texture player2Texture = new Texture("player_2.png");
+        player2 = new Player(player2Texture, player2X, 0, false);
 
         float playerWidth = player2.getWidth();
         float player1X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
-        player1 = new Player("player_1.png", player1X, 0, true);
+        Texture player1Texture = new Texture("player_1.png");
+        player1 = new Player(player1Texture, player1X, 0, true);
 
-        leftGoal = new Goal("GoalLeft.png", 0, 0, false);
+        Texture leftGoalTexture = new Texture("GoalLeft.png");
+        leftGoal = new Goal(leftGoalTexture, 0, 0, false);
 
+        Texture rightGoalTexture = new Texture("GoalRight.png");
         float rightGoalX = viewport.getWorldWidth() - leftGoal.getWidth();
-        rightGoal = new Goal("GoalRight.png", rightGoalX, 0, true);
+        rightGoal = new Goal(rightGoalTexture, rightGoalX, 0, true);
     }
 
     private void initCollideables() {
@@ -254,18 +259,18 @@ public class GameModel implements ControllableGameModel {
     public float getRemainingTime() {
         return gameTime;
     }
-    
+
     // ----------- Powerup Spawning Logic ---------------
     // Only one powerup on screen at a time.
-    // There must be at least 5 seconds before spawning a new powerup after the last one disappears,
+    // There must be at least 5 seconds before spawning a new powerup after the last
+    // one disappears,
     // and a new powerup should spawn within 10 seconds.
-    
-    
+
     private float getRandomSpawnDelay() {
         // Delay between 5 and 10 seconds
-        return 2f + (float)Math.random() * 5f;
+        return 2f + (float) Math.random() * 5f;
     }
-    
+
     private void updatePowerupSpawning(float delta) {
         if (currentPowerup == null) {
             powerupSpawnTimer += delta;
@@ -284,17 +289,18 @@ public class GameModel implements ControllableGameModel {
             }
         }
     }
-    
+
     private void spawnPowerup() {
         Powerup randomPowerup = PowerupFactory.getRandomPowerup();
-        float spawnX = (float)Math.random() * viewport.getWorldWidth()-1f;
-        float spawnY = (float)Math.random() * viewport.getWorldHeight()/4;
-        currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), "Powerup.png", 1f);
+        float spawnX = (float) Math.random() * viewport.getWorldWidth() - 1f;
+        float spawnY = (float) Math.random() * viewport.getWorldHeight() / 4;
+        Texture powerupTexture = new Texture("Powerup.png");
+        currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), powerupTexture, 1f);
         collideables.add(currentPowerup);
     }
 
     public PowerupPickup getCurrentPowerup() {
         return currentPowerup;
     }
-    
+
 }

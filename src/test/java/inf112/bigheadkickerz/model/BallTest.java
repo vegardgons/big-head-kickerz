@@ -1,180 +1,173 @@
-// package inf112.bigheadkickerz.model;
+package inf112.bigheadkickerz.model;
 
-// import static org.junit.jupiter.api.Assertions.*;
-// import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-// import com.badlogic.gdx.graphics.Texture;
-// import com.badlogic.gdx.graphics.g2d.Sprite;
-// import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-// import com.badlogic.gdx.utils.viewport.Viewport;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.MockedConstruction;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-// public class BallTest {
+/** Testclass of Ball. */
+public class BallTest {
 
-// private Ball ball;
-// private Sprite mockSprite = mock(Sprite.class);
-// private SpriteBatch mockBatch = mock(SpriteBatch.class);
-// private Viewport mockViewport = mock(Viewport.class);
+  private Ball ball;
+  private SpriteBatch batch;
+  private Viewport viewport;
 
-// @BeforeEach
-// void setUp() {
-// // Mock Texture for the ball to avoid file-related issues
-// try (MockedConstruction<Texture> mockedTexture =
-// mockConstruction(Texture.class)) {
-// // When creating the ball, the mocked Texture will be used
-// ball = new Ball("BallImage.png", 5, 5, 1);
-// ball.getSprite().setPosition(5, 5);
-// }
-// }
+  @BeforeEach
+  void setUp() {
+    Texture textureMock = mock(Texture.class);
+    ball = new Ball(textureMock, 5, 10);
+    batch = mock(SpriteBatch.class);
 
-// @Test
-// void testInitialPosition() {
-// assertEquals(5, ball.getSprite().getX(), 0.1f);
-// assertEquals(5, ball.getSprite().getY(), 0.1f);
-// float expectedSize = ball.getSprite().getX() + ball.getSprite().getWidth() /
-// 2; // Center of sprite
-// assertEquals(expectedSize, ball.getX(), 0.1f);
-// }
+    viewport = Mockito.mock(Viewport.class);
+    Mockito.when(viewport.getWorldWidth()).thenReturn(10f);
+    Mockito.when(viewport.getWorldHeight()).thenReturn(10f);
+  }
 
-// @Test
-// void testApplyImpulse() {
-// ball.applyImpulse(3, 4);
-// assertEquals(30, ball.getVelocityX(), 0.1f); // Impulse factor should be
-// applied (x * 10)
-// assertEquals(40, ball.getVelocityY(), 0.1f); // Impulse factor should be
-// applied (y * 10)
-// }
+  @Test
+  void testConstructor() {
+    assertNotNull(ball);
+    assertEquals(5 - ball.getWidth() / 2, ball.getPosition().x);
+    assertEquals(10, ball.getPosition().y);
+    assertEquals(new Vector2(0, 0), ball.getVelocity());
+  }
 
-// @Test
-// void testSetPosition() {
-// ball.setPosition(10, 10);
-// assertEquals(9.7, ball.getSprite().getX(), 0.1f); // Position should be set
-// to 10, but sprite is centered
-// assertEquals(10, ball.getSprite().getY(), 0.1f);
-// }
+  @Test
+  void testGetters() {
+    assertEquals(0.6f, ball.getWidth());
+    assertEquals(0.6f, ball.getHeight());
+    assertEquals(0.5f, ball.getWeight());
+    assertEquals(new Vector2(0, 0), ball.getVelocity());
+    assertEquals(-9.81f, ball.getGravity());
+  }
 
-// @Test
-// void testReset() {
-// ball.applyImpulse(5, 5); // Apply some velocity to the ball
-// ball.reset(); // Reset the ball to its initial position
+  @Test
+  void testDraw() {
+    ball.draw(batch);
+    Mockito.verify(batch).draw(Mockito.any(Texture.class), Mockito.anyFloat(), Mockito.anyFloat(),
+        Mockito.anyFloat(), Mockito.anyFloat());
+  }
 
-// assertEquals(4.7, ball.getSprite().getX(), 0.1f); // Initial position X,
-// sprite is centered
-// assertEquals(5, ball.getSprite().getY(), 0.1f); // Initial position Y
-// assertEquals(0, ball.getVelocityX(), 0.1f); // Velocity should be reset to 0
-// assertEquals(0, ball.getVelocityY(), 0.1f); // Velocity should be reset to 0
-// }
+  @Test
+  void testChangeGravity() {
+    assertEquals(-9.81f, ball.getGravity());
+    ball.setGravity(-5.0f);
+    assertEquals(-5.0f, ball.getGravity());
+  }
 
-// @Test
-// void testUpdate() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
+  @Test
+  void testChangeVelocity() {
+    assertEquals(new Vector2(0, 0), ball.getVelocity());
+    ball.setVelocity(new Vector2(1, 1));
+    assertEquals(new Vector2(1, 1), ball.getVelocity());
+  }
 
-// ball.setVelocity(10, 10);
-// float initialX = ball.getSprite().getX();
-// float initialY = ball.getSprite().getY();
+  @Test
+  void testChangePosition() {
+    assertEquals(new Vector2(5 - ball.getWidth() / 2, 10), ball.getPosition());
+    ball.setPosition(new Vector2(1, 1));
+    assertEquals(new Vector2(1, 1), ball.getPosition());
+  }
 
-// ball.update(mockViewport, 0.016f); // Assume 60 FPS, deltaTime = 1/60
+  @Test
+  void testBoundariesLeftEdge() {
+    ball.setPosition(new Vector2(-1, 5));
+    ball.update(viewport, 1);
+    // Check if the ball's position is reset to 0
+    assertEquals(0, ball.getPosition().x);
+  }
 
-// assertTrue(ball.getSprite().getX() > initialX); // Horizontal velocity should
-// move the ball
-// assertTrue(ball.getSprite().getY() > initialY); // Vertical velocity should
-// move the ball
-// }
+  @Test
+  void testBoundariesRightEdge() {
+    ball.setPosition(new Vector2(10, 5));
+    ball.update(viewport, 1);
+    // Check if the ball's position is reset to viewport width - ball width
+    assertEquals(viewport.getWorldWidth() - ball.getWidth(), ball.getPosition().x);
+  }
 
-// @Test
-// void testBounceOffWalls() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
+  @Test
+  void testBoundariesTopEdge() {
+    ball.setPosition(new Vector2(5, 20));
+    ball.update(viewport, 1);
+    // Check if the ball's position is reset to viewport height - ball height
+    assertEquals(viewport.getWorldHeight() - ball.getHeight(), ball.getPosition().y);
+  }
 
-// ball.setPosition(0, 300); // Place ball at the left wall
-// ball.setVelocity(-10, 0); // Set a negative velocity (moving left)
+  @Test
+  void testBoundariesBottomEdge() {
+    ball.setPosition(new Vector2(5, -1));
+    ball.update(viewport, 1);
+    // Check if the ball's position is reset to 0
+    assertEquals(0, ball.getPosition().y);
+  }
 
-// ball.update(mockViewport, 0.016f); // Update with deltaTime
+  @Test
+  void testReset() {
+    ball.setPosition(new Vector2(5, 5));
+    ball.setVelocity(new Vector2(1, 1));
+    ball.reset();
 
-// assertTrue(ball.getVelocityX() > 0); // Ball should bounce and change
-// direction
-// }
+    assertEquals(new Vector2(5 - ball.getWidth() / 2, 10), ball.getPosition());
+    assertEquals(new Vector2(0, 0), ball.getVelocity());
+  }
 
-// @Test
-// void testDrawCallsSpriteDraw() {
-// ball.draw(mockBatch);
-// verify(mockSprite, never()).draw(mockBatch);
-// }
+  @Test
+  void testCollidesWithGoalDoesNothing() {
+    Goal goal = mock(Goal.class);
+    when(goal.getPosition()).thenReturn(new Vector2(5, 10));
+    when(goal.getWidth()).thenReturn(1f);
+    when(goal.getHeight()).thenReturn(1.2f);
 
-// @Test
-// void testLeftWallCollision() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
+    // Returns false even if the ball is in the goal, because the logic is in the
+    // Goal class
+    assertFalse(ball.collides(goal));
+  }
 
-// ball.setPosition(0, 300); // Place ball at the left wall
-// ball.setVelocity(-10, 0); // Set a negative velocity (moving left)
+  @Test
+  void testCollidesWithPlayer() {
+    Player player = mock(Player.class);
+    when(player.getPosition()).thenReturn(new Vector2(5, 10));
+    when(player.getWidth()).thenReturn(1f);
+    when(player.getHeight()).thenReturn(1.2f);
 
-// ball.update(mockViewport, 0.1f); // Update with deltaTime
+    assertTrue(ball.collides(player));
+  }
 
-// assertTrue(ball.getVelocityX() > 0); // Ball should bounce and change
-// direction
-// }
+  @Test
+  void testCollisionGoal() {
+    Goal goal = mock(Goal.class);
+    when(goal.getPosition()).thenReturn(new Vector2(5, 10));
+    when(goal.getWidth()).thenReturn(1f);
+    when(goal.getHeight()).thenReturn(1.2f);
 
-// @Test
-// void testRightWallCollision() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
+    ball.collision(goal);
 
-// ball.setPosition(800, 300); // Place ball at the right wall
-// ball.setVelocity(10, 0); // Set a positive velocity (moving right)
+    // Verify that the ball's velocity is not changed
+    verify(goal, Mockito.never()).setVelocity(Mockito.any());
+    verify(goal, Mockito.never()).setPosition(Mockito.any());
+  }
 
-// ball.update(mockViewport, 0.1f); // Update with deltaTime
+  @Test
+  void testCollisionWithPlayer() {
+    Player player = mock(Player.class);
+    when(player.getPosition()).thenReturn(new Vector2(5, 10));
+    when(player.getVelocity()).thenReturn(new Vector2(1, 0));
 
-// assertTrue(ball.getVelocityX() < 0); // Ball should bounce and change
-// direction
-// }
+    when(player.getWidth()).thenReturn(1f);
+    when(player.getHeight()).thenReturn(1.2f);
 
-// @Test
-// void testRoofCollision() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
+    ball.collision(player);
 
-// ball.setPosition(400, 600); // Place ball at the roof
-// ball.setVelocity(0, 10); // Set a positive velocity (moving up)
-
-// ball.update(mockViewport, 0.1f); // Update with deltaTime
-
-// assertTrue(ball.getVelocityY() < 0); // Ball should bounce and change
-// direction
-// }
-
-// @Test
-// void testGroundCollision() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
-
-// ball.setPosition(400, 0); // Place ball at the ground
-// ball.setVelocity(0, -10); // Set a negative velocity (moving down)
-
-// ball.update(mockViewport, 0.1f); // Update with deltaTime
-
-// assertTrue(ball.getVelocityY() > 0); // Ball should bounce and change
-// direction
-// }
-
-// @Test
-// void testVelocityStopsOnGround() {
-// when(mockViewport.getWorldWidth()).thenReturn(800f);
-// when(mockViewport.getWorldHeight()).thenReturn(600f);
-
-// ball.setPosition(400, 0); // Place ball at the ground
-// ball.setVelocity(0, -0.05f); // Set a negative velocity (moving down)
-
-// // Update 10 times
-// for (int i = 0; i < 10; i++) {
-// ball.update(mockViewport, 0.016f); // 60 FPS (delta = 1/60)
-// }
-
-// assertEquals(0, ball.getVelocityY(), 0.01f); // Ball should stop moving on
-// the ground
-// }
-
-// }
+    verify(player, Mockito.never()).setPosition(Mockito.any());
+  }
+}
