@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-/** Testclass of Ball. */
+/** Test class of Ball. */
 public class BallTest {
 
   private Ball ball;

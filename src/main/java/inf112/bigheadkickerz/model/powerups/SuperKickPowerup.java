@@ -6,7 +6,7 @@ import inf112.bigheadkickerz.model.Player;
  * Increases the player's kick power.
  */
 public class SuperKickPowerup extends AbstractPowerup {
-  private float kickBoostMultiplier;
+  private final float kickBoostMultiplier;
 
   public SuperKickPowerup(float duration, float kickBoostMultiplier) {
     super(duration);

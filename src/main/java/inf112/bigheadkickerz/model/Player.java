@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
 
+import java.util.Comparator;
+
 /** Class for the player object. */
 public class Player implements GameObject, Collideable, IPowerup {
 
@@ -22,26 +24,26 @@ public class Player implements GameObject, Collideable, IPowerup {
   private float jumpHeight = 6f;
   private float kickPower = 4f;
 
-  private PlayerController playerController;
+  private final PlayerController playerController;
   private Vector2 velocity;
-  private Vector2 startPos;
+  private final Vector2 startPos;
   private Vector2 pos;
-  private boolean player1;
+  private final boolean isPlayer1;
 
   // fields for kick animation
   private boolean isKicking = false;
   private float kickStateTime = 0f;
   private Animation<TextureRegion> kickAnimation;
-  private TextureRegion idleFrame;
+  private final TextureRegion idleFrame;
 
   /** Constructor for Player. */
-  public Player(Texture texture, float startX, float startY, boolean player1) {
+  public Player(Texture texture, float startX, float startY, boolean isPlayer1) {
     this.idleFrame = new TextureRegion(texture);
     this.startPos = new Vector2(startX, startY);
     this.pos = new Vector2(startX, startY);
     this.velocity = new Vector2(0, 0);
-    this.playerController = new PlayerController(player1, this);
-    this.player1 = player1;
+    this.playerController = new PlayerController(isPlayer1, this);
+    this.isPlayer1 = isPlayer1;
   }
 
   /**
@@ -59,7 +61,7 @@ public class Player implements GameObject, Collideable, IPowerup {
   public void update(Viewport viewport, float delta) {
 
     velocity.y += gravity * delta;
-    Vector2 newVel = playerController.movePlayer(viewport, delta);
+    Vector2 newVel = playerController.movePlayer();
     setVelocity(new Vector2(newVel));
     pos.add(velocity.x * delta, velocity.y * delta);
 
@@ -114,9 +116,9 @@ public class Player implements GameObject, Collideable, IPowerup {
     TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("kick_animation.atlas"));
     Array<TextureAtlas.AtlasRegion> frames = atlas.findRegions("kick");
 
-    frames.sort((a, b) -> Integer.compare(a.index, b.index));
+    frames.sort(Comparator.comparingInt(a -> a.index));
 
-    if (!player1) {
+    if (!isPlayer1) {
       for (TextureAtlas.AtlasRegion region : frames) {
         region.flip(true, false);
       }
@@ -160,8 +162,7 @@ public class Player implements GameObject, Collideable, IPowerup {
 
   @Override
   public boolean collides(Collideable other) {
-    if (other instanceof Goal) {
-      Goal goal = (Goal) other;
+    if (other instanceof Goal goal) {
       return goal.collides(this);
     }
 
@@ -222,18 +223,17 @@ public class Player implements GameObject, Collideable, IPowerup {
   }
 
   @Override
-  public float setGravity(float gravity) {
-    return this.gravity = gravity;
+  public void setGravity(float gravity) {
+    this.gravity = gravity;
   }
 
   @Override
-  public float setHeight(float height) {
-    return this.height = height;
+  public void setHeight(float height) {this.height = height;
   }
 
   @Override
-  public float setWidth(float width) {
-    return this.width = width;
+  public void setWidth(float width) {
+    this.width = width;
   }
 
   @Override
@@ -242,8 +242,8 @@ public class Player implements GameObject, Collideable, IPowerup {
   }
 
   @Override
-  public float setMovementSpeed(float movementSpeed) {
-    return this.movementSpeed = movementSpeed;
+  public void setMovementSpeed(float movementSpeed) {
+    this.movementSpeed = movementSpeed;
   }
 
   @Override
@@ -252,8 +252,8 @@ public class Player implements GameObject, Collideable, IPowerup {
   }
 
   @Override
-  public float setJumpHeight(float jumpHeight) {
-    return this.jumpHeight = jumpHeight;
+  public void setJumpHeight(float jumpHeight) {
+    this.jumpHeight = jumpHeight;
   }
 
   @Override
@@ -262,8 +262,8 @@ public class Player implements GameObject, Collideable, IPowerup {
   }
 
   @Override
-  public float setKickPower(float kickPower) {
-    return this.kickPower = kickPower;
+  public void setKickPower(float kickPower) {
+    this.kickPower = kickPower;
   }
 
 }

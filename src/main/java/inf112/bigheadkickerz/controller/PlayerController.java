@@ -3,32 +3,29 @@ package inf112.bigheadkickerz.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.model.Player;
 
 /** Class for controlling the player. */
 public class PlayerController {
 
   private boolean isJumping;
-  private boolean player1;
-  private Player player;
+  private final boolean isPlayer1;
+  private final Player player;
 
   /**
    * Updated constructor that accepts a Player instance.
    * (Minimal change: we add only what’s necessary for kicking.)
    */
-  public PlayerController(boolean player1, Player player) {
-    this.player1 = player1;
+  public PlayerController(boolean isPlayer1, Player player) {
+    this.isPlayer1 = isPlayer1;
     this.player = player;
   }
 
   /**
    * Method for moving the player and detecting kick inputs.
    *
-   * @param viewport The viewport for screen boundaries.
-   * @param delta    Time since the last frame.
    */
-  public Vector2 movePlayer(Viewport viewport, float delta) {
+  public Vector2 movePlayer() {
     float currentVx = player.getVelocity().x;
     float currentVy = player.getVelocity().y;
     float movementSpeed = player.getMovementSpeed();
@@ -38,7 +35,7 @@ public class PlayerController {
       isJumping = false;
     }
 
-    if (player1) {
+    if (isPlayer1) {
       if (Gdx.input.isKeyPressed(Input.Keys.D)) {
         currentVx = movementSpeed;
       } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {

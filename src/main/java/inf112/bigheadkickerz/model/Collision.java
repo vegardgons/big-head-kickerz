@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Collision {
 
-  private ArrayList<Collideable> collideables;
+  private final ArrayList<Collideable> collideables;
 
   public Collision(ArrayList<Collideable> collideables) {
     this.collideables = collideables;

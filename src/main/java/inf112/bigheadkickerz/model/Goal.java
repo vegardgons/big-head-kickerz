@@ -10,13 +10,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class Goal implements GameObject, Collideable {
 
-  private Texture texture;
-  private Vector2 pos;
+  private final Texture texture;
+  private final Vector2 pos;
   private static final float WIDTH = 1.6f;
   private static final float HEIGHT = 3f;
   private static final float WEIGHT = 1000;
 
-  public Goal(Texture texture, float x, float y, boolean rightGoal) {
+  public Goal(Texture texture, float x, float y) {
     this.texture = texture;
     this.pos = new Vector2(x, y);
   }
@@ -48,8 +48,7 @@ public class Goal implements GameObject, Collideable {
 
   @Override
   public void collision(Collideable other) {
-    if (other instanceof Player) {
-      Player player = (Player) other;
+    if (other instanceof Player player) {
       Vector2 playerPos = player.getPosition();
       Vector2 playerVelocity = player.getVelocity();
 
@@ -59,8 +58,7 @@ public class Goal implements GameObject, Collideable {
         player.setPosition(new Vector2(playerPos.x, HEIGHT - 0.15f));
         player.setVelocity(new Vector2(playerVelocity.x, 0));
       }
-    } else if (other instanceof Ball) {
-      Ball ball = (Ball) other;
+    } else if (other instanceof Ball ball) {
       Vector2 ballPos = ball.getPosition();
       Vector2 ballVelocity = ball.getVelocity();
 

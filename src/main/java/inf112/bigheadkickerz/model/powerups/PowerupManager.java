@@ -23,8 +23,8 @@ public class PowerupManager {
   }
 
   private static class ActivePowerup {
-    Player player;
-    Powerup powerup;
+    final Player player;
+    final Powerup powerup;
     float timeLeft;
 
     public ActivePowerup(Player player, Powerup powerup) {
@@ -34,7 +34,7 @@ public class PowerupManager {
     }
   }
 
-  private List<ActivePowerup> activePowerups = new ArrayList<>();
+  private final List<ActivePowerup> activePowerups = new ArrayList<>();
 
   public void addPowerup(Player player, Powerup powerup) {
     activePowerups.add(new ActivePowerup(player, powerup));

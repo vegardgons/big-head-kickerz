@@ -6,7 +6,7 @@ import inf112.bigheadkickerz.model.Player;
  * Increases the player's JumpHeight.
  */
 public class SuperJumpPowerup extends AbstractPowerup {
-  private float jumpBoostMultiplier;
+  private final float jumpBoostMultiplier;
 
   public SuperJumpPowerup(float duration, float jumpBoostMultiplier) {
     super(duration);

@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class ScoreBoard {
   private final BitmapFont font;
   private final GlyphLayout layout;
-  private SpriteBatch spriteBatch;
+  private final SpriteBatch spriteBatch;
 
   /**
    * Constructor initializes rendering components with a custom font.

@@ -6,7 +6,7 @@ import inf112.bigheadkickerz.model.Player;
  * Increases the player's movement speed.
  */
 public class SuperSpeedPowerup extends AbstractPowerup {
-  private float speedMultiplier;
+  private final float speedMultiplier;
 
   public SuperSpeedPowerup(float duration, float speedMultiplier) {
     super(duration);

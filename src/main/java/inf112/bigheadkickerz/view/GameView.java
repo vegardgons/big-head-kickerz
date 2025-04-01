@@ -16,22 +16,6 @@ public interface GameView {
    */
   void draw(SpriteBatch batch, Viewport viewport);
 
-  /**
-   * Main render method for rendering the entire game.
-   */
-  default void render() {
-    // Default implementation does nothing
-  }
-
-  /**
-   * Handle screen resizing.
-   *
-   * @param width  new width
-   * @param height new height
-   */
-  default void resize(int width, int height) {
-    // Default implementation does nothing
-  }
 
   /**
    * Dispose resources.

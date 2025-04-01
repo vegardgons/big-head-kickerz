@@ -1,6 +1,7 @@
 package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.utils.Align;
  * ControlsOverlay is a class that displays the controls for two players
  * on a white background.
  */
-public class ControlsOverlay {
+public class ControlsOverlay extends ScreenAdapter {
   private final BitmapFont font;
   private final GlyphLayout layout;
   private final Texture whiteTexture;
@@ -86,9 +87,7 @@ public class ControlsOverlay {
     float topTextY = y - padding;
     float leftTextX = x + padding;
     font.draw(spriteBatch, leftColumn, leftTextX, topTextY,
-        columnWidth,
-        Align.center,
-        false);
+        columnWidth, Align.center, false);
 
     float rightTextX = leftTextX + columnWidth + columnSpacing;
     font.draw(spriteBatch, rightColumn, rightTextX, topTextY,
