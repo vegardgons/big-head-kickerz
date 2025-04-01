@@ -26,7 +26,7 @@ public class PlayerController {
    *
    */
   public Vector2 movePlayer() {
-    float currentVx = player.getVelocity().x;
+    float currentVx;
     float currentVy = player.getVelocity().y;
     float movementSpeed = player.getMovementSpeed();
     float jumpHeight = player.getJumpHeight();
