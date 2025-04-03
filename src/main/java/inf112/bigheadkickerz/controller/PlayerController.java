@@ -13,8 +13,7 @@ public class PlayerController {
   private final Player player;
 
   /**
-   * Updated constructor that accepts a Player instance.
-   * (Minimal change: we add only what’s necessary for kicking.)
+   * Constructor for PlayerController.
    */
   public PlayerController(boolean isPlayer1, Player player) {
     this.isPlayer1 = isPlayer1;
@@ -23,7 +22,6 @@ public class PlayerController {
 
   /**
    * Method for moving the player and detecting kick inputs.
-   *
    */
   public Vector2 movePlayer() {
     float currentVx;
