@@ -96,7 +96,6 @@ public class GameModel implements ControllableGameModel {
     updateGameObjects(delta);
 
     updatePowerupSpawning(delta);
-    PowerupManager.getInstance().update(delta);
   }
 
   private void assessCurrentGameState(float delta) {
@@ -314,6 +313,7 @@ public class GameModel implements ControllableGameModel {
         nextSpawnDelay = getRandomSpawnDelay();
       }
     }
+    PowerupManager.update(delta);
   }
 
   private void spawnPowerup() {
