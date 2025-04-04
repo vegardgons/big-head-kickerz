@@ -24,6 +24,7 @@ public class GameController implements Screen {
 
   @Override
   public void show() {
+    // No implementation needed
   }
 
   @Override
@@ -34,14 +35,13 @@ public class GameController implements Screen {
         Assets.playStartWhistle();
       }
       // Draw the overlay on top of the game screen
-      gameView.render(); // It will draw the world…
+      gameView.render(delta); // It will draw the world…
       // And then you might call your controls overlay drawing here:
       gameView.drawControlsOverlay(); // A new method in GameViewImpl that uses your ControlsOverlay
     } else {
       gameModel.update(delta);
-      gameView.render();
+      gameView.render(delta);
     }
-
   }
 
   @Override
@@ -51,14 +51,17 @@ public class GameController implements Screen {
 
   @Override
   public void pause() {
+    // No implementation needed
   }
 
   @Override
   public void resume() {
+    // No implementation needed
   }
 
   @Override
   public void hide() {
+    // No implementation needed
   }
 
   @Override

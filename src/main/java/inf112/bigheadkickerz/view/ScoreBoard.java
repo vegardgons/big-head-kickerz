@@ -1,6 +1,7 @@
 package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  * ScoreBoard displays the current game score at the top of the screen
  * using a custom font for better scaling.
  */
-public class ScoreBoard {
+public class ScoreBoard extends ScreenAdapter {
   private final BitmapFont font;
   private final GlyphLayout layout;
   private final SpriteBatch spriteBatch;
@@ -35,9 +36,6 @@ public class ScoreBoard {
     generator.dispose();
   }
 
-  /**
-   * Draw player1 score.
-   */
   public void drawPlayer1Score(int player1Score) {
     String score = String.valueOf(player1Score);
     layout.setText(font, score);
@@ -84,9 +82,7 @@ public class ScoreBoard {
     spriteBatch.end();
   }
 
-  /**
-   * Dispose resources.
-   */
+  @Override
   public void dispose() {
     font.dispose();
     spriteBatch.dispose();

@@ -32,10 +32,8 @@ public class GameViewImpl extends AScreen {
     controlsOverlay = new ControlsOverlay();
   }
 
-  /**
-   * Render all game objects.
-   */
-  public void render() {
+  @Override
+  public void render(float delta) {
     FitViewport viewport = gameModel.getViewport();
     viewport.apply();
     spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
@@ -43,20 +41,15 @@ public class GameViewImpl extends AScreen {
 
   }
 
-  /**
-   * Handle screen resize.
-   */
+  @Override
   public void resize(int width, int height) {
     gameModel.getViewport().update(width, height, true);
   }
 
-  /**
-   * Dispose resources.
-   */
+  @Override
   public void dispose() {
     spriteBatch.dispose();
     scoreBoard.dispose();
-    field.dispose();
   }
 
   /**

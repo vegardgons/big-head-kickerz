@@ -10,6 +10,7 @@ import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +36,8 @@ public class GameModel implements ControllableGameModel {
   private Goal rightGoal;
   private ArrayList<Collideable> collideables;
   private Collision collisionHandler;
+
+  private SecureRandom random;
 
   // Score tracking
   private int player1Score;
@@ -65,6 +68,7 @@ public class GameModel implements ControllableGameModel {
     this.game = game;
     this.gameState = gameState;
     this.viewport = new FitViewport(WIDTH, HEIGHT);
+    this.random = new SecureRandom();
 
     initGameObjects();
     initCollideables();
@@ -272,7 +276,7 @@ public class GameModel implements ControllableGameModel {
 
   private float getRandomSpawnDelay() {
     // Delay between 5 and 10 seconds
-    return 2f + (float) Math.random() * 5f;
+    return 5f + random.nextFloat() * 5f;
   }
 
   private void updatePowerupSpawning(float delta) {
@@ -296,8 +300,8 @@ public class GameModel implements ControllableGameModel {
 
   private void spawnPowerup() {
     Powerup randomPowerup = PowerupFactory.getRandomPowerup();
-    float spawnX = (float) Math.random() * viewport.getWorldWidth() - 1f;
-    float spawnY = (float) Math.random() * viewport.getWorldHeight() / 4;
+    float spawnX = random.nextFloat() * viewport.getWorldWidth() - 1f;
+    float spawnY = random.nextFloat() * viewport.getWorldHeight() / 4;
     Texture powerupTexture = new Texture("Powerup.png");
     currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), powerupTexture, 1f);
     collideables.add(currentPowerup);
