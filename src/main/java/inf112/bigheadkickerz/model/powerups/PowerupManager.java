@@ -7,11 +7,12 @@ import java.util.List;
 
 /** Class to manage powerups. */
 public class PowerupManager {
-  // Use a singleton for easy access
-  private static volatile PowerupManager instance;
 
+  /**
+   * Private constructor to prevent instantiation.
+   */
   private PowerupManager() {
-    // Private constructor to prevent instantiation
+    // Prevent instantiation
   }
 
   /**
@@ -20,14 +21,34 @@ public class PowerupManager {
    * @return the singleton instance of PowerupManager
    */
   public static PowerupManager getInstance() {
-    if (instance == null) {
-      synchronized (PowerupManager.class) {
-        if (instance == null) {
-          instance = new PowerupManager();
-        }
+    return Holder.INSTANCE;
+  }
+
+  private final static List<ActivePowerup> activePowerups = new ArrayList<>();
+
+  public static void addPowerup(Player player, Powerup powerup) {
+    PowerupManager.activePowerups.add(new ActivePowerup(player, powerup));
+  }
+
+  /**
+   * Update the powerup manager. This should be called every frame.
+   *
+   * @param delta the time since the last frame in seconds
+   */
+  public static void update(float delta) {
+    Iterator<ActivePowerup> it = activePowerups.iterator();
+    while (it.hasNext()) {
+      ActivePowerup ap = it.next();
+      ap.timeLeft -= delta;
+      if (ap.timeLeft <= 0) {
+        ap.powerup.expire(ap.player);
+        it.remove();
       }
     }
-    return instance;
+  }
+
+  private static class Holder {
+    private static final PowerupManager INSTANCE = new PowerupManager();
   }
 
   private static class ActivePowerup {
@@ -39,29 +60,6 @@ public class PowerupManager {
       this.player = player;
       this.powerup = powerup;
       this.timeLeft = powerup.getDuration();
-    }
-  }
-
-  private final List<ActivePowerup> activePowerups = new ArrayList<>();
-
-  public void addPowerup(Player player, Powerup powerup) {
-    activePowerups.add(new ActivePowerup(player, powerup));
-  }
-
-  /**
-   * Update the powerup manager. This should be called every frame.
-   *
-   * @param delta the time since the last frame in seconds
-   */
-  public void update(float delta) {
-    Iterator<ActivePowerup> it = activePowerups.iterator();
-    while (it.hasNext()) {
-      ActivePowerup ap = it.next();
-      ap.timeLeft -= delta;
-      if (ap.timeLeft <= 0) {
-        ap.powerup.expire(ap.player);
-        it.remove();
-      }
     }
   }
 }
