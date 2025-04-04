@@ -14,10 +14,19 @@ public class Assets {
   public static Music startWhistle;
 
   /**
+   * Constructor for Assets.
+   * This constructor is private to prevent instantiation of this class.
+   */
+  private Assets() {
+    // Prevent instantiation
+    throw new IllegalStateException("Utility class");
+  }
+
+  /**
    * Loads the sound files.
    * This method loads the sound files from the assets folder.
    */
-  public static void load() {
+  public static final void load() {
     menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
     goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
     startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
@@ -27,7 +36,7 @@ public class Assets {
    * Plays the menu music.
    * This method plays the menu music in a loop.
    */
-  public static void playMenuMusic() {
+  public static final void playMenuMusic() {
     if (!menuMusic.isPlaying()) {
       menuMusic.setLooping(true);
       menuMusic.play();
@@ -38,7 +47,7 @@ public class Assets {
    * Stops the menu music.
    * This method stops the menu music if it is playing.
    */
-  public static void stopMenuMusic() {
+  public static final void stopMenuMusic() {
     if (menuMusic.isPlaying()) {
       menuMusic.stop();
     }
@@ -48,7 +57,7 @@ public class Assets {
    * Plays the start whistle sound.
    * This method plays the start whistle sound.
    */
-  public static void playStartWhistle() {
+  public static final void playStartWhistle() {
     startWhistle.play();
   }
 
@@ -56,7 +65,7 @@ public class Assets {
    * Plays the goal sound.
    * This method plays the goal sound.
    */
-  public static void playGoalSound() {
+  public static final void playGoalSound() {
     goalSound.play();
   }
 
@@ -64,7 +73,7 @@ public class Assets {
    * Disposes of the sound files.
    * This method disposes of the sound files to free up resources.
    */
-  public static void dispose() {
+  public static final void dispose() {
     menuMusic.dispose();
     goalSound.dispose();
     startWhistle.dispose();

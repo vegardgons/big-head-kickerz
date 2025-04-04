@@ -1,6 +1,6 @@
 package inf112.bigheadkickerz.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles collision detection between objects in the game.
@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Collision {
 
-  private final ArrayList<Collideable> collideables;
+  private final List<Collideable> collideables;
 
-  public Collision(ArrayList<Collideable> collideables) {
+  public Collision(List<Collideable> collideables) {
     this.collideables = collideables;
   }
 

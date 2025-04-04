@@ -25,6 +25,7 @@ public class GameController implements Screen {
   @Override
   public void show() {
     // No implementation needed
+    // No implementation needed
   }
 
   @Override

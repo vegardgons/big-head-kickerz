@@ -166,7 +166,7 @@ public class Ball implements GameObject, Collideable {
 
   @Override
   public float getHeight() {
-    return BALL_SIZE;
+    return getWidth();
   }
 
   public float getGravity() {
