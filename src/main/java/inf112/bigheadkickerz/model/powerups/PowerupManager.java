@@ -15,15 +15,6 @@ public class PowerupManager {
     // Prevent instantiation
   }
 
-  /**
-   * Get the singleton instance of PowerupManager.
-   *
-   * @return the singleton instance of PowerupManager
-   */
-  public static PowerupManager getInstance() {
-    return Holder.INSTANCE;
-  }
-
   private final static List<ActivePowerup> activePowerups = new ArrayList<>();
 
   public static void addPowerup(Player player, Powerup powerup) {
@@ -45,10 +36,6 @@ public class PowerupManager {
         it.remove();
       }
     }
-  }
-
-  private static class Holder {
-    private static final PowerupManager INSTANCE = new PowerupManager();
   }
 
   private static class ActivePowerup {
