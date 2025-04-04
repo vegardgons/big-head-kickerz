@@ -1,7 +1,7 @@
 package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * This class handles the common functionality for all screens, @
  * such as rendering and input processing.
  */
-public abstract class AScreen implements Screen {
+public abstract class AScreen extends ScreenAdapter {
 
   private final Stage stage;
   private final Texture backgroundTexture;
@@ -43,10 +43,6 @@ public abstract class AScreen implements Screen {
   }
 
   @Override
-  public void show() {
-  }
-
-  @Override
   public void render(float delta) {
     batch.begin();
     stage.draw();
@@ -56,18 +52,6 @@ public abstract class AScreen implements Screen {
   @Override
   public void resize(int width, int height) {
     stage.getViewport().update(width, height, true);
-  }
-
-  @Override
-  public void pause() {
-  }
-
-  @Override
-  public void resume() {
-  }
-
-  @Override
-  public void hide() {
   }
 
   @Override

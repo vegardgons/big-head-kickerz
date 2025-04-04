@@ -47,6 +47,15 @@ public class ControlsOverlay extends ScreenAdapter {
    * Draws two centered columns (Player 1 / Player 2) and a bottom line
    * ("SPACE to start"), side by side, on a white sign.
    */
+  @Override
+  public void render(float delta) {
+    draw();
+  }
+
+  /**
+   * Draws the controls overlay.
+   * The overlay consists of two columns for player controls and a bottom line.
+   */
   public void draw() {
 
     String leftColumn = "Player 1\nWASD - move\nSPACE - kick";
@@ -100,9 +109,7 @@ public class ControlsOverlay extends ScreenAdapter {
     spriteBatch.end();
   }
 
-  /**
-   * Disposes of the font and sprite batch.
-   */
+  @Override
   public void dispose() {
     spriteBatch.dispose();
     font.dispose();

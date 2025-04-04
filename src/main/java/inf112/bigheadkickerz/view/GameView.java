@@ -16,11 +16,4 @@ public interface GameView {
    */
   void draw(SpriteBatch batch, Viewport viewport);
 
-
-  /**
-   * Dispose resources.
-   */
-  default void dispose() {
-    // Default implementation does nothing
-  }
 }

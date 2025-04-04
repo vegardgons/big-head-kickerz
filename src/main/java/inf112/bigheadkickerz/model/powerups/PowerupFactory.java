@@ -1,12 +1,12 @@
 package inf112.bigheadkickerz.model.powerups;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * A factory to randomly generate a powerup.
  */
 public class PowerupFactory {
-  private static final Random random = new Random();
+  private static final SecureRandom random = new SecureRandom();
 
   /**
    * Generates a random powerup.
