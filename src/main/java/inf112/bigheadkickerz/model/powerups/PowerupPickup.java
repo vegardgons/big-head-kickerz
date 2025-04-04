@@ -98,7 +98,7 @@ public class PowerupPickup implements GameObject, Collideable {
 
   @Override
   public float getHeight() {
-    return size;
+    return getWidth();
   }
 
   public boolean isCollected() {

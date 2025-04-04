@@ -107,11 +107,11 @@ public class GameModel implements ControllableGameModel {
       if (gameTime <= 0) {
         setGameOver(true);
       }
-    } else if (gameState == GameState.FIRST_TO_SEVEN) {
-      if (player1Score >= goalThreshold || player2Score >= goalThreshold) {
-        setGameOver(true);
-      }
+    } else if (gameState == GameState.FIRST_TO_SEVEN &&
+        (player1Score >= goalThreshold || player2Score >= goalThreshold)) {
+      setGameOver(true);
     }
+
   }
 
   private void handleGoal(float delta) {

@@ -8,7 +8,11 @@ import java.util.List;
 /** Class to manage powerups. */
 public class PowerupManager {
   // Use a singleton for easy access
-  private static PowerupManager instance;
+  private static volatile PowerupManager instance;
+
+  private PowerupManager() {
+    // Private constructor to prevent instantiation
+  }
 
   /**
    * Get the singleton instance of PowerupManager.
@@ -17,7 +21,11 @@ public class PowerupManager {
    */
   public static PowerupManager getInstance() {
     if (instance == null) {
-      instance = new PowerupManager();
+      synchronized (PowerupManager.class) {
+        if (instance == null) {
+          instance = new PowerupManager();
+        }
+      }
     }
     return instance;
   }

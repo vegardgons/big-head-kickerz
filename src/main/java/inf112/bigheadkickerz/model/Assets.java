@@ -9,9 +9,9 @@ import com.badlogic.gdx.audio.Music;
  * and stop them.
  */
 public class Assets {
-  public static Music menuMusic;
-  public static Music goalSound;
-  public static Music startWhistle;
+  public static final Music menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
+  public static final Music goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
+  public static final Music startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
 
   /**
    * Constructor for Assets.
@@ -20,16 +20,6 @@ public class Assets {
   private Assets() {
     // Prevent instantiation
     throw new IllegalStateException("Utility class");
-  }
-
-  /**
-   * Loads the sound files.
-   * This method loads the sound files from the assets folder.
-   */
-  public static final void load() {
-    menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
-    goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
-    startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
   }
 
   /**
