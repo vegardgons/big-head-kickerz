@@ -15,7 +15,7 @@ public class PowerupManager {
     // Prevent instantiation
   }
 
-  private final static List<ActivePowerup> activePowerups = new ArrayList<>();
+  private static final List<ActivePowerup> activePowerups = new ArrayList<>();
 
   public static void addPowerup(Player player, Powerup powerup) {
     PowerupManager.activePowerups.add(new ActivePowerup(player, powerup));
