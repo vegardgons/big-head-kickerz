@@ -58,7 +58,7 @@ public class PowerupPickup implements GameObject, Collideable {
 
   @Override
   public void collision(Collideable other) {
-    if (!collected && other instanceof Player player ) {
+    if (!collected && other instanceof Player player) {
       powerup.apply(player);
       PowerupManager.getInstance().addPowerup(player, powerup);
       collected = true;

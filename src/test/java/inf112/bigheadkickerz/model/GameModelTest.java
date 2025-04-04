@@ -53,10 +53,10 @@ public class GameModelTest {
 
   @Test
   void testDismissControls() {
-    GameModel gameModel = new GameModel(mock(BigHeadKickerzGame.class), GameState.FIRST_TO_SEVEN);
-    assertTrue(gameModel.isShowControls());
-    gameModel.dismissControls();
-    assertFalse(gameModel.isShowControls());
+    GameModel gameModelWithControls = new GameModel(mock(BigHeadKickerzGame.class), GameState.FIRST_TO_SEVEN);
+    assertTrue(gameModelWithControls.isShowControls());
+    gameModelWithControls.dismissControls();
+    assertFalse(gameModelWithControls.isShowControls());
   }
 
   @Test
@@ -82,11 +82,11 @@ public class GameModelTest {
 
   @Test
   void testTimer() {
-    GameModel gameModel = new GameModel(mock(BigHeadKickerzGame.class), GameState.TIMED);
-    gameModel.dismissControls();
-    assertEquals(60, gameModel.getRemainingTime());
-    gameModel.update(1f);
-    assertEquals(59, gameModel.getRemainingTime());
+    GameModel gameModelTimed = new GameModel(mock(BigHeadKickerzGame.class), GameState.TIMED);
+    gameModelTimed.dismissControls();
+    assertEquals(60, gameModelTimed.getRemainingTime());
+    gameModelTimed.update(1f);
+    assertEquals(59, gameModelTimed.getRemainingTime());
   }
 
   @Test
@@ -106,10 +106,10 @@ public class GameModelTest {
 
   @Test
   void testGameOverTimed() {
-    GameModel gameModel = new GameModel(mock(BigHeadKickerzGame.class), GameState.TIMED);
-    gameModel.dismissControls();
-    gameModel.update(60f);
-    assertEquals(GameState.GAME_OVER, gameModel.getGameState());
+    GameModel gameModelTimed = new GameModel(mock(BigHeadKickerzGame.class), GameState.TIMED);
+    gameModelTimed.dismissControls();
+    gameModelTimed.update(60f);
+    assertEquals(GameState.GAME_OVER, gameModelTimed.getGameState());
   }
 
   @Test
