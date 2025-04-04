@@ -20,57 +20,62 @@ public class PlayerController {
     this.player = player;
   }
 
-  /**
-   * Method for moving the player and detecting kick inputs.
-   */
   public Vector2 movePlayer() {
-    float currentVx;
-    float currentVy = player.getVelocity().y;
-    float movementSpeed = player.getMovementSpeed();
-    float jumpHeight = player.getJumpHeight();
-
     if (player.getPosition().y == 0) {
       isJumping = false;
     }
 
+    float currentVx = getHorizontalVelocity();
+    float currentVy = handleJump(player.getVelocity().y);
+    handleKick();
+
+    return new Vector2(currentVx, currentVy);
+  }
+
+  private float getHorizontalVelocity() {
+    float movementSpeed = player.getMovementSpeed();
     if (isPlayer1) {
       if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-        currentVx = movementSpeed;
+        return movementSpeed;
       } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-        currentVx = -movementSpeed;
-      } else {
-        currentVx = 0;
+        return -movementSpeed;
       }
-      if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-        if (!isJumping) {
-          currentVy = jumpHeight;
-          isJumping = true;
-        }
+    } else {
+      if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        return movementSpeed;
+      } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        return -movementSpeed;
       }
+    }
+    return 0;
+  }
+
+  private float handleJump(float currentVy) {
+    float jumpHeight = player.getJumpHeight();
+    if (isPlayer1) {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
+        isJumping = true;
+        return jumpHeight;
+      }
+    } else {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
+        isJumping = true;
+        return jumpHeight;
+      }
+    }
+    return currentVy;
+  }
+
+  private void handleKick() {
+    if (isPlayer1) {
       if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
         player.kick();
       }
     } else {
-      if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-        currentVx = movementSpeed;
-      } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-        currentVx = -movementSpeed;
-      } else {
-        currentVx = 0;
-      }
-      if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-        if (!isJumping) {
-          currentVy = jumpHeight;
-          isJumping = true;
-        }
-      }
       if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
         player.kick();
       }
-
     }
-    return new Vector2(currentVx, currentVy);
-
   }
 
 }

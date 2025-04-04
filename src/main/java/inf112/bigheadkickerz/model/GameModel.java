@@ -89,6 +89,17 @@ public class GameModel implements ControllableGameModel {
     if (showControls) {
       return;
     }
+
+    assessCurrentGameState(delta);
+    handleGoal(delta);
+    handleGameOver(delta);
+    updateGameObjects(delta);
+
+    updatePowerupSpawning(delta);
+    PowerupManager.getInstance().update(delta);
+  }
+
+  private void assessCurrentGameState(float delta) {
     if (gameState == GameState.TIMED) {
       if (!isGoal) {
         gameTime -= delta;
@@ -101,6 +112,9 @@ public class GameModel implements ControllableGameModel {
         setGameOver(true);
       }
     }
+  }
+
+  private void handleGoal(float delta) {
     if (!isGoal && checkForGoal()) {
       setIsGoal(true);
     }
@@ -112,6 +126,9 @@ public class GameModel implements ControllableGameModel {
         resetPositions();
       }
     }
+  }
+
+  private void handleGameOver(float delta) {
     if (gameOver) {
       gameState = GameState.GAME_OVER;
       gameTime = 0;
@@ -121,12 +138,13 @@ public class GameModel implements ControllableGameModel {
         endTimer = 0;
       }
     }
+  }
+
+  private void updateGameObjects(float delta) {
     player2.update(viewport, delta);
     player1.update(viewport, delta);
     ball.update(viewport, delta);
     collisionHandler.checkCollision();
-    updatePowerupSpawning(delta);
-    PowerupManager.getInstance().update(delta);
   }
 
   /**
