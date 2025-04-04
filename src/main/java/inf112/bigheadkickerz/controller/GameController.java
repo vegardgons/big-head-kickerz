@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
+import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.GameModel;
 import inf112.bigheadkickerz.model.GameState;
-import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.GameViewImpl;
 
 /**

@@ -9,8 +9,7 @@ import inf112.bigheadkickerz.model.powerups.Powerup;
 import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
-import inf112.bigheadkickerz.view.Assets;
-import inf112.bigheadkickerz.view.ScoreBoard;
+
 import java.util.ArrayList;
 
 /**
@@ -34,7 +33,6 @@ public class GameModel implements ControllableGameModel {
   private Ball ball;
   private Goal leftGoal;
   private Goal rightGoal;
-  private ScoreBoard scoreBoard;
   private ArrayList<Collideable> collideables;
   private Collision collisionHandler;
 
@@ -50,12 +48,12 @@ public class GameModel implements ControllableGameModel {
   // End screen
   private float endTimer;
   private static final float END_DELAY = 2f;
-  private boolean isEnd;
+  private boolean gameOver;
 
   // Viewport for game boundaries
   private final FitViewport viewport;
 
-  private final GameState gameState;
+  private GameState gameState;
   private float gameTime; // Total time in timed mode (seconds)
   private static final float DEFAULT_GAME_TIME = 60f; // e.g., 60 seconds
   private int goalThreshold; // For first-to-seven mode, threshold = 7
@@ -80,35 +78,38 @@ public class GameModel implements ControllableGameModel {
     }
   }
 
-  /** Update game state. */
+  /**
+   * Update game state.
+   */
   public void update(float delta) {
     if (showControls) {
       return;
     }
     if (gameState == GameState.TIMED) {
-      gameTime -= delta;
+      if (!isGoal) {
+        gameTime -= delta;
+      }
       if (gameTime <= 0) {
-        isEnd = true;
+        setGameOver(true);
       }
     } else if (gameState == GameState.FIRST_TO_SEVEN) {
       if (player1Score >= goalThreshold || player2Score >= goalThreshold) {
-        isEnd = true;
+        setGameOver(true);
       }
     }
-
-    // Normal goal and end-screen update
-    if (!isEnd) {
-      if (!isGoal) {
-        checkForGoal();
-      } else {
-        goalTimer += delta;
-        if (goalTimer >= GOAL_DELAY) {
-          isGoal = false;
-          goalTimer = 0;
-          resetPositions();
-        }
+    if (!isGoal && checkForGoal()) {
+      setIsGoal(true);
+    }
+    if (isGoal) {
+      goalTimer += delta;
+      if (goalTimer >= GOAL_DELAY) {
+        setIsGoal(false);
+        goalTimer = 0;
+        resetPositions();
       }
-    } else {
+    }
+    if (gameOver) {
+      gameState = GameState.GAME_OVER;
       gameTime = 0;
       endTimer += delta;
       if (endTimer >= END_DELAY) {
@@ -116,17 +117,11 @@ public class GameModel implements ControllableGameModel {
         endTimer = 0;
       }
     }
-
-    // Update game objects and collisions
     player2.update(viewport, delta);
     player1.update(viewport, delta);
     ball.update(viewport, delta);
     collisionHandler.checkCollision();
-
-    // Update powerup spawning (only one active at a time)
     updatePowerupSpawning(delta);
-
-    // Update active powerups (their durations, etc.)
     PowerupManager.getInstance().update(delta);
   }
 
@@ -146,25 +141,34 @@ public class GameModel implements ControllableGameModel {
     showControls = false;
   }
 
-  private void checkForGoal() {
+  private boolean checkForGoal() {
     float rightGoalX = rightGoal.getPosition().x;
     float leftGoalX = leftGoal.getPosition().x;
     if (ball.getPosition().x > rightGoalX && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
       player1Score++;
-      isGoal = true;
       Assets.playGoalSound();
+      return true;
     } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()
         && ball.getPosition().y + ball.getHeight() < leftGoal.getHeight()) {
       player2Score++;
-      isGoal = true;
       Assets.playGoalSound();
+      return true;
     }
+    return false;
   }
 
   private void resetPositions() {
     ball.reset();
     player2.reset();
     player1.reset();
+  }
+
+  private void setIsGoal(boolean isGoal) {
+    this.isGoal = isGoal;
+  }
+
+  private void setGameOver(boolean gameOver) {
+    this.gameOver = gameOver;
   }
 
   // Getters for game objects and viewport
@@ -202,10 +206,6 @@ public class GameModel implements ControllableGameModel {
     return this.player2Score;
   }
 
-  public ScoreBoard getScoreBoard() {
-    return this.scoreBoard;
-  }
-
   private void initGameObjects() {
     // Initialize ball at center
     float ballX = viewport.getWorldWidth() / 2;
@@ -220,7 +220,7 @@ public class GameModel implements ControllableGameModel {
 
     float playerWidth = player2.getWidth();
     float player1X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
-    Texture player1Texture = new Texture("player_1.png");
+    Texture player1Texture = new Texture("Player_1.png");
     player1 = new Player(player1Texture, player1X, 0, true);
 
     Texture leftGoalTexture = new Texture("GoalLeft.png");
@@ -244,16 +244,15 @@ public class GameModel implements ControllableGameModel {
   }
 
   private void initScoreTracking() {
-    scoreBoard = new ScoreBoard();
     player1Score = 0;
     player2Score = 0;
     goalTimer = 0;
-    isGoal = false;
+    setIsGoal(false);
   }
 
   private void initEndScreenTimer() {
     endTimer = 0;
-    isEnd = false;
+    setGameOver(false);
   }
 
   @Override

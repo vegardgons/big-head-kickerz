@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Goal implements GameObject, Collideable {
 
   private final Texture texture;
-  private final Vector2 pos;
+  private Vector2 pos;
   private static final float WIDTH = 1.6f;
   private static final float HEIGHT = 3f;
   private static final float WEIGHT = 1000;
@@ -93,17 +93,17 @@ public class Goal implements GameObject, Collideable {
 
   @Override
   public void update(Viewport viewport, float delta) {
-
+    // Unused method
   }
 
   @Override
   public void setVelocity(Vector2 velocity) {
-
+    // Unused method
   }
 
   @Override
   public void setPosition(Vector2 pos) {
-
+    this.pos = pos;
   }
 
   @Override

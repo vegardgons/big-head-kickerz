@@ -28,7 +28,7 @@ public class GameViewImpl extends AScreen {
 
     // Initialize field
     field = new Field("OldTrafford.png");
-    scoreBoard = gameModel.getScoreBoard();
+    scoreBoard = new ScoreBoard();
     controlsOverlay = new ControlsOverlay();
   }
 

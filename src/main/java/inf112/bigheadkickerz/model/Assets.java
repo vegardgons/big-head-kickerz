@@ -1,4 +1,4 @@
-package inf112.bigheadkickerz.view;
+package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
