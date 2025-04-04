@@ -6,7 +6,7 @@ package inf112.bigheadkickerz.model.powerups;
 public abstract class AbstractPowerup implements Powerup {
   protected final float duration;
 
-  public AbstractPowerup(float duration) {
+  protected AbstractPowerup(float duration) {
     this.duration = duration;
   }
 

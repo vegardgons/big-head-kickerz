@@ -21,7 +21,7 @@ public class BiggerPowerup extends AbstractPowerup {
 
   @Override
   public void expire(Player player) {
-    player.setHeight(player.getHeight() * sizeMultiplier);
-    player.setWidth(player.getWidth() * sizeMultiplier);
+    player.setHeight(player.getHeight() / sizeMultiplier);
+    player.setWidth(player.getWidth() / sizeMultiplier);
   }
 }

@@ -2,7 +2,6 @@ package inf112.bigheadkickerz.app;
 
 import com.badlogic.gdx.Game;
 import inf112.bigheadkickerz.controller.GameController;
-import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.view.EndScreen;
 import inf112.bigheadkickerz.view.StartScreen;
@@ -15,7 +14,6 @@ public class BigHeadKickerzGame extends Game {
 
   @Override
   public void create() {
-    Assets.load();
     setScreen(new StartScreen(this));
   }
 

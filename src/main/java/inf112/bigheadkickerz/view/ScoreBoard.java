@@ -41,7 +41,7 @@ public class ScoreBoard extends ScreenAdapter {
     layout.setText(font, score);
 
     float x = 20;
-    float y = Gdx.graphics.getHeight() - 20; // 20 pixels from the top
+    float y = (float) Gdx.graphics.getHeight() - 20; // 20 pixels from the top
 
     spriteBatch.begin();
     font.draw(spriteBatch, score, x, y);
@@ -57,7 +57,7 @@ public class ScoreBoard extends ScreenAdapter {
     float textWidth = layout.width;
 
     float x = (Gdx.graphics.getWidth() - textWidth) - 20;
-    float y = Gdx.graphics.getHeight() - 20;
+    float y = (float) Gdx.graphics.getHeight() - 20;
 
     spriteBatch.begin();
     font.draw(spriteBatch, score, x, y);
@@ -75,7 +75,7 @@ public class ScoreBoard extends ScreenAdapter {
     float textWidth = layout.width;
 
     float x = (Gdx.graphics.getWidth() - textWidth) / 2;
-    float y = Gdx.graphics.getHeight() - 20;
+    float y = (float) Gdx.graphics.getHeight() - 20;
 
     spriteBatch.begin();
     font.draw(spriteBatch, time, x, y);

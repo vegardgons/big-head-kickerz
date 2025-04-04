@@ -29,7 +29,6 @@ public class GameModelTest {
     GL20 glMock = mock(GL20.class);
     Gdx.gl = glMock;
     Gdx.gl20 = glMock;
-    Assets.load();
   }
 
   @BeforeEach
