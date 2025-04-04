@@ -34,10 +34,8 @@ public class GameController implements Screen {
         gameModel.dismissControls();
         Assets.playStartWhistle();
       }
-      // Draw the overlay on top of the game screen
-      gameView.render(delta); // It will draw the world…
-      // And then you might call your controls overlay drawing here:
-      gameView.drawControlsOverlay(); // A new method in GameViewImpl that uses your ControlsOverlay
+      gameView.render(delta);
+      gameView.drawControlsOverlay();
     } else {
       gameModel.update(delta);
       gameView.render(delta);

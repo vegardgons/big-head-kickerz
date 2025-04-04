@@ -60,6 +60,7 @@ public class EndScreen extends AScreen {
     Assets.stopMenuMusic();
   }
 
+  @Override
   public void dispose() {
     playAgainButton.remove();
     exitButton.remove();

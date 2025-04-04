@@ -34,21 +34,21 @@ class PlayerControllerTest {
   void testMoveLeft() {
     when(Gdx.input.isKeyPressed(Input.Keys.A)).thenReturn(true);
     Vector2 newVel = playerController1.movePlayer();
-    assertEquals(new Vector2(-5,0), newVel);
+    assertEquals(new Vector2(-5, 0), newVel);
   }
 
   @Test
   void testMoveRight() {
     when(Gdx.input.isKeyPressed(Input.Keys.D)).thenReturn(true);
     Vector2 newVel = playerController1.movePlayer();
-    assertEquals(new Vector2(5,0), newVel);
+    assertEquals(new Vector2(5, 0), newVel);
   }
 
   @Test
   void testJump() {
     when(Gdx.input.isKeyJustPressed(Input.Keys.W)).thenReturn(true);
     Vector2 newVel = playerController1.movePlayer();
-    assertEquals(new Vector2(0,10f), newVel);
+    assertEquals(new Vector2(0, 10f), newVel);
   }
 
   @Test
@@ -62,21 +62,21 @@ class PlayerControllerTest {
   void testMoveLeftPlayer2() {
     when(Gdx.input.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
     Vector2 newVel = playerController2.movePlayer();
-    assertEquals(new Vector2(-5,0), newVel);
+    assertEquals(new Vector2(-5, 0), newVel);
   }
 
   @Test
   void testMoveRightPlayer2() {
     when(Gdx.input.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
     Vector2 newVel = playerController2.movePlayer();
-    assertEquals(new Vector2(5,0), newVel);
+    assertEquals(new Vector2(5, 0), newVel);
   }
 
   @Test
   void testJumpPlayer2() {
     when(Gdx.input.isKeyJustPressed(Input.Keys.UP)).thenReturn(true);
     Vector2 newVel = playerController2.movePlayer();
-    assertEquals(new Vector2(0,10f), newVel);
+    assertEquals(new Vector2(0, 10f), newVel);
   }
 
   @Test
@@ -85,6 +85,5 @@ class PlayerControllerTest {
     playerController2.movePlayer();
     verify(playerMock, times(1)).kick();
   }
-
 
 }

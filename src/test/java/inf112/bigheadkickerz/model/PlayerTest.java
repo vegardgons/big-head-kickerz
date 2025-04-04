@@ -26,7 +26,7 @@ import org.mockito.Mockito;
 /**
  * Test class for the Player class.
  */
-public class PlayerTest {
+class PlayerTest {
 
   private Player player;
   private SpriteBatch batch;
