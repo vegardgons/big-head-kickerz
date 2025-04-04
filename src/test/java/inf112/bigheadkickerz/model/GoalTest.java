@@ -112,10 +112,10 @@ class GoalTest {
   }
 
   @Test
-  void setPositionDoesNothing() {
+  void testSetPosition() {
     Vector2 newPosition = new Vector2(1, 1);
     goal.setPosition(newPosition);
-    assertEquals(new Vector2(5, 10), goal.getPosition());
+    assertEquals(new Vector2(1, 1), goal.getPosition());
   }
 
   @Test
