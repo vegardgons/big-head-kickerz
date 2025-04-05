@@ -26,7 +26,7 @@ public class Assets {
    * Plays the menu music.
    * This method plays the menu music in a loop.
    */
-  public static final void playMenuMusic() {
+  public static void playMenuMusic() {
     if (!menuMusic.isPlaying()) {
       menuMusic.setLooping(true);
       menuMusic.play();
@@ -37,7 +37,7 @@ public class Assets {
    * Stops the menu music.
    * This method stops the menu music if it is playing.
    */
-  public static final void stopMenuMusic() {
+  public static void stopMenuMusic() {
     if (menuMusic.isPlaying()) {
       menuMusic.stop();
     }
@@ -47,7 +47,7 @@ public class Assets {
    * Plays the start whistle sound.
    * This method plays the start whistle sound.
    */
-  public static final void playStartWhistle() {
+  public static void playStartWhistle() {
     startWhistle.play();
   }
 
@@ -55,15 +55,15 @@ public class Assets {
    * Plays the goal sound.
    * This method plays the goal sound.
    */
-  public static final void playGoalSound() {
+  public static void playGoalSound() {
     goalSound.play();
   }
 
   /**
-   * Disposes of the sound files.
-   * This method disposes of the sound files to free up resources.
+   * Disposes of the assets.
+   * This method disposes of the music assets to free up resources.
    */
-  public static final void dispose() {
+  public static void dispose() {
     menuMusic.dispose();
     goalSound.dispose();
     startWhistle.dispose();
