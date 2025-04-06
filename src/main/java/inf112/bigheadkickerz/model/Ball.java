@@ -133,16 +133,9 @@ public class Ball implements GameObject, Collideable {
     if (other instanceof Goal goal) {
       return goal.collides(this);
     }
-
-    Vector2 otherPos = other.getPosition();
-    float otherWidth = other.getWidth();
-    float otherHeight = other.getHeight();
-
-    boolean overlapX = pos.x + BALL_SIZE > otherPos.x && otherPos.x + otherWidth > pos.x;
-    boolean overlapY = pos.y + BALL_SIZE > otherPos.y && otherPos.y + otherHeight > pos.y;
-
-    return overlapX && overlapY;
+    return rectangleCollides(other);
   }
+
 
   @Override
   public void setVelocity(Vector2 velocity) {

@@ -9,6 +9,7 @@ import inf112.bigheadkickerz.model.powerups.Powerup;
 import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
+import inf112.bigheadkickerz.view.ViewableGameModel;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * GameModel holds all game state and implements ControllableGameModel
  * to allow the controller to interact with it.
  */
-public class GameModel implements ControllableGameModel {
+public class GameModel implements ControllableGameModel, ViewableGameModel {
   // Game dimensions
   private static final float WIDTH = 15;
   private static final float HEIGHT = 8;
@@ -37,7 +38,7 @@ public class GameModel implements ControllableGameModel {
   private ArrayList<Collideable> collideables;
   private Collision collisionHandler;
 
-  private SecureRandom random;
+  private final SecureRandom random;
 
   // Score tracking
   private int player1Score;

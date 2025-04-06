@@ -130,7 +130,7 @@ public class Player implements GameObject, Collideable, IPowerup {
   @Override
   public void collision(Collideable other) {
     if (other instanceof Ball || other instanceof Goal) {
-      return; // Skip collision handling if it's with a Ball or Goal
+      return;
     }
 
     Vector2 otherPos = other.getPosition();
@@ -154,7 +154,6 @@ public class Player implements GameObject, Collideable, IPowerup {
       }
     }
 
-    // Adjust velocities (simple elastic collision)
     Vector2 tempVel = velocity.cpy();
     velocity.set(other.getVelocity());
     other.setVelocity(tempVel);
@@ -165,17 +164,7 @@ public class Player implements GameObject, Collideable, IPowerup {
     if (other instanceof Goal goal) {
       return goal.collides(this);
     }
-
-    Vector2 otherPos = other.getPosition();
-    float otherWidth = other.getWidth();
-    float otherHeight = other.getHeight();
-
-    // Rectangular collision detection
-    boolean overlapX = pos.x < otherPos.x + otherWidth && pos.x + width > otherPos.x;
-
-    boolean overlapY = pos.y < otherPos.y + otherHeight && pos.y + height > otherPos.y;
-
-    return overlapX && overlapY;
+    return rectangleCollides(other);
   }
 
   @Override

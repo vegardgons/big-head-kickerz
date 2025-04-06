@@ -73,4 +73,12 @@ public interface Collideable {
    */
   boolean collides(Collideable other);
 
+  default boolean rectangleCollides(Collideable other) {
+    Vector2 posA = this.getPosition();
+    Vector2 posB = other.getPosition();
+    return posA.x < posB.x + other.getWidth() &&
+        posA.x + this.getWidth() > posB.x &&
+        posA.y < posB.y + other.getHeight() &&
+        posA.y + this.getHeight() > posB.y;
+  }
 }
