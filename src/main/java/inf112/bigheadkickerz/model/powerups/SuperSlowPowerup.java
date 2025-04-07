@@ -8,6 +8,12 @@ import inf112.bigheadkickerz.model.Player;
 public class SuperSlowPowerup extends AbstractPowerup {
   private final float slowMultiplier;
 
+  /**
+   * Constructor for SuperSlowPowerup.
+   *
+   * @param duration       the duration of the powerup
+   * @param slowMultiplier the multiplier for the player's movement speed
+   */
   public SuperSlowPowerup(float duration, float slowMultiplier) {
     super(duration);
     this.slowMultiplier = slowMultiplier;

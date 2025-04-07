@@ -8,6 +8,12 @@ import inf112.bigheadkickerz.model.Player;
 public class SmallerPowerup extends AbstractPowerup {
   private final float sizeMultiplier;
 
+  /**
+   * Constructor for SmallerPowerup.
+   *
+   * @param duration       the duration of the powerup
+   * @param sizeMultiplier the multiplier for the player's size
+   */
   public SmallerPowerup(float duration, float sizeMultiplier) {
     super(duration);
     this.sizeMultiplier = sizeMultiplier;

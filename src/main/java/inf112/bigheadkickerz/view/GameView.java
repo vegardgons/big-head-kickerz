@@ -91,6 +91,7 @@ public class GameView extends AScreen {
     scoreBoard.drawPlayer2Score(gameModel.getPlayer2Score());
   }
 
+  /** Draws the controls overlay. */
   public void drawControlsOverlay() {
     controlsOverlay.draw();
   }

@@ -17,6 +17,10 @@ public class GameController implements Screen {
   private final GameModel gameModel;
   private final GameView gameView;
 
+  /**
+   * Constructor for the GameController.
+   * Initializes the game model and view.
+   */
   public GameController(BigHeadKickerzGame game, GameState gameState) {
     this.gameModel = new GameModel(game, gameState);
     this.gameView = new GameView(gameModel);
