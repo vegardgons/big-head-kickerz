@@ -73,12 +73,19 @@ public interface Collideable {
    */
   boolean collides(Collideable other);
 
+  /**
+   * Check if this object collides with another Collideable object using rectangle
+   * collision detection.
+   *
+   * @param other the other Collideable object
+   * @return true if the objects collide, false otherwise
+   */
   default boolean rectangleCollides(Collideable other) {
     Vector2 posA = this.getPosition();
     Vector2 posB = other.getPosition();
-    return posA.x < posB.x + other.getWidth() &&
-        posA.x + this.getWidth() > posB.x &&
-        posA.y < posB.y + other.getHeight() &&
-        posA.y + this.getHeight() > posB.y;
+    return posA.x < posB.x + other.getWidth()
+        && posA.x + this.getWidth() > posB.x
+        && posA.y < posB.y + other.getHeight()
+        && posA.y + this.getHeight() > posB.y;
   }
 }

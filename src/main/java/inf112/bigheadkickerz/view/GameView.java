@@ -62,24 +62,28 @@ public class GameView extends AScreen {
    * @param viewport Viewport for rendering
    */
   public void draw(SpriteBatch batch, Viewport viewport) {
-    Player player1 = gameModel.getPlayer2();
-    Player player2 = gameModel.getPlayer1();
-    Ball ball = gameModel.getBall();
-    Goal rightGoal = gameModel.getRightGoal();
-    Goal leftGoal = gameModel.getLeftGoal();
-
     batch.begin();
     batch.draw(inGameBackground, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+    Player player1 = gameModel.getPlayer1();
     player1.draw(batch);
+
+    Player player2 = gameModel.getPlayer2();
     player2.draw(batch);
+
+    Ball ball = gameModel.getBall();
     ball.draw(batch);
+
+    Goal leftGoal = gameModel.getLeftGoal();
     leftGoal.draw(batch);
+
+    Goal rightGoal = gameModel.getRightGoal();
     rightGoal.draw(batch);
+
     if (gameModel.getCurrentPowerup() != null) {
       gameModel.getCurrentPowerup().draw(batch);
     }
-
     batch.end();
+
     if (gameModel.getGameState() == GameState.TIMED) {
       scoreBoard.drawTimer(gameModel.getRemainingTime());
     }
