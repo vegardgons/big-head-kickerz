@@ -9,6 +9,13 @@ public final class PowerupFactory {
   private static final SecureRandom random = new SecureRandom();
 
   /**
+   * Private constructor to prevent instantiation.
+   */
+  private PowerupFactory() {
+    // Prevent instantiation
+  }
+
+  /**
    * Generates a random powerup.
    *
    * @return a random powerup

@@ -17,6 +17,13 @@ public final class Assets {
       Gdx.files.internal("assets/start_game_whistle.mp3"));
 
   /**
+   * Private constructor to prevent instantiation.
+   */
+  private Assets() {
+    // Prevent instantiation
+  }
+
+  /**
    * Plays the menu music.
    * This method plays the menu music in a loop.
    */
