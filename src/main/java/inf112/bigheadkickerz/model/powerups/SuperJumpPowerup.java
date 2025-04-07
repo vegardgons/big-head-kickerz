@@ -8,6 +8,12 @@ import inf112.bigheadkickerz.model.Player;
 public class SuperJumpPowerup extends AbstractPowerup {
   private final float jumpBoostMultiplier;
 
+  /**
+   * Constructor for SuperJumpPowerup.
+   *
+   * @param duration            the duration of the powerup
+   * @param jumpBoostMultiplier the multiplier for the player's jump height
+   */
   public SuperJumpPowerup(float duration, float jumpBoostMultiplier) {
     super(duration);
     this.jumpBoostMultiplier = jumpBoostMultiplier;

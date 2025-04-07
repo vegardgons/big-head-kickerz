@@ -17,6 +17,12 @@ public class PowerupManager {
 
   private static final List<ActivePowerup> activePowerups = new ArrayList<>();
 
+  /**
+   * Adds a powerup to the player.
+   *
+   * @param player  the player to add the powerup to
+   * @param powerup the powerup to add
+   */
   public static void addPowerup(Player player, Powerup powerup) {
     PowerupManager.activePowerups.add(new ActivePowerup(player, powerup));
   }

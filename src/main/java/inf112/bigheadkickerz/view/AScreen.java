@@ -24,6 +24,10 @@ public abstract class AScreen extends ScreenAdapter {
   protected final Skin skin;
   protected final Table table;
 
+  /**
+   * Constructor for AScreen.
+   * Initializes the stage, skin, and background texture.
+   */
   protected AScreen() {
     this.stage = new Stage();
     Gdx.input.setInputProcessor(stage);
