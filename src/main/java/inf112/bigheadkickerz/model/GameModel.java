@@ -10,7 +10,6 @@ import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import inf112.bigheadkickerz.view.ViewableGameModel;
-
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
@@ -107,8 +106,8 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
       if (gameTime <= 0) {
         setGameOver(true);
       }
-    } else if (gameState == GameState.FIRST_TO_SEVEN &&
-        (player1Score >= goalThreshold || player2Score >= goalThreshold)) {
+    } else if (gameState == GameState.FIRST_TO_SEVEN
+        && (player1Score >= goalThreshold || player2Score >= goalThreshold)) {
       setGameOver(true);
     }
 
@@ -166,7 +165,8 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
   private boolean checkForGoal() {
     float rightGoalX = rightGoal.getPosition().x;
     float leftGoalX = leftGoal.getPosition().x;
-    if (ball.getPosition().x > rightGoalX && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
+    if (ball.getPosition().x > rightGoalX
+        && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
       player1Score++;
       Assets.playGoalSound();
       return true;
@@ -322,7 +322,8 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     float spawnX = random.nextFloat() * viewport.getWorldWidth() - 1f;
     float spawnY = random.nextFloat() * viewport.getWorldHeight() / 4;
     Texture powerupTexture = new Texture("Powerup.png");
-    currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), powerupTexture, 1f);
+    currentPowerup = new PowerupPickup(randomPowerup,
+        new Vector2(spawnX, spawnY), powerupTexture, 1f);
     collideables.add(currentPowerup);
   }
 

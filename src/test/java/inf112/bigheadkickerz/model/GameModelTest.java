@@ -1,5 +1,11 @@
 package inf112.bigheadkickerz.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -12,13 +18,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-
+/** Test class for the GameModel class. */
 public class GameModelTest {
 
   private GameModel gameModel;
 
+  /**
+   * Set up the test environment before all tests.
+   * This method initializes the GDX application and mocks the GL20 object.
+   */
   @BeforeAll
   public static void setUpBeforeAll() {
     HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
@@ -31,6 +39,11 @@ public class GameModelTest {
     Gdx.gl20 = glMock;
   }
 
+  /**
+   * Set up the test environment before each test.
+   * This method initializes the GameModel object with a mock game and sets the
+   * game state to FIRST_TO_SEVEN.
+   */
   @BeforeEach
   public void setUpFirstToSeven() {
     BigHeadKickerzGame gameMock = mock(BigHeadKickerzGame.class);
@@ -52,7 +65,8 @@ public class GameModelTest {
 
   @Test
   void testDismissControls() {
-    GameModel gameModelWithControls = new GameModel(mock(BigHeadKickerzGame.class), GameState.FIRST_TO_SEVEN);
+    GameModel gameModelWithControls = new GameModel(
+        mock(BigHeadKickerzGame.class), GameState.FIRST_TO_SEVEN);
     assertTrue(gameModelWithControls.isShowControls());
     gameModelWithControls.dismissControls();
     assertFalse(gameModelWithControls.isShowControls());
@@ -72,7 +86,8 @@ public class GameModelTest {
     float player1StartPosX = gameModel.getViewport().getWorldWidth() / 8 * (8 - 6.5f)
         - gameModel.getPlayer1().getWidth();
     float player2StartPosX = gameModel.getViewport().getWorldWidth() / 8 * 6.5f;
-    float ballStartPosX = gameModel.getViewport().getWorldWidth() / 2 - gameModel.getBall().getWidth() / 2;
+    float ballStartPosX = gameModel.getViewport().getWorldWidth()
+        / 2 - gameModel.getBall().getWidth() / 2;
     float ballStartPosY = gameModel.getViewport().getWorldHeight() / 2 + 1.5f;
     assertEquals(new Vector2(player1StartPosX, 0), gameModel.getPlayer1().getPosition());
     assertEquals(new Vector2(player2StartPosX, 0), gameModel.getPlayer2().getPosition());
