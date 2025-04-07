@@ -2,70 +2,29 @@ package inf112.bigheadkickerz.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.model.Assets;
-import inf112.bigheadkickerz.model.GameModel;
-import inf112.bigheadkickerz.model.GameState;
-import inf112.bigheadkickerz.view.GameView;
 
-/**
- * Controller for the game screen.
- * This class handles the game logic and rendering.
- */
-public class GameController implements Screen {
-  private final GameModel gameModel;
-  private final GameView gameView;
+public class GameController {
 
-  public GameController(BigHeadKickerzGame game, GameState gameState) {
-    this.gameModel = new GameModel(game, gameState);
-    this.gameView = new GameView(gameModel);
+  private final ControllableGameModel model;
+
+  public GameController(ControllableGameModel model) {
+    this.model = model;
   }
 
-  @Override
-  public void show() {
-    // No implementation needed
-    // No implementation needed
-  }
-
-  @Override
-  public void render(float delta) {
-    if (gameModel.isShowControls()) {
+  /**
+   * Kalles hver frame av GameScreen->render()
+   * for å oppdatere spillet (input + logikk).
+   */
+  public void update(float delta) {
+    if (model.isShowingControls()) {
+      // Vent på at spiller trykker space for å starte
       if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-        gameModel.dismissControls();
+        model.dismissControls();
         Assets.playStartWhistle();
       }
-      gameView.render(delta);
-      gameView.drawControlsOverlay();
     } else {
-      gameModel.update(delta);
-      gameView.render(delta);
+      model.update(delta);
     }
   }
-
-  @Override
-  public void resize(int width, int height) {
-    gameView.resize(width, height);
-  }
-
-  @Override
-  public void pause() {
-    // No implementation needed
-  }
-
-  @Override
-  public void resume() {
-    // No implementation needed
-  }
-
-  @Override
-  public void hide() {
-    // No implementation needed
-  }
-
-  @Override
-  public void dispose() {
-    gameView.dispose();
-  }
-
 }

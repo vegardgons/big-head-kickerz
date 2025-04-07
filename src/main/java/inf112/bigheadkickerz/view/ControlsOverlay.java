@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.Align;
 
 /**
- * ControlsOverlay is a class that displays the controls for two players
+ * ControlsOverlay is a class that displays the isShowingControls for two players
  * on a white background.
  */
 public class ControlsOverlay extends ScreenAdapter {
@@ -44,17 +44,8 @@ public class ControlsOverlay extends ScreenAdapter {
   }
 
   /**
-   * Draws two centered columns (Player 1 / Player 2) and a bottom line
-   * ("SPACE to start"), side by side, on a white sign.
-   */
-  @Override
-  public void render(float delta) {
-    draw();
-  }
-
-  /**
-   * Draws the controls overlay.
-   * The overlay consists of two columns for player controls and a bottom line.
+   * Draws the isShowingControls overlay.
+   * The overlay consists of two columns for player isShowingControls and a bottom line.
    */
   public void draw() {
 

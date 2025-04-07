@@ -3,92 +3,74 @@ package inf112.bigheadkickerz.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.model.Ball;
-import inf112.bigheadkickerz.model.GameModel;
-import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.model.Goal;
 import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.model.GameState;
+import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 
-/**
- * GameViewImpl is responsible for rendering all game objects.
- */
-public class GameView extends AScreen {
+public class GameView {
+
+  private final ViewableGameModel model;
   private final SpriteBatch spriteBatch;
   private final Texture inGameBackground;
-  private final GameModel gameModel;
   private final ScoreBoard scoreBoard;
   private final ControlsOverlay controlsOverlay;
 
-  /**
-   * Constructor initializes rendering components.
-   */
-  public GameView(GameModel gameModel) {
-    this.gameModel = gameModel;
-    spriteBatch = new SpriteBatch();
-
-    // Initialize field
-    inGameBackground = new Texture("OldTrafford.png");
-    scoreBoard = new ScoreBoard();
-    controlsOverlay = new ControlsOverlay();
+  public GameView(ViewableGameModel model) {
+    this.model = model;
+    this.spriteBatch = new SpriteBatch();
+    this.inGameBackground = new Texture("OldTrafford.png");
+    this.scoreBoard = new ScoreBoard();
+    this.controlsOverlay = new ControlsOverlay();
   }
 
-  @Override
-  public void render(float delta) {
-    FitViewport viewport = gameModel.getViewport();
+  public void draw() {
+    FitViewport viewport = model.getViewport();
     viewport.apply();
     spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-    draw(spriteBatch, viewport);
+    drawObjects(viewport);
 
   }
 
-  @Override
+  private void drawObjects(FitViewport viewport) {
+    spriteBatch.begin();
+    spriteBatch.draw(inGameBackground, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+    Player p1 = model.getPlayer1();
+    Player p2 = model.getPlayer2();
+    Ball ball = model.getBall();
+    Goal leftGoal = model.getLeftGoal();
+    Goal rightGoal = model.getRightGoal();
+    PowerupPickup powerup = model.getCurrentPowerup();
+    p1.draw(spriteBatch);
+    p2.draw(spriteBatch);
+    ball.draw(spriteBatch);
+    leftGoal.draw(spriteBatch);
+    rightGoal.draw(spriteBatch);
+    if (powerup != null) {
+      powerup.draw(spriteBatch);
+    }
+    spriteBatch.end();
+
+    scoreBoard.drawPlayer1Score(model.getPlayer1Score());
+    scoreBoard.drawPlayer2Score(model.getPlayer2Score());
+    if (model.getGameState() == GameState.TIMED) {
+      scoreBoard.drawTimer(model.getRemainingTime());
+    }
+    if (model.isShowingControls()) {
+      controlsOverlay.draw();
+    }
+
+  }
+
   public void resize(int width, int height) {
-    gameModel.getViewport().update(width, height, true);
+    model.getViewport().update(width, height, true);
   }
 
-  @Override
   public void dispose() {
     spriteBatch.dispose();
     scoreBoard.dispose();
     controlsOverlay.dispose();
     inGameBackground.dispose();
   }
-
-  /**
-   * Draw all game objects.
-   *
-   * @param batch    SpriteBatch for rendering
-   * @param viewport Viewport for rendering
-   */
-  public void draw(SpriteBatch batch, Viewport viewport) {
-    Player player1 = gameModel.getPlayer2();
-    Player player2 = gameModel.getPlayer1();
-    Ball ball = gameModel.getBall();
-    Goal rightGoal = gameModel.getRightGoal();
-    Goal leftGoal = gameModel.getLeftGoal();
-
-    batch.begin();
-    batch.draw(inGameBackground, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-    player1.draw(batch);
-    player2.draw(batch);
-    ball.draw(batch);
-    leftGoal.draw(batch);
-    rightGoal.draw(batch);
-    if (gameModel.getCurrentPowerup() != null) {
-      gameModel.getCurrentPowerup().draw(batch);
-    }
-
-    batch.end();
-    if (gameModel.getGameState() == GameState.TIMED) {
-      scoreBoard.drawTimer(gameModel.getRemainingTime());
-    }
-    scoreBoard.drawPlayer1Score(gameModel.getPlayer1Score());
-    scoreBoard.drawPlayer2Score(gameModel.getPlayer2Score());
-  }
-
-  public void drawControlsOverlay() {
-    controlsOverlay.draw();
-  }
-
 }
