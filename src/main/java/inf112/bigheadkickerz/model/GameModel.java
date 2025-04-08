@@ -275,15 +275,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     return gameTime;
   }
 
-  // ----------- Powerup Spawning Logic ---------------
-  // Only one powerup on screen at a time.
-  // There must be at least 5 seconds before spawning a new powerup after the last
-  // one disappears,
-  // and a new powerup should spawn within 10 seconds.
-
   private float getRandomSpawnDelay() {
-    // Delay between 5 and 10 seconds
-    return 5f + random.nextFloat() * 5f;
+    return 8 + random.nextFloat() * 5;
   }
 
   private void updatePowerupSpawning(float delta) {
@@ -295,7 +288,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
         nextSpawnDelay = getRandomSpawnDelay();
       }
     } else {
-      // If the powerup is active, check if it's been collected.
       if (currentPowerup.isCollected()) {
         collideables.remove(currentPowerup);
         currentPowerup = null;
@@ -310,7 +302,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     Powerup randomPowerup = PowerupFactory.getRandomPowerup();
     float spawnX = random.nextFloat() * viewport.getWorldWidth() - 1f;
     float spawnY = random.nextFloat() * viewport.getWorldHeight() / 4;
-    Texture powerupTexture = new Texture("Powerup.png");
+    Texture powerupTexture = randomPowerup.getTexture();
     currentPowerup = new PowerupPickup(randomPowerup,
         new Vector2(spawnX, spawnY), powerupTexture, 1f);
     collideables.add(currentPowerup);

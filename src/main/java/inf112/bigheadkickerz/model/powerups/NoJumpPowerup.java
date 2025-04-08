@@ -6,8 +6,9 @@ import inf112.bigheadkickerz.model.Player;
 /**
  * Increases the player's JumpHeight.
  */
-public class SuperJumpPowerup extends AbstractPowerup {
+public class NoJumpPowerup extends AbstractPowerup {
   private final float jumpBoostMultiplier;
+  private static final float JUMP_HEIGHT = 5f;
 
   /**
    * Constructor for SuperJumpPowerup.
@@ -15,24 +16,23 @@ public class SuperJumpPowerup extends AbstractPowerup {
    * @param duration            the duration of the powerup
    * @param jumpBoostMultiplier the multiplier for the player's jump height
    */
-  public SuperJumpPowerup(float duration, float jumpBoostMultiplier) {
+  public NoJumpPowerup(float duration, float jumpBoostMultiplier) {
     super(duration);
     this.jumpBoostMultiplier = jumpBoostMultiplier;
   }
 
   @Override
   public void apply(Player player) {
-    // Assumes Player has getKickPower() and setKickPower() methods.
     player.setJumpHeight(player.getJumpHeight() * jumpBoostMultiplier);
   }
 
   @Override
   public void expire(Player player) {
-    player.setJumpHeight(player.getJumpHeight() / jumpBoostMultiplier);
+    player.setJumpHeight(JUMP_HEIGHT);
   }
 
   @Override
   public Texture getTexture() {
-    return new Texture("powerups/increase_jump.png");
+    return new Texture("powerups/decrease_jump.png");
   }
 }

@@ -1,5 +1,6 @@
 package inf112.bigheadkickerz.model.powerups;
 
+import com.badlogic.gdx.graphics.Texture;
 import inf112.bigheadkickerz.model.Player;
 
 /**
@@ -27,5 +28,10 @@ public class SuperSpeedPowerup extends AbstractPowerup {
   @Override
   public void expire(Player player) {
     player.setMovementSpeed(player.getMovementSpeed() / speedMultiplier);
+  }
+
+  @Override
+  public Texture getTexture() {
+    return new Texture("powerups/increase_speed.png");
   }
 }

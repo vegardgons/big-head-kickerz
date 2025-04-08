@@ -41,6 +41,7 @@ public class StartScreen extends AScreen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         game.startTimedMode();
+        dispose();
       }
     });
     table.add(timedButton).uniform().fill();
@@ -52,6 +53,7 @@ public class StartScreen extends AScreen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         game.startFirstToSevenMode();
+        dispose();
       }
     });
     table.add(firstToSevenButton).uniform().fill();

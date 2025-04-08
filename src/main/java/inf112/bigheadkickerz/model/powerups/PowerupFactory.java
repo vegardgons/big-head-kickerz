@@ -7,6 +7,7 @@ import java.security.SecureRandom;
  */
 public final class PowerupFactory {
   private static final SecureRandom random = new SecureRandom();
+  private static final float DURATION = 8f;
 
   /**
    * Private constructor to prevent instantiation.
@@ -21,17 +22,16 @@ public final class PowerupFactory {
    * @return a random powerup
    */
   public static Powerup getRandomPowerup() {
-    int rand = random.nextInt(7); // generates a value from 0 to 6
+    int rand = random.nextInt(6);
 
     return switch (rand) {
-      case 0 -> new SuperSpeedPowerup(5f, 1.5f); // e.g. 5 sec duration, 1.5× speed
-      case 1 -> new SuperSlowPowerup(5f, 0.5f); // 5 sec, 50% speed
-      case 2 -> new LowGravityPowerup(5f, 0.5f); // 5 sec, 50% gravity
-      case 3 -> new SuperKickPowerup(5f, 2f); // 5 sec, 2× kick power
-      case 4 -> new BiggerPowerup(5f, 1.5f); // 5 sec, 1.5× size
-      case 5 -> new SmallerPowerup(5f, 0.75f); // 5 sec, 75% size
-      case 6 -> new SuperJumpPowerup(5f, 2f); // 5 sec, 2× jump power
-      default -> new SuperSpeedPowerup(5f, 1.5f);
+      case 0 -> new SuperSpeedPowerup(DURATION, 1.5f);
+      case 1 -> new SuperSlowPowerup(DURATION, 0.5f);
+      case 2 -> new NoJumpPowerup(DURATION, 0);
+      case 3 -> new BiggerPowerup(DURATION, 1.5f);
+      case 4 -> new SmallerPowerup(DURATION, 0.75f);
+      case 5 -> new SuperJumpPowerup(DURATION, 1.5f);
+      default -> throw new IllegalStateException("Unexpected value: " + rand);
     };
   }
 }

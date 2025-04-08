@@ -20,7 +20,7 @@ public class Player implements GameObject, Collideable, IPowerup {
   private float height = 1.2f;
   private float gravity = -9.81f;
   private float movementSpeed = 4f;
-  private float jumpHeight = 6f;
+  private float jumpHeight = 5f;
   private float kickPower = 4f;
 
   private final PlayerController playerController;
