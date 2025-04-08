@@ -1,11 +1,11 @@
 package inf112.bigheadkickerz.app;
 
 import com.badlogic.gdx.Game;
-import inf112.bigheadkickerz.controller.GameController;
 import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.view.EndScreen;
 import inf112.bigheadkickerz.view.StartScreen;
+import inf112.bigheadkickerz.view.GameScreen;
 
 /**
  * Main class for the Big Head Kickerz game.
@@ -20,12 +20,12 @@ public class BigHeadKickerzGame extends Game {
 
   /** Starts timed mode. */
   public void startTimedMode() {
-    setScreen(new GameController(this, GameState.TIMED));
+    setScreen(new GameScreen(this, GameState.TIMED));
   }
 
   /** Starts first to seven mode. */
   public void startFirstToSevenMode() {
-    setScreen(new GameController(this, GameState.FIRST_TO_SEVEN));
+    setScreen(new GameScreen(this, GameState.FIRST_TO_SEVEN));
   }
 
   /** Screen when game ends. */

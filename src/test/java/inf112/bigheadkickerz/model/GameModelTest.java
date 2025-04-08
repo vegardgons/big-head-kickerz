@@ -67,9 +67,9 @@ public class GameModelTest {
   void testDismissControls() {
     GameModel gameModelWithControls = new GameModel(
         mock(BigHeadKickerzGame.class), GameState.FIRST_TO_SEVEN);
-    assertTrue(gameModelWithControls.isShowControls());
+    assertTrue(gameModelWithControls.isShowingControls());
     gameModelWithControls.dismissControls();
-    assertFalse(gameModelWithControls.isShowControls());
+    assertFalse(gameModelWithControls.isShowingControls());
   }
 
   @Test

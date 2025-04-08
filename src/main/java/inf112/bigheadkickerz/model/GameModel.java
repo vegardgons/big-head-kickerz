@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * GameModel holds all game state and implements ControllableGameModel
  * to allow the controller to interact with it.
  */
-public class GameModel implements ControllableGameModel, ViewableGameModel {
+public class GameModel implements ViewableGameModel, ControllableGameModel {
   // Game dimensions
   private static final float WIDTH = 15;
   private static final float HEIGHT = 8;
@@ -46,20 +46,16 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
   private static final float GOAL_DELAY = 2f;
   private boolean isGoal;
 
-  private boolean showControls = true; // Always start by showing controls
+  private boolean showControls = true;
 
-  // End screen
-  private float endTimer;
-  private static final float END_DELAY = 2f;
-  private boolean gameOver;
+  private boolean gameOver = false;
 
-  // Viewport for game boundaries
   private final FitViewport viewport;
 
   private GameState gameState;
-  private float gameTime; // Total time in timed mode (seconds)
-  private static final float DEFAULT_GAME_TIME = 60f; // e.g., 60 seconds
-  private int goalThreshold; // For first-to-seven mode, threshold = 7
+  private float gameTime;
+  private static final float DEFAULT_GAME_TIME = 60f;
+  private int goalThreshold;
 
   /**
    * Constructor initializes game objects and viewport.
@@ -73,7 +69,6 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     initGameObjects();
     initCollideables();
     initScoreTracking();
-    initEndScreenTimer();
 
     if (gameState == GameState.TIMED) {
       gameTime = DEFAULT_GAME_TIME;
@@ -82,9 +77,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
   }
 
-  /**
-   * Update game state.
-   */
+  @Override
   public void update(float delta) {
     if (showControls) {
       return;
@@ -92,7 +85,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
 
     assessCurrentGameState(delta);
     handleGoal(delta);
-    handleGameOver(delta);
+    handleGameOver();
     updateGameObjects(delta);
 
     updatePowerupSpawning(delta);
@@ -127,15 +120,11 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     }
   }
 
-  private void handleGameOver(float delta) {
+  private void handleGameOver() {
     if (gameOver) {
       gameState = GameState.GAME_OVER;
       gameTime = 0;
-      endTimer += delta;
-      if (endTimer >= END_DELAY) {
-        game.endScreen();
-        endTimer = 0;
-      }
+      game.endScreen();
     }
   }
 
@@ -146,18 +135,12 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     collisionHandler.checkCollision();
   }
 
-  /**
-   * Checks if controls should be shown.
-   *
-   * @return true if controls should be shown, false otherwise
-   */
-  public boolean isShowControls() {
+  @Override
+  public boolean isShowingControls() {
     return showControls;
   }
 
-  /**
-   * Dismisses the controls overlay.
-   */
+  @Override
   public void dismissControls() {
     showControls = false;
   }
@@ -189,31 +172,37 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     this.isGoal = isGoal;
   }
 
-  private void setGameOver(boolean gameOver) {
+  @Override
+  public void setGameOver(boolean gameOver) {
     this.gameOver = gameOver;
   }
 
-  // Getters for game objects and viewport
+  @Override
   public Player getPlayer2() {
     return this.player2;
   }
 
+  @Override
   public Player getPlayer1() {
     return this.player1;
   }
 
+  @Override
   public Ball getBall() {
     return this.ball;
   }
 
+  @Override
   public Goal getRightGoal() {
     return this.rightGoal;
   }
 
+  @Override
   public Goal getLeftGoal() {
     return this.leftGoal;
   }
 
+  @Override
   public FitViewport getViewport() {
     return this.viewport;
   }
@@ -272,16 +261,12 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     setIsGoal(false);
   }
 
-  private void initEndScreenTimer() {
-    endTimer = 0;
-    setGameOver(false);
-  }
-
   @Override
   public GameState getGameState() {
     return this.gameState;
   }
 
+  @Override
   public float getRemainingTime() {
     return gameTime;
   }
@@ -327,6 +312,7 @@ public class GameModel implements ControllableGameModel, ViewableGameModel {
     collideables.add(currentPowerup);
   }
 
+  @Override
   public PowerupPickup getCurrentPowerup() {
     return currentPowerup;
   }
