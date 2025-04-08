@@ -14,13 +14,6 @@ public interface ControllableGameModel {
   void update(float delta);
 
   /**
-   * Sets the game over state.
-   *
-   * @param gameOver boolean indicating if the game is over
-   */
-  void setGameOver(boolean gameOver);
-
-  /**
    * Gets the game state.
    *
    * @return boolean indicating if the game is paused

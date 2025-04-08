@@ -75,6 +75,9 @@ public class GameView {
     if (model.isGoalTextActive()) {
       scoreBoard.drawGoalText(model.getGoalText());
     }
+    if (model.isGameOverTextActive()) {
+      scoreBoard.drawGameOverText(model.getGameOverText());
+    }
 
   }
 

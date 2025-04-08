@@ -109,4 +109,19 @@ public interface ViewableGameModel {
    * @return true if the goal text is active, false otherwise
    */
   boolean isGoalTextActive();
+
+  /**
+   * Returns the text displayed when the game is over.
+   *
+   * @return the game over text
+   */
+  String getGameOverText();
+
+  /**
+   * Checks if the game over text is currently active.
+   *
+   * @return true if the game over text is active, false otherwise
+   */
+  boolean isGameOverTextActive();
+
 }
