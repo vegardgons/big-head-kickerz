@@ -25,7 +25,7 @@ public class ControlsOverlay extends ScreenAdapter {
    * Constructor for ControlsOverlay.
    * Initializes the font, layout, and sprite batch.
    */
-  public ControlsOverlay() {
+  protected ControlsOverlay() {
     layout = new GlyphLayout();
     spriteBatch = new SpriteBatch();
 
