@@ -73,10 +73,10 @@ public class GameView {
       controlsOverlay.draw();
     }
     if (model.isGoalTextActive()) {
-      scoreBoard.drawGoalText(model.getGoalText());
+      scoreBoard.drawGoalOrGameOverText(model.getGoalText());
     }
     if (model.isGameOverTextActive()) {
-      scoreBoard.drawGameOverText(model.getGameOverText());
+      scoreBoard.drawGoalOrGameOverText(model.getGameOverText());
     }
 
   }
