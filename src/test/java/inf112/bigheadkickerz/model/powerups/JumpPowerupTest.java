@@ -10,15 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test class for the NoJumpPowerup class.
- * This class tests the functionality of the NoJumpPowerup power-up.
+ * Tests the JumpPowerup class.
  */
 class JumpPowerupTest {
 
   private Player player;
   private JumpPowerup bigJumpPowerup;
   private JumpPowerup smallJumpPowerup;
-  private static final float JUMP_MULTIPLIER = 0;
+  private static final float BIG_JUMP_MULTIPLIER = 1.5f;
+  private static final float SMALL_JUMP_MULTIPLIER = 0.5f;
   private static final float DURATION = 10.0f;
 
   /**
@@ -28,17 +28,17 @@ class JumpPowerupTest {
   void setUp() {
     player = mock(Player.class);
 
-    smallJumpPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, false);
-    bigJumpPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, true);
+    smallJumpPowerup = new JumpPowerup(DURATION, SMALL_JUMP_MULTIPLIER, false);
+    bigJumpPowerup = new JumpPowerup(DURATION, BIG_JUMP_MULTIPLIER, true);
   }
 
   @Test
-  void testApplyJumpBoost() {
+  void testApplyBigJumpBoost() {
     when(player.getJumpHeight()).thenReturn(5f);
 
     bigJumpPowerup.apply(player);
 
-    verify(player).setJumpHeight(0);
+    verify(player).setJumpHeight(5f * BIG_JUMP_MULTIPLIER);
   }
 
   @Test
@@ -47,18 +47,36 @@ class JumpPowerupTest {
 
     smallJumpPowerup.apply(player);
 
-    verify(player).setJumpHeight(0);
+    verify(player).setJumpHeight(5f * SMALL_JUMP_MULTIPLIER);
+  }
+
+  @Test
+  void testExpireBigJumpBoost() {
+    when(player.getJumpHeight()).thenReturn(5f);
+
+    bigJumpPowerup.expire(player);
+
+    verify(player).setJumpHeight(5f / BIG_JUMP_MULTIPLIER);
+  }
+
+  @Test
+  void testExpireSmallJumpBoost() {
+    when(player.getJumpHeight()).thenReturn(5f);
+
+    smallJumpPowerup.expire(player);
+
+    verify(player).setJumpHeight(5f / SMALL_JUMP_MULTIPLIER);
   }
 
   @Test
   void testConstructorNotNullBig() {
-    JumpPowerup newPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, true);
+    JumpPowerup newPowerup = new JumpPowerup(DURATION, BIG_JUMP_MULTIPLIER, true);
     assertNotNull(newPowerup);
   }
 
   @Test
   void testConstructorNotNullSmall() {
-    JumpPowerup newPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, false);
+    JumpPowerup newPowerup = new JumpPowerup(DURATION, SMALL_JUMP_MULTIPLIER, false);
     assertNotNull(newPowerup);
   }
 }

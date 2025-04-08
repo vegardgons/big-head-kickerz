@@ -10,8 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test class for the BiggerPowerup class.
- * This class tests the functionality of the BiggerPowerup power-up.
+ * Tests the SizePowerup class.
  */
 class SizePowerupTest {
 
@@ -33,7 +32,7 @@ class SizePowerupTest {
   }
 
   @Test
-  void testApplyPowerupIncreasesPlayerSize() {
+  void testApplyIncreasesPlayerSize() {
     when(player.getHeight()).thenReturn(10.0f);
     when(player.getWidth()).thenReturn(5.0f);
 
@@ -44,7 +43,7 @@ class SizePowerupTest {
   }
 
   @Test
-  void testApplyPowerupDecreasePlayerSize() {
+  void testApplyDecreasePlayerSize() {
     when(player.getHeight()).thenReturn(10.0f);
     when(player.getWidth()).thenReturn(5.0f);
 
@@ -55,7 +54,7 @@ class SizePowerupTest {
   }
 
   @Test
-  void testExpirePowerupResetsPlayerSizeBig() {
+  void testExpirePlayerSizeBig() {
     when(player.getHeight()).thenReturn(20.0f);
     when(player.getWidth()).thenReturn(10.0f);
 
@@ -66,7 +65,7 @@ class SizePowerupTest {
   }
 
   @Test
-  void testExpirePowerupResetsPlayerSizeSmall() {
+  void testExpirePlayerSizeSmall() {
     when(player.getHeight()).thenReturn(20.0f);
     when(player.getWidth()).thenReturn(10.0f);
 
@@ -77,13 +76,13 @@ class SizePowerupTest {
   }
 
   @Test
-  void testConstructorSetsCorrectSizeMultiplierBig() {
+  void testConstructorNotNullBig() {
     SizePowerup newPowerup = new SizePowerup(DURATION, SIZE_MULTIPLIER, true);
     assertNotNull(newPowerup);
   }
 
   @Test
-  void testConstructorSetsCorrectSizeMultiplierSmall() {
+  void testConstructorNotNullSmall() {
     SizePowerup newPowerup = new SizePowerup(DURATION, SIZE_MULTIPLIER, false);
     assertNotNull(newPowerup);
   }
