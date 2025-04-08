@@ -25,12 +25,12 @@ public final class PowerupFactory {
     int rand = random.nextInt(6);
 
     return switch (rand) {
-      case 0 -> new SuperSpeedPowerup(DURATION, 1.5f);
-      case 1 -> new SuperSlowPowerup(DURATION, 0.5f);
-      case 2 -> new NoJumpPowerup(DURATION, 0);
-      case 3 -> new BiggerPowerup(DURATION, 1.5f);
-      case 4 -> new SmallerPowerup(DURATION, 0.75f);
-      case 5 -> new SuperJumpPowerup(DURATION, 1.5f);
+      case 0 -> new SpeedPowerup(DURATION, 1.5f, true);
+      case 1 -> new SpeedPowerup(DURATION, 0.5f, false);
+      case 2 -> new JumpPowerup(DURATION, 0.5f, false);
+      case 3 -> new JumpPowerup(DURATION, 1.5f, true);
+      case 4 -> new SizePowerup(DURATION, 1.5f, true);
+      case 5 -> new SizePowerup(DURATION, 0.75f, false);
       default -> throw new IllegalStateException("Unexpected value: " + rand);
     };
   }
