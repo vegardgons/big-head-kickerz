@@ -90,6 +90,31 @@ public class ScoreBoard extends ScreenAdapter {
     spriteBatch.end();
   }
 
+  /**
+   * Draw goal text when goal.
+   *
+   * @param text the text to be displayed
+   */
+  public void drawGoalText(String text) {
+    if (text == null) {
+      return;
+    }
+
+    layout.setText(font, text);
+    float textWidth = layout.width;
+    float textHeight = layout.height;
+
+    float screenWidth = Gdx.graphics.getWidth();
+    float screenHeight = Gdx.graphics.getHeight();
+
+    float x = (screenWidth - textWidth) / 2;
+    float y = (screenHeight + textHeight) / 1.5f;
+
+    spriteBatch.begin();
+    font.draw(spriteBatch, text, x, y);
+    spriteBatch.end();
+  }
+
   @Override
   public void dispose() {
     font.dispose();
