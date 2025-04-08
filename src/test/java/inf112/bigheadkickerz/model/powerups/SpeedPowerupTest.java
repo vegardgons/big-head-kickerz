@@ -2,6 +2,7 @@ package inf112.bigheadkickerz.model.powerups;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import inf112.bigheadkickerz.model.Player;
@@ -36,7 +37,7 @@ class SpeedPowerupTest {
 
     fasterPowerup.apply(player);
 
-    player.setMovementSpeed(5.0f * SPEED_MULTIPLIER);
+    verify(player).setMovementSpeed(5.0f * SPEED_MULTIPLIER);
   }
 
   @Test
@@ -45,7 +46,7 @@ class SpeedPowerupTest {
 
     slowerPowerup.apply(player);
 
-    player.setMovementSpeed(5.0f * SPEED_MULTIPLIER);
+    verify(player).setMovementSpeed(5.0f * SPEED_MULTIPLIER);
   }
 
   @Test
@@ -54,7 +55,7 @@ class SpeedPowerupTest {
 
     fasterPowerup.expire(player);
 
-    player.setMovementSpeed(10.0f / SPEED_MULTIPLIER);
+    verify(player).setMovementSpeed(10.0f / SPEED_MULTIPLIER);
   }
 
   @Test
@@ -63,7 +64,7 @@ class SpeedPowerupTest {
 
     slowerPowerup.expire(player);
 
-    player.setMovementSpeed(10.0f / SPEED_MULTIPLIER);
+    verify(player).setMovementSpeed(10.0f / SPEED_MULTIPLIER);
   }
 
   @Test
