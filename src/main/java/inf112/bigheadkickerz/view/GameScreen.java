@@ -49,6 +49,11 @@ public class GameScreen extends ScreenAdapter {
   }
 
   @Override
+  public void resize(int width, int height) {
+    view.resize(width, height);
+  }
+
+  @Override
   public void dispose() {
     view.dispose();
   }

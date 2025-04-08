@@ -71,7 +71,6 @@ public class GameView {
     if (model.isShowingControls()) {
       controlsOverlay.draw();
     }
-
   }
 
   /**
