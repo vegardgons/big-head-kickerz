@@ -54,8 +54,8 @@ class SmallerPowerupTest {
 
   @Test
   void testConstructorSetsCorrectSizeMultiplier() {
-    SmallerPowerup powerup = new SmallerPowerup(DURATION, SIZE_MULTIPLIER);
-    assertNotNull(powerup);
+    SmallerPowerup newPowerup = new SmallerPowerup(DURATION, SIZE_MULTIPLIER);
+    assertNotNull(newPowerup);
   }
 
 }

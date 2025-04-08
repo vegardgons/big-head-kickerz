@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * stopping music,
  * and disposing of assets.
  */
-public class AssetsTest {
+class AssetsTest {
 
   @BeforeEach
   void setupMocks() {

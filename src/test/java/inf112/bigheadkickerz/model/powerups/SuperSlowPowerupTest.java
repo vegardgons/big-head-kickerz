@@ -50,8 +50,8 @@ class SuperSlowPowerupTest {
 
   @Test
   void testConstructorSetsCorrectSizeMultiplier() {
-    SuperSlowPowerup powerup = new SuperSlowPowerup(DURATION, SPEED_MULTIPLIER);
-    assertNotNull(powerup);
+    SuperSlowPowerup newPowerup = new SuperSlowPowerup(DURATION, SPEED_MULTIPLIER);
+    assertNotNull(newPowerup);
   }
 
 }

@@ -24,7 +24,7 @@ class BiggerPowerupTest {
    * Sets up the test environment before each test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     player = mock(Player.class);
 
     powerup = new BiggerPowerup(DURATION, SIZE_MULTIPLIER);
@@ -54,8 +54,8 @@ class BiggerPowerupTest {
 
   @Test
   void testConstructorSetsCorrectSizeMultiplier() {
-    BiggerPowerup powerup = new BiggerPowerup(DURATION, SIZE_MULTIPLIER);
-    assertNotNull(powerup);
+    BiggerPowerup newPowerup = new BiggerPowerup(DURATION, SIZE_MULTIPLIER);
+    assertNotNull(newPowerup);
   }
 
 }

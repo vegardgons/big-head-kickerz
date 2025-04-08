@@ -50,8 +50,8 @@ class SuperJumpPowerupTest {
 
   @Test
   void testConstructorSetsCorrectSizeMultiplier() {
-    SuperJumpPowerup powerup = new SuperJumpPowerup(DURATION, JUMP_MULTIPLIER);
-    assertNotNull(powerup);
+    SuperJumpPowerup newPowerup = new SuperJumpPowerup(DURATION, JUMP_MULTIPLIER);
+    assertNotNull(newPowerup);
   }
 
 }

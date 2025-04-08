@@ -50,7 +50,7 @@ class NoJumpPowerupTest {
 
   @Test
   void testConstructorSetsCorrectSizeMultiplier() {
-    NoJumpPowerup powerup = new NoJumpPowerup(DURATION, JUMP_MULTIPLIER);
-    assertNotNull(powerup);
+    NoJumpPowerup newPowerup = new NoJumpPowerup(DURATION, JUMP_MULTIPLIER);
+    assertNotNull(newPowerup);
   }
 }
