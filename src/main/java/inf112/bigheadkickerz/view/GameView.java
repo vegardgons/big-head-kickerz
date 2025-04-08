@@ -68,9 +68,14 @@ public class GameView {
     if (model.getGameState() == GameState.TIMED) {
       scoreBoard.drawTimer(model.getRemainingTime());
     }
+
     if (model.isShowingControls()) {
       controlsOverlay.draw();
     }
+    if (model.isGoalTextActive()) {
+      scoreBoard.drawGoalText(model.getGoalText());
+    }
+
   }
 
   /**

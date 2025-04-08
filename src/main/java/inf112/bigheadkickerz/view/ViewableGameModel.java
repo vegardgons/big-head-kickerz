@@ -96,4 +96,17 @@ public interface ViewableGameModel {
    */
   boolean isShowingControls();
 
+  /**
+   * Returns the text displayed for the goal.
+   *
+   * @return the goal text
+   */
+  String getGoalText();
+
+  /**
+   * Checks if the goal text is currently active.
+   *
+   * @return true if the goal text is active, false otherwise
+   */
+  boolean isGoalTextActive();
 }

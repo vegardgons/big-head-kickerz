@@ -45,6 +45,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private float goalTimer;
   private static final float GOAL_DELAY = 2f;
   private boolean isGoal;
+  private String goalText;
 
   private boolean showControls = true;
 
@@ -115,6 +116,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
       if (goalTimer >= GOAL_DELAY) {
         setIsGoal(false);
         goalTimer = 0;
+        goalText = null;
         resetPositions();
       }
     }
@@ -152,11 +154,13 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
         && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
       player1Score++;
       Assets.playGoalSound();
+      goalText = "Player 1 scored!";
       return true;
     } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()
         && ball.getPosition().y + ball.getHeight() < leftGoal.getHeight()) {
       player2Score++;
       Assets.playGoalSound();
+      goalText = "Player 2 scored!";
       return true;
     }
     return false;
@@ -315,6 +319,17 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   @Override
   public PowerupPickup getCurrentPowerup() {
     return currentPowerup;
+  }
+
+  @Override
+  public String getGoalText() {
+
+    return goalText;
+  }
+
+  @Override
+  public boolean isGoalTextActive() {
+    return goalText != null;
   }
 
 }
