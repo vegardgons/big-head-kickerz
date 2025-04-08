@@ -25,7 +25,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   // Powerup variables
   private PowerupPickup currentPowerup;
   private float powerupSpawnTimer = 0f;
-  private float nextSpawnDelay = 2f;
+  private float nextSpawnDelay = 7f;
 
   // Game objects
   private final BigHeadKickerzGame game;
@@ -47,7 +47,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private static final float GAME_OVER_DELAY = 5f;
   private boolean isGoal;
   private String goalText;
-
   private boolean showControls = true;
 
   private String gameOverText;
@@ -178,14 +177,26 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
         && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
       player1Score++;
       Assets.playGoalSound();
-      goalText = "Player 1 scored!";
-      return true;
+      if (gameState == GameState.FIRST_TO_SEVEN && player1Score >= goalThreshold) {
+        gameOver = true;
+        return true;
+      } else {
+        goalText = "Player 1 scored!";
+        isGoal = true;
+        return true;
+      }
     } else if (ball.getPosition().x + ball.getWidth() < leftGoalX + leftGoal.getWidth()
         && ball.getPosition().y + ball.getHeight() < leftGoal.getHeight()) {
       player2Score++;
       Assets.playGoalSound();
-      goalText = "Player 2 scored!";
-      return true;
+      if (gameState == GameState.FIRST_TO_SEVEN && player2Score >= goalThreshold) {
+        gameOver = true;
+        return true;
+      } else {
+        goalText = "Player 2 scored!";
+        isGoal = true;
+        return true;
+      }
     }
     return false;
   }
@@ -315,8 +326,9 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
 
   private void spawnPowerup() {
     Powerup randomPowerup = PowerupFactory.getRandomPowerup();
-    float spawnX = random.nextFloat() * viewport.getWorldWidth() - 1f;
-    float spawnY = random.nextFloat() * viewport.getWorldHeight() / 4;
+    float spawnX = leftGoal.getWidth()
+        + (random.nextFloat() * viewport.getWorldWidth() - leftGoal.getWidth() * 2);
+    float spawnY = random.nextFloat() * viewport.getWorldHeight() / 1.5f;
     Texture powerupTexture = randomPowerup.getTexture();
     currentPowerup = new PowerupPickup(randomPowerup,
         new Vector2(spawnX, spawnY), powerupTexture, 1f);

@@ -130,11 +130,11 @@ public class GameModelTest {
 
   @Test
   void testGameOverFirstToSeven() {
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 6; i++) {
       scoreGoal();
       assertEquals(GameState.FIRST_TO_SEVEN, gameModel.getGameState());
     }
-    gameModel.update(2f); // End delay
+    scoreGoal();
     assertEquals(GameState.GAME_OVER, gameModel.getGameState());
   }
 
