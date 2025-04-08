@@ -10,7 +10,6 @@ import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import inf112.bigheadkickerz.view.ViewableGameModel;
-
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
@@ -47,17 +46,16 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private static final float GOAL_DELAY = 2f;
   private boolean isGoal;
 
-  private boolean showControls = true; // Always start by showing isShowingControls
+  private boolean showControls = true;
 
   private boolean gameOver = false;
 
-  // Viewport for game boundaries
   private final FitViewport viewport;
 
   private GameState gameState;
-  private float gameTime; // Total time in timed mode (seconds)
-  private static final float DEFAULT_GAME_TIME = 60f; // e.g., 60 seconds
-  private int goalThreshold; // For first-to-seven mode, threshold = 7
+  private float gameTime;
+  private static final float DEFAULT_GAME_TIME = 60f;
+  private int goalThreshold;
 
   /**
    * Constructor initializes game objects and viewport.
@@ -101,8 +99,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
       if (gameTime <= 0) {
         setGameOver(true);
       }
-    } else if (gameState == GameState.FIRST_TO_SEVEN &&
-        (player1Score >= goalThreshold || player2Score >= goalThreshold)) {
+    } else if (gameState == GameState.FIRST_TO_SEVEN
+        && (player1Score >= goalThreshold || player2Score >= goalThreshold)) {
       setGameOver(true);
     }
 
@@ -150,7 +148,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private boolean checkForGoal() {
     float rightGoalX = rightGoal.getPosition().x;
     float leftGoalX = leftGoal.getPosition().x;
-    if (ball.getPosition().x > rightGoalX && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
+    if (ball.getPosition().x > rightGoalX
+        && ball.getPosition().y + ball.getHeight() < rightGoal.getHeight()) {
       player1Score++;
       Assets.playGoalSound();
       return true;
@@ -308,7 +307,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     float spawnX = random.nextFloat() * viewport.getWorldWidth() - 1f;
     float spawnY = random.nextFloat() * viewport.getWorldHeight() / 4;
     Texture powerupTexture = new Texture("Powerup.png");
-    currentPowerup = new PowerupPickup(randomPowerup, new Vector2(spawnX, spawnY), powerupTexture, 1f);
+    currentPowerup = new PowerupPickup(randomPowerup,
+        new Vector2(spawnX, spawnY), powerupTexture, 1f);
     collideables.add(currentPowerup);
   }
 

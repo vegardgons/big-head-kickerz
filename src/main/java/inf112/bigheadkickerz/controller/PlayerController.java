@@ -20,6 +20,11 @@ public class PlayerController {
     this.player = player;
   }
 
+  /**
+   * Moves the player based on input.
+   *
+   * @return the new velocity of the player
+   */
   public Vector2 movePlayer() {
     if (player.getPosition().y == 0) {
       isJumping = false;

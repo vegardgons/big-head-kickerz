@@ -8,6 +8,12 @@ import inf112.bigheadkickerz.model.Player;
 public class LowGravityPowerup extends AbstractPowerup {
   private final float gravityMultiplier;
 
+  /**
+   * Constructor for LowGravityPowerup.
+   *
+   * @param duration          the duration of the powerup
+   * @param gravityMultiplier the multiplier for the player's gravity
+   */
   public LowGravityPowerup(float duration, float gravityMultiplier) {
     super(duration);
     this.gravityMultiplier = gravityMultiplier;

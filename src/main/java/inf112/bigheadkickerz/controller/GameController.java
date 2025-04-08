@@ -12,13 +12,8 @@ public class GameController {
     this.model = model;
   }
 
-  /**
-   * Kalles hver frame av GameScreen->render()
-   * for å oppdatere spillet (input + logikk).
-   */
   public void update(float delta) {
     if (model.isShowingControls()) {
-      // Vent på at spiller trykker space for å starte
       if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
         model.dismissControls();
         Assets.playStartWhistle();

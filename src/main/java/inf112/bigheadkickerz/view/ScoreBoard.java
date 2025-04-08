@@ -36,6 +36,12 @@ public class ScoreBoard extends ScreenAdapter {
     generator.dispose();
   }
 
+  /**
+   * Draw player1 score.
+   * This method draws the player1 score at the top left corner of the screen.
+   *
+   * @param player1Score the score of player1
+   */
   public void drawPlayer1Score(int player1Score) {
     String score = String.valueOf(player1Score);
     layout.setText(font, score);

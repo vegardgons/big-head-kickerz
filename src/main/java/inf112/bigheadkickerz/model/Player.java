@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
-
 import java.util.Comparator;
 
 /** Class for the player object. */
@@ -217,7 +216,8 @@ public class Player implements GameObject, Collideable, IPowerup {
   }
 
   @Override
-  public void setHeight(float height) {this.height = height;
+  public void setHeight(float height) {
+    this.height = height;
   }
 
   @Override

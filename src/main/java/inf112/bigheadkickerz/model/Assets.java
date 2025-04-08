@@ -8,18 +8,19 @@ import com.badlogic.gdx.audio.Music;
  * This class handles the loading of sound files and provides methods to play
  * and stop them.
  */
-public class Assets {
-  public static final Music menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
-  public static final Music goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
-  public static final Music startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
+public final class Assets {
+  public static final Music menuMusic = Gdx.audio.newMusic(
+      Gdx.files.internal("assets/menu_sound.mp3"));
+  public static final Music goalSound = Gdx.audio.newMusic(
+      Gdx.files.internal("assets/goal_sound.mp3"));
+  public static final Music startWhistle = Gdx.audio.newMusic(
+      Gdx.files.internal("assets/start_game_whistle.mp3"));
 
   /**
-   * Constructor for Assets.
-   * This constructor is private to prevent instantiation of this class.
+   * Private constructor to prevent instantiation.
    */
   private Assets() {
     // Prevent instantiation
-    throw new IllegalStateException("Utility class");
   }
 
   /**

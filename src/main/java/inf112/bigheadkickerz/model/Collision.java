@@ -11,6 +11,11 @@ public class Collision {
 
   private final List<Collideable> collideables;
 
+  /**
+   * Constructor for Collision.
+   *
+   * @param collideables a list of Collideable objects to check for collisions
+   */
   public Collision(List<Collideable> collideables) {
     this.collideables = collideables;
   }

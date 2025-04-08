@@ -16,6 +16,13 @@ public class Goal implements GameObject, Collideable {
   private static final float HEIGHT = 3f;
   private static final float WEIGHT = 1000;
 
+  /**
+   * Constructor for the goal object.
+   *
+   * @param texture the texture of the goal
+   * @param x       the x position of the goal
+   * @param y       the y position of the goal
+   */
   public Goal(Texture texture, float x, float y) {
     this.texture = texture;
     this.pos = new Vector2(x, y);
