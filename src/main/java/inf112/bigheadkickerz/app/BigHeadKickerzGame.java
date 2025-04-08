@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.view.EndScreen;
-import inf112.bigheadkickerz.view.StartScreen;
 import inf112.bigheadkickerz.view.GameScreen;
+import inf112.bigheadkickerz.view.StartScreen;
 
 /**
  * Main class for the Big Head Kickerz game.

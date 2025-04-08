@@ -21,7 +21,7 @@ public class ScoreBoard extends ScreenAdapter {
   /**
    * Constructor initializes rendering components with a custom font.
    */
-  public ScoreBoard() {
+  protected ScoreBoard() {
     this.layout = new GlyphLayout();
     this.spriteBatch = new SpriteBatch();
     // Generate a custom font using FreeType
@@ -56,6 +56,8 @@ public class ScoreBoard extends ScreenAdapter {
 
   /**
    * Draw player2 score.
+   *
+   * @param player2Score the score of player2
    */
   public void drawPlayer2Score(int player2Score) {
     String score = String.valueOf(player2Score);

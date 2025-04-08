@@ -10,6 +10,21 @@ import com.badlogic.gdx.math.Vector2;
 public interface Collideable {
 
   /**
+   * Handle collision with another Collideable object.
+   *
+   * @param other the other Collideable object
+   */
+  void collision(Collideable other);
+
+  /**
+   * Check if this object collides with another Collideable object.
+   *
+   * @param other the other Collideable object
+   * @return true if the objects collide, false otherwise
+   */
+  boolean collides(Collideable other);
+
+  /**
    * Get the weight of the object.
    *
    * @return weight of the object
@@ -31,18 +46,18 @@ public interface Collideable {
   float getHeight();
 
   /**
-   * Get the velocity of the object.
-   *
-   * @return velocity of the object
-   */
-  Vector2 getVelocity();
-
-  /**
    * Get the position of the object.
    *
    * @return position of the object
    */
   Vector2 getPosition();
+
+  /**
+   * Get the velocity of the object.
+   *
+   * @return velocity of the object
+   */
+  Vector2 getVelocity();
 
   /**
    * Set the position of the game object.
@@ -57,21 +72,6 @@ public interface Collideable {
    * @param velocity the new speed of the game object
    */
   void setVelocity(Vector2 velocity);
-
-  /**
-   * Handle collision with another Collideable object.
-   *
-   * @param other the other Collideable object
-   */
-  void collision(Collideable other);
-
-  /**
-   * Check if this object collides with another Collideable object.
-   *
-   * @param other the other Collideable object
-   * @return true if the objects collide, false otherwise
-   */
-  boolean collides(Collideable other);
 
   /**
    * Check if this object collides with another Collideable object using rectangle

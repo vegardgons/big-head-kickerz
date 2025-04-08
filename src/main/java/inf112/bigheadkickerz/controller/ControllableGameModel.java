@@ -1,6 +1,5 @@
 package inf112.bigheadkickerz.controller;
 
-
 import inf112.bigheadkickerz.model.GameState;
 
 /**
@@ -14,6 +13,11 @@ public interface ControllableGameModel {
    */
   void update(float delta);
 
+  /**
+   * Sets the game over state.
+   *
+   * @param gameOver boolean indicating if the game is over
+   */
   void setGameOver(boolean gameOver);
 
   /**
@@ -23,8 +27,16 @@ public interface ControllableGameModel {
    */
   GameState getGameState();
 
+  /**
+   * Checks if the controls are currently being shown.
+   *
+   * @return boolean indicating if the controls are visible
+   */
   boolean isShowingControls();
 
+  /**
+   * Dismisses the controls, hiding them from view.
+   */
   void dismissControls();
 
 }

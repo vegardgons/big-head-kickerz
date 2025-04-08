@@ -4,11 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.model.Ball;
+import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.model.Goal;
 import inf112.bigheadkickerz.model.Player;
-import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 
+/**
+ * GameView is responsible for rendering the game objects on the screen.
+ */
 public class GameView {
 
   private final ViewableGameModel model;
@@ -17,6 +20,11 @@ public class GameView {
   private final ScoreBoard scoreBoard;
   private final ControlsOverlay controlsOverlay;
 
+  /**
+   * Constructor for GameView.
+   *
+   * @param model the game model to be rendered
+   */
   public GameView(ViewableGameModel model) {
     this.model = model;
     this.spriteBatch = new SpriteBatch();
@@ -25,6 +33,9 @@ public class GameView {
     this.controlsOverlay = new ControlsOverlay();
   }
 
+  /**
+   * Draws the game objects on the screen.
+   */
   public void draw() {
     FitViewport viewport = model.getViewport();
     viewport.apply();
@@ -39,12 +50,12 @@ public class GameView {
     Player p1 = model.getPlayer1();
     Player p2 = model.getPlayer2();
     Ball ball = model.getBall();
-    Goal leftGoal = model.getLeftGoal();
-    Goal rightGoal = model.getRightGoal();
-    PowerupPickup powerup = model.getCurrentPowerup();
     p1.draw(spriteBatch);
     p2.draw(spriteBatch);
     ball.draw(spriteBatch);
+    Goal leftGoal = model.getLeftGoal();
+    Goal rightGoal = model.getRightGoal();
+    PowerupPickup powerup = model.getCurrentPowerup();
     leftGoal.draw(spriteBatch);
     rightGoal.draw(spriteBatch);
     if (powerup != null) {
@@ -63,10 +74,19 @@ public class GameView {
 
   }
 
+  /**
+   * Resizes the viewport when the window is resized.
+   *
+   * @param width  the new width of the window
+   * @param height the new height of the window
+   */
   public void resize(int width, int height) {
     model.getViewport().update(width, height, true);
   }
 
+  /**
+   * Disposes of the resources used by the GameView.
+   */
   public void dispose() {
     spriteBatch.dispose();
     scoreBoard.dispose();
