@@ -6,8 +6,9 @@ import inf112.bigheadkickerz.model.Player;
 /**
  * Decreases the player's movement speed.
  */
-public class SuperSlowPowerup extends AbstractPowerup {
+public class SpeedPowerup extends AbstractPowerup {
   private final float slowMultiplier;
+  private final boolean speedBoost;
 
   /**
    * Constructor for SuperSlowPowerup.
@@ -15,9 +16,10 @@ public class SuperSlowPowerup extends AbstractPowerup {
    * @param duration       the duration of the powerup
    * @param slowMultiplier the multiplier for the player's movement speed
    */
-  public SuperSlowPowerup(float duration, float slowMultiplier) {
+  public SpeedPowerup(float duration, float slowMultiplier, boolean speedBoost) {
     super(duration);
     this.slowMultiplier = slowMultiplier;
+    this.speedBoost = speedBoost;
   }
 
   @Override
@@ -32,6 +34,10 @@ public class SuperSlowPowerup extends AbstractPowerup {
 
   @Override
   public Texture getTexture() {
-    return new Texture("powerups/decrease_speed.png");
+    if (speedBoost) {
+      return new Texture("powerups/increase_speed.png");
+    } else {
+      return new Texture("powerups/decrease_speed.png");
+    }
   }
 }

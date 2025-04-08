@@ -13,10 +13,11 @@ import org.junit.jupiter.api.Test;
  * Test class for the NoJumpPowerup class.
  * This class tests the functionality of the NoJumpPowerup power-up.
  */
-class NoJumpPowerupTest {
+class JumpPowerupTest {
 
   private Player player;
-  private NoJumpPowerup powerup;
+  private JumpPowerup bigJumpPowerup;
+  private JumpPowerup smallJumpPowerup;
   private static final float JUMP_MULTIPLIER = 0;
   private static final float DURATION = 10.0f;
 
@@ -27,30 +28,37 @@ class NoJumpPowerupTest {
   void setUp() {
     player = mock(Player.class);
 
-    powerup = new NoJumpPowerup(DURATION, JUMP_MULTIPLIER);
+    smallJumpPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, false);
+    bigJumpPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, true);
   }
 
   @Test
-  void testApplyPowerupIncreasesPlayerSize() {
+  void testApplyJumpBoost() {
     when(player.getJumpHeight()).thenReturn(5f);
 
-    powerup.apply(player);
+    bigJumpPowerup.apply(player);
 
     verify(player).setJumpHeight(0);
   }
 
   @Test
-  void testExpirePowerupResetsPlayerSize() {
+  void testApplySmallJumpBoost() {
     when(player.getJumpHeight()).thenReturn(5f);
 
-    powerup.expire(player);
+    smallJumpPowerup.apply(player);
 
-    verify(player).setJumpHeight(5);
+    verify(player).setJumpHeight(0);
   }
 
   @Test
-  void testConstructorSetsCorrectSizeMultiplier() {
-    NoJumpPowerup newPowerup = new NoJumpPowerup(DURATION, JUMP_MULTIPLIER);
+  void testConstructorNotNullBig() {
+    JumpPowerup newPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, true);
+    assertNotNull(newPowerup);
+  }
+
+  @Test
+  void testConstructorNotNullSmall() {
+    JumpPowerup newPowerup = new JumpPowerup(DURATION, JUMP_MULTIPLIER, false);
     assertNotNull(newPowerup);
   }
 }

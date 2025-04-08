@@ -6,18 +6,22 @@ import inf112.bigheadkickerz.model.Player;
 /**
  * Increases the player's size.
  */
-public class BiggerPowerup extends AbstractPowerup {
+public class SizePowerup extends AbstractPowerup {
   private final float sizeMultiplier;
+  private final boolean bigger;
 
   /**
-   * Constructor for BiggerPowerup.
+   * Creates a new SizePowerup.
    *
    * @param duration       the duration of the powerup
-   * @param sizeMultiplier the multiplier for the player's size
+   * @param sizeMultiplier the size multiplier
+   * @param bigger         true if the player should grow, false if the player
+   *                       should shrink
    */
-  public BiggerPowerup(float duration, float sizeMultiplier) {
+  public SizePowerup(float duration, float sizeMultiplier, boolean bigger) {
     super(duration);
     this.sizeMultiplier = sizeMultiplier;
+    this.bigger = bigger;
   }
 
   @Override
@@ -34,6 +38,10 @@ public class BiggerPowerup extends AbstractPowerup {
 
   @Override
   public Texture getTexture() {
-    return new Texture("powerups/grow.png");
+    if (bigger) {
+      return new Texture("powerups/grow.png");
+    } else {
+      return new Texture("powerups/shrink.png");
+    }
   }
 }
