@@ -9,12 +9,19 @@ import com.badlogic.gdx.audio.Music;
  * and stop them.
  */
 public final class Assets {
-  public static final Music menuMusic = Gdx.audio.newMusic(
-      Gdx.files.internal("assets/menu_sound.mp3"));
-  public static final Music goalSound = Gdx.audio.newMusic(
-      Gdx.files.internal("assets/goal_sound.mp3"));
-  public static final Music startWhistle = Gdx.audio.newMusic(
-      Gdx.files.internal("assets/start_game_whistle.mp3"));
+  public static Music menuMusic;
+  public static Music goalSound;
+  public static Music startWhistle;
+
+  /**
+   * Initializes the assets.
+   * This method loads the music files from the assets folder.
+   */
+  public static void init() {
+    menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
+    goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
+    startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
+  }
 
   /**
    * Private constructor to prevent instantiation.

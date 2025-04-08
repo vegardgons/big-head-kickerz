@@ -16,8 +16,8 @@ public class PowerupPickup implements GameObject, Collideable {
   private final Powerup powerup;
   private Vector2 pos;
   private final Texture texture;
-  private final float size; // size of the pickup
-  private boolean collected = false; // flag to mark if it has been picked up
+  private final float size;
+  private boolean collected = false;
 
   /**
    * Constructor for PowerupPickup.
@@ -36,7 +36,7 @@ public class PowerupPickup implements GameObject, Collideable {
 
   @Override
   public void update(Viewport viewport, float delta) {
-    // Optional: Add a simple animation or floating effect
+    // Do nothing
   }
 
   @Override

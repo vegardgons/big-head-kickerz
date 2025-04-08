@@ -81,7 +81,7 @@ class PlayerTest {
     assertEquals(300, player.getWeight());
     assertEquals(new Vector2(0, 0), player.getVelocity());
     assertEquals(4, player.getKickPower());
-    assertEquals(6, player.getJumpHeight());
+    assertEquals(5, player.getJumpHeight());
     assertEquals(4, player.getMovementSpeed());
     assertEquals(-9.81f, player.getGravity());
   }

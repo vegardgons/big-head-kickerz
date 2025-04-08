@@ -1,5 +1,6 @@
 package inf112.bigheadkickerz.model.powerups;
 
+import com.badlogic.gdx.graphics.Texture;
 import inf112.bigheadkickerz.model.Player;
 
 /**
@@ -29,5 +30,10 @@ public class BiggerPowerup extends AbstractPowerup {
   public void expire(Player player) {
     player.setHeight(player.getHeight() / sizeMultiplier);
     player.setWidth(player.getWidth() / sizeMultiplier);
+  }
+
+  @Override
+  public Texture getTexture() {
+    return new Texture("powerups/grow.png");
   }
 }

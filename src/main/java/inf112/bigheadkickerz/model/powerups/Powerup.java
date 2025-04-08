@@ -1,5 +1,6 @@
 package inf112.bigheadkickerz.model.powerups;
 
+import com.badlogic.gdx.graphics.Texture;
 import inf112.bigheadkickerz.model.Player;
 
 /**
@@ -20,4 +21,9 @@ public interface Powerup {
    * Returns the duration of this powerup effect in seconds.
    */
   float getDuration();
+
+  /**
+   * Returns the texture of this powerup.
+   */
+  Texture getTexture();
 }

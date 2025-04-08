@@ -15,6 +15,7 @@ public class BigHeadKickerzGame extends Game {
 
   @Override
   public void create() {
+    Assets.init();
     setScreen(new StartScreen(this));
   }
 
