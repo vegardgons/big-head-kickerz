@@ -44,11 +44,13 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private int player2Score;
   private float goalTimer;
   private static final float GOAL_DELAY = 2f;
+  private static final float GAME_OVER_DELAY = 5f;
   private boolean isGoal;
   private String goalText;
 
   private boolean showControls = true;
 
+  private String gameOverText;
   private boolean gameOver = false;
 
   private final FitViewport viewport;
@@ -86,7 +88,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
 
     assessCurrentGameState(delta);
     handleGoal(delta);
-    handleGameOver();
+    handleGameOver(delta);
     updateGameObjects(delta);
 
     updatePowerupSpawning(delta);
@@ -98,23 +100,26 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
         gameTime -= delta;
       }
       if (gameTime <= 0) {
-        setGameOver(true);
+        gameOver = true;
       }
     } else if (gameState == GameState.FIRST_TO_SEVEN
         && (player1Score >= goalThreshold || player2Score >= goalThreshold)) {
-      setGameOver(true);
+      gameOver = true;
     }
 
   }
 
   private void handleGoal(float delta) {
+    if (gameOver) {
+      return;
+    }
     if (!isGoal && checkForGoal()) {
-      setIsGoal(true);
+      isGoal = true;
     }
     if (isGoal) {
       goalTimer += delta;
       if (goalTimer >= GOAL_DELAY) {
-        setIsGoal(false);
+        isGoal = false;
         goalTimer = 0;
         goalText = null;
         resetPositions();
@@ -122,11 +127,30 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     }
   }
 
-  private void handleGameOver() {
+  @Override
+  public String getGameOverText() {
+    return gameOverText;
+  }
+
+  private void handleGameOver(float delta) {
     if (gameOver) {
       gameState = GameState.GAME_OVER;
       gameTime = 0;
-      game.endScreen();
+      gameOverText = determineGameOverText();
+      goalTimer += delta;
+      if (goalTimer >= GAME_OVER_DELAY) {
+        game.endScreen();
+      }
+    }
+  }
+
+  private String determineGameOverText() {
+    if (player1Score > player2Score) {
+      return "Player 1 wins!";
+    } else if (player2Score > player1Score) {
+      return "Player 2 wins!";
+    } else {
+      return "It's a draw!";
     }
   }
 
@@ -170,15 +194,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     ball.reset();
     player2.reset();
     player1.reset();
-  }
-
-  private void setIsGoal(boolean isGoal) {
-    this.isGoal = isGoal;
-  }
-
-  @Override
-  public void setGameOver(boolean gameOver) {
-    this.gameOver = gameOver;
   }
 
   @Override
@@ -262,7 +277,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     player1Score = 0;
     player2Score = 0;
     goalTimer = 0;
-    setIsGoal(false);
+    isGoal = false;
   }
 
   @Override
@@ -322,6 +337,11 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   @Override
   public boolean isGoalTextActive() {
     return goalText != null;
+  }
+
+  @Override
+  public boolean isGameOverTextActive() {
+    return gameOverText != null;
   }
 
 }
