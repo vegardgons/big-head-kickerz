@@ -87,14 +87,14 @@ public class GameView {
    * @param width  the new width of the window
    * @param height the new height of the window
    */
-  public void resize(int width, int height) {
+  protected void resize(int width, int height) {
     model.getViewport().update(width, height, true);
   }
 
   /**
    * Disposes of the resources used by the GameView.
    */
-  public void dispose() {
+  protected void dispose() {
     spriteBatch.dispose();
     scoreBoard.dispose();
     controlsOverlay.dispose();
