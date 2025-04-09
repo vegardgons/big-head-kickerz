@@ -64,10 +64,7 @@ public class Ball implements GameObject, Collideable {
    * Resets the ball to its initial position and sets velocity to zero.
    */
   public void reset() {
-    // Reset position to initial values
     setPosition(new Vector2(startPos));
-
-    // Reset velocity to zero
     setVelocity(new Vector2(0, 0));
   }
 
@@ -88,12 +85,11 @@ public class Ball implements GameObject, Collideable {
     }
 
     Vector2 otherPos = other.getPosition();
-    Vector2 normal = pos.cpy().sub(otherPos).nor(); // Normalized collision direction
+    Vector2 normal = pos.cpy().sub(otherPos).nor();
 
-    // Basic elastic collision
     float relativeVelocity = velocity.dot(normal) - other.getVelocity().dot(normal);
     if (relativeVelocity > 0) {
-      return; // Ignore separating objects
+      return;
     }
 
     float impulse = (-relativeVelocity) / (1 / WEIGHT + 1 / other.getWeight());
@@ -104,12 +100,10 @@ public class Ball implements GameObject, Collideable {
     if (isPlayer) {
       Vector2 playerVelocity = other.getVelocity();
 
-      // Boost the ball more when hit by a player
       Vector2 kickBoost = playerVelocity.cpy();
-      if (playerVelocity.len() > 0.3f) { // Lower threshold to avoid excessive boosts
-        kickBoost.y += 2f; // Lowered from 6f
+      if (playerVelocity.len() > 0.3f) {
+        kickBoost.y += 2f;
       }
-      // Extra boost if the player is kicking
       Player player = (Player) other;
       if (player.isKicking() && playerVelocity.len() > 0.1f) {
         Vector2 facing = playerVelocity.cpy().nor();
@@ -135,7 +129,6 @@ public class Ball implements GameObject, Collideable {
     }
     return rectangleCollides(other);
   }
-
 
   @Override
   public void setVelocity(Vector2 velocity) {
