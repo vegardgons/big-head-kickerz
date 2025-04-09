@@ -35,7 +35,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private Goal leftGoal;
   private Goal rightGoal;
   private ArrayList<Collideable> collideables;
-  private Collision collisionHandler;
+  private ICollisionHandler collisionHandler;
 
   private final SecureRandom random;
 
@@ -157,7 +157,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     player2.update(viewport, delta);
     player1.update(viewport, delta);
     ball.update(viewport, delta);
-    collisionHandler.checkCollision();
+    collisionHandler.checkCollisions(collideables);
   }
 
   @Override
@@ -279,9 +279,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     collideables.add(player1);
     collideables.add(leftGoal);
     collideables.add(rightGoal);
+    collisionHandler = new CollisionHandler();
 
-    // Initialize collision handler
-    collisionHandler = new Collision(collideables);
   }
 
   private void initScoreTracking() {
