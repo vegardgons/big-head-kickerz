@@ -19,69 +19,69 @@ class AssetsTest {
 
   @BeforeEach
   void setupMocks() {
-    Assets.menuMusic = mock(Music.class);
-    Assets.goalSound = mock(Music.class);
-    Assets.startWhistle = mock(Music.class);
+    Assets.setMenuMusic(mock(Music.class));
+    Assets.setGoalSound(mock(Music.class));
+    Assets.setStartWhistle(mock(Music.class));
   }
 
   @Test
   void playMenuMusic_shouldPlayIfNotPlaying() {
-    when(Assets.menuMusic.isPlaying()).thenReturn(false);
+    when(Assets.getMenuMusic().isPlaying()).thenReturn(false);
 
     Assets.playMenuMusic();
 
-    verify(Assets.menuMusic).setLooping(true);
-    verify(Assets.menuMusic).play();
+    verify(Assets.getMenuMusic()).setLooping(true);
+    verify(Assets.getMenuMusic()).play();
   }
 
   @Test
   void playMenuMusic_shouldNotPlayIfAlreadyPlaying() {
-    when(Assets.menuMusic.isPlaying()).thenReturn(true);
+    when(Assets.getMenuMusic().isPlaying()).thenReturn(true);
 
     Assets.playMenuMusic();
 
-    verify(Assets.menuMusic, never()).setLooping(true);
-    verify(Assets.menuMusic, never()).play();
+    verify(Assets.getMenuMusic(), never()).setLooping(true);
+    verify(Assets.getMenuMusic(), never()).play();
   }
 
   @Test
   void stopMenuMusic_shouldStopIfPlaying() {
-    when(Assets.menuMusic.isPlaying()).thenReturn(true);
+    when(Assets.getMenuMusic().isPlaying()).thenReturn(true);
 
     Assets.stopMenuMusic();
 
-    verify(Assets.menuMusic).stop();
+    verify(Assets.getMenuMusic()).stop();
   }
 
   @Test
   void stopMenuMusic_shouldNotStopIfNotPlaying() {
-    when(Assets.menuMusic.isPlaying()).thenReturn(false);
+    when(Assets.getMenuMusic().isPlaying()).thenReturn(false);
 
     Assets.stopMenuMusic();
 
-    verify(Assets.menuMusic, never()).stop();
+    verify(Assets.getMenuMusic(), never()).stop();
   }
 
   @Test
   void playStartWhistle_shouldPlaySound() {
     Assets.playStartWhistle();
 
-    verify(Assets.startWhistle).play();
+    verify(Assets.getStartWhistle()).play();
   }
 
   @Test
   void playGoalSound_shouldPlaySound() {
     Assets.playGoalSound();
 
-    verify(Assets.goalSound).play();
+    verify(Assets.getGoalSound()).play();
   }
 
   @Test
   void dispose_shouldDisposeAllMusic() {
     Assets.dispose();
 
-    verify(Assets.menuMusic).dispose();
-    verify(Assets.goalSound).dispose();
-    verify(Assets.startWhistle).dispose();
+    verify(Assets.getMenuMusic()).dispose();
+    verify(Assets.getGoalSound()).dispose();
+    verify(Assets.getStartWhistle()).dispose();
   }
 }

@@ -9,9 +9,9 @@ import com.badlogic.gdx.audio.Music;
  * and stop them.
  */
 public final class Assets {
-  public static Music menuMusic;
-  public static Music goalSound;
-  public static Music startWhistle;
+  private static Music menuMusic;
+  private static Music goalSound;
+  private static Music startWhistle;
 
   /**
    * Initializes the assets.
@@ -75,5 +75,35 @@ public final class Assets {
     menuMusic.dispose();
     goalSound.dispose();
     startWhistle.dispose();
+  }
+
+  /**
+   * Getters for the music assets.
+   */
+  public static Music getMenuMusic() {
+    return menuMusic;
+  }
+
+  public static Music getGoalSound() {
+    return goalSound;
+  }
+
+  public static Music getStartWhistle() {
+    return startWhistle;
+  }
+
+  /**
+   * Setters for the music assets.
+   */
+  public static void setMenuMusic(Music music) {
+    menuMusic = music;
+  }
+
+  public static void setGoalSound(Music music) {
+    goalSound = music;
+  }
+
+  public static void setStartWhistle(Music music) {
+    startWhistle = music;
   }
 }
