@@ -25,7 +25,7 @@ public class GameView {
    *
    * @param model the game model to be rendered
    */
-  public GameView(ViewableGameModel model) {
+  protected GameView(ViewableGameModel model) {
     this.model = model;
     this.spriteBatch = new SpriteBatch();
     this.inGameBackground = new Texture("OldTrafford.png");
@@ -36,7 +36,7 @@ public class GameView {
   /**
    * Draws the game objects on the screen.
    */
-  public void draw() {
+  protected void draw() {
     FitViewport viewport = model.getViewport();
     viewport.apply();
     spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
