@@ -42,7 +42,7 @@ public class ScoreBoard extends ScreenAdapter {
    *
    * @param player1Score the score of player1
    */
-  public void drawPlayer1Score(int player1Score) {
+  protected void drawPlayer1Score(int player1Score) {
     String score = String.valueOf(player1Score);
     layout.setText(font, score);
 
@@ -59,7 +59,7 @@ public class ScoreBoard extends ScreenAdapter {
    *
    * @param player2Score the score of player2
    */
-  public void drawPlayer2Score(int player2Score) {
+  protected void drawPlayer2Score(int player2Score) {
     String score = String.valueOf(player2Score);
     layout.setText(font, score);
     float textWidth = layout.width;
@@ -77,7 +77,7 @@ public class ScoreBoard extends ScreenAdapter {
    *
    * @param remainingTime time left in the game
    */
-  public void drawTimer(float remainingTime) {
+  protected void drawTimer(float remainingTime) {
     String time = String.valueOf((int) remainingTime);
     layout.setText(font, time);
     float textWidth = layout.width;
@@ -95,7 +95,7 @@ public class ScoreBoard extends ScreenAdapter {
    *
    * @param text the text to be displayed
    */
-  public void drawGoalOrGameOverText(String text) {
+  protected void drawGoalOrGameOverText(String text) {
     if (text == null) {
       return;
     }

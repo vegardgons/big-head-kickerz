@@ -47,7 +47,7 @@ public class ControlsOverlay extends ScreenAdapter {
    * Draws the controls overlay.
    * The overlay consists of two columns for player controls and a bottom line.
    */
-  public void draw() {
+  protected void draw() {
     String leftColumn = "Player 1\nWASD - move\nSPACE - kick";
     String rightColumn = "Player 2\nArrow Keys - move\nP - kick";
     String bottomLine = "SPACE to start";
