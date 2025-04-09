@@ -328,8 +328,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     int rand = random.nextInt(6);
     Powerup randomPowerup = PowerupFactory.getRandomPowerup(rand);
     float spawnX = leftGoal.getWidth()
-        + (random.nextFloat() * viewport.getWorldWidth() - leftGoal.getWidth() * 2);
-    float spawnY = random.nextFloat() * viewport.getWorldHeight() / 1.5f;
+        + (random.nextFloat() * (viewport.getWorldWidth() - leftGoal.getWidth() * 2));
+    float spawnY = random.nextFloat() * (viewport.getWorldHeight() / 1.5f);
     Texture powerupTexture = randomPowerup.getTexture();
     currentPowerup = new PowerupPickup(randomPowerup,
         new Vector2(spawnX, spawnY), powerupTexture, 1f);
