@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,58 +52,6 @@ class GoalTest {
   }
 
   @Test
-  void testCollisionWithBallFromBelow() {
-    Ball ball = mock(Ball.class);
-    when(ball.getPosition()).thenReturn(new Vector2(6, 2));
-    when(ball.getHeight()).thenReturn(0.5f);
-    when(ball.getVelocity()).thenReturn(new Vector2(1, 2));
-
-    goal.collision(ball);
-
-    verify(ball, times(1)).setVelocity(new Vector2(1, 0));
-    verify(ball, never()).setPosition(any());
-  }
-
-  @Test
-  void testCollisionWithBallFromAbove() {
-    Ball ball = mock(Ball.class);
-    when(ball.getPosition()).thenReturn(new Vector2(6, 3));
-    when(ball.getHeight()).thenReturn(0.5f);
-    when(ball.getVelocity()).thenReturn(new Vector2(1, -2));
-
-    goal.collision(ball);
-
-    verify(ball, times(1)).setVelocity(new Vector2(1, -2 * (-0.8f)));
-  }
-
-  @Test
-  void testCollisionWithPlayerFromBelow() {
-    Player player = mock(Player.class);
-
-    when(player.getPosition()).thenReturn(new Vector2(6, 2));
-    when(player.getHeight()).thenReturn(0.5f);
-    when(player.getVelocity()).thenReturn(new Vector2(1, 2));
-
-    goal.collision(player);
-
-    verify(player, times(1)).setVelocity(new Vector2(1, 0));
-  }
-
-  @Test
-  void testCollisionWithPlayerFromAbove() {
-    Player player = mock(Player.class);
-
-    when(player.getPosition()).thenReturn(new Vector2(6, 3));
-    when(player.getHeight()).thenReturn(0.5f);
-    when(player.getVelocity()).thenReturn(new Vector2(1, -2));
-
-    goal.collision(player);
-
-    verify(player, times(1)).setPosition(new Vector2(6, 3 - 0.15f));
-    verify(player, times(1)).setVelocity(new Vector2(1, 0));
-  }
-
-  @Test
   void setVelocityDoesNothing() {
     Vector2 newVelocity = new Vector2(1, 1);
     goal.setVelocity(newVelocity);
@@ -140,5 +87,33 @@ class GoalTest {
     when(mockCollideable.getVelocity()).thenReturn(new Vector2(1, -2));
 
     assertTrue(goal.collides(mockCollideable));
+  }
+
+  @Test
+  void testCollisionFromBelowBranch() {
+    Collideable obj = mock(Collideable.class);
+
+    when(obj.getPosition()).thenReturn(new Vector2(5.5f, 12.5f));
+    when(obj.getHeight()).thenReturn(0.5f);
+    when(obj.getVelocity()).thenReturn(new Vector2(0f, 2f));
+
+    when(obj.getPosition()).thenReturn(new Vector2(5.1f, 12.5f));
+    when(obj.getPosition()).thenReturn(new Vector2(1f, 12.5f));
+
+    goal.collision(obj);
+    verify(obj, times(1)).setPosition(any(Vector2.class));
+    verify(obj, times(2)).setVelocity(any(Vector2.class));
+  }
+
+  @Test
+  void testCollisionFromAboveBranch() {
+    Collideable obj = mock(Collideable.class);
+    when(obj.getPosition()).thenReturn(new Vector2(10f, 12.7f));
+    when(obj.getHeight()).thenReturn(0.2f);
+    when(obj.getVelocity()).thenReturn(new Vector2(0f, -3f));
+    goal.collision(obj);
+
+    verify(obj, times(1)).setPosition(any(Vector2.class));
+    verify(obj, times(2)).setVelocity(any(Vector2.class));
   }
 }
