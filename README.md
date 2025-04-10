@@ -25,10 +25,7 @@ A, D og W og sparker med mellomromstasten.
 
 ## Kjente feil
 - Problemer med sparking av ballen, foten er ikke langt nok ut fra kroppen til at sparkingen gjør noe særlig forskjell.
-- Litt trøbbel med fysikk, særlig når ballen er helt inntil veggen med en spiller som dytter ballen inn mot veggen. 
-Da kan ballen sprette gjennom spilleren.
-- Powerups reagerer på kontakt med spiller istedenfor med ballen. Ønsker å endre slik at den spilleren som skøyt
-ballen på powerup'en får den. Endre slik at kollisjon mellom ball og powerup ikke påvirker ballens bevegelse. 
+- Litt trøbbel med fysikk, særlig når ballen er mellom to spillere og det blir kollisjon mellom spiller-ball-spiller. Da kan ballen gå gjennom en av spillerne.
 
 ## Credits
 - Inspirasjon hentet fra https://dnddream.com/dnddream_web/app_game_06.htm
