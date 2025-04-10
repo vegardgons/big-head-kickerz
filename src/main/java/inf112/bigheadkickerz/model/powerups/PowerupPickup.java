@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.Collideable;
 import inf112.bigheadkickerz.model.GameObject;
-import inf112.bigheadkickerz.model.Player;
 
 /**
  * Class representing a powerup pickup in the game.
@@ -58,22 +58,25 @@ public class PowerupPickup implements GameObject, Collideable {
 
   @Override
   public void collision(Collideable other) {
-    if (!collected && other instanceof Player player) {
-      powerup.apply(player);
-      PowerupManager.addPowerup(player, powerup);
+    if (!collected && other instanceof Ball ball) {
+      powerup.apply(ball.getPlayerLastTouch());
+      PowerupManager.addPowerup(ball.getPlayerLastTouch(), powerup);
       collected = true;
     }
   }
 
   @Override
   public boolean collides(Collideable other) {
-    Vector2 otherPos = other.getPosition();
-    float otherWidth = other.getWidth();
-    float otherHeight = other.getHeight();
+    if (other instanceof Ball) {
+      Vector2 otherPos = other.getPosition();
+      float otherWidth = other.getWidth();
+      float otherHeight = other.getHeight();
 
-    boolean overlapX = pos.x < otherPos.x + otherWidth && pos.x + size > otherPos.x;
-    boolean overlapY = pos.y < otherPos.y + otherHeight && pos.y + size > otherPos.y;
-    return overlapX && overlapY;
+      boolean overlapX = pos.x < otherPos.x + otherWidth && pos.x + getWidth() > otherPos.x;
+      boolean overlapY = pos.y < otherPos.y + otherHeight && pos.y + getHeight() > otherPos.y;
+      return overlapX && overlapY;
+    }
+    return false;
   }
 
   @Override

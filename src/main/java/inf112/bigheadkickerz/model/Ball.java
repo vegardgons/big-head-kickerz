@@ -17,6 +17,7 @@ public class Ball implements GameObject, Collideable {
   private Vector2 pos;
   private Vector2 velocity;
   private final Texture texture;
+  private Player lastPlayerTouch;
 
   /** Constructor for Ball. */
   public Ball(Texture texture, float startX, float startY) {
@@ -98,6 +99,7 @@ public class Ball implements GameObject, Collideable {
     boolean isPlayer = other instanceof Player;
 
     if (isPlayer) {
+      this.lastPlayerTouch = (Player) other;
       Vector2 playerVelocity = other.getVelocity();
 
       Vector2 kickBoost = playerVelocity.cpy();
@@ -155,11 +157,13 @@ public class Ball implements GameObject, Collideable {
     return getWidth();
   }
 
-  public float getGravity() {
-    return gravity;
+  /**
+   * Returns the last player that touched the ball.
+   *
+   * @return Player that last touched the ball
+   */
+  public Player getPlayerLastTouch() {
+    return lastPlayerTouch;
   }
 
-  public void setGravity(float gravity) {
-    this.gravity = gravity;
-  }
 }

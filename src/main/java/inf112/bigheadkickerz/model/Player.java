@@ -10,10 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
+import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import java.util.Comparator;
 
 /** Class for the player object. */
-public class Player implements GameObject, Collideable, IPowerup {
+public class Player implements GameObject, Collideable, IPlayerPowerup {
 
   private static final float WEIGHT = 300;
   private float width = 1f;
@@ -45,9 +46,8 @@ public class Player implements GameObject, Collideable, IPowerup {
     this.isPlayer1 = isPlayer1;
   }
 
-  /**
-   * Called when we want the player to start kicking.
-   */
+  // TODO: Bør ikke la denne være public, kanskje finne et sted/interface hvor vi
+  // kan legge den inn, evt. om den bør være i denne klassen.
   public void kick() {
     if (!isKicking) {
       isKicking = true;
@@ -99,14 +99,14 @@ public class Player implements GameObject, Collideable, IPowerup {
     if (isKicking) {
       currentFrame = kickAnimation.getKeyFrame(kickStateTime, false);
     } else {
-      // Default (idle) appearance
       currentFrame = idleFrame;
     }
     batch.draw(currentFrame, pos.x, pos.y, width, height);
   }
 
-  /** Reset the player to their initial position. */
-  public void reset() {
+  // TODO: Bør ikke la denne være public, kanskje finne et sted/interface hvor vi
+  // kan legge den inn
+  void reset() {
     setPosition(new Vector2(startPos));
     setVelocity(new Vector2(0, 0));
   }
@@ -163,7 +163,16 @@ public class Player implements GameObject, Collideable, IPowerup {
     if (other instanceof Goal goal) {
       return goal.collides(this);
     }
+    if (other instanceof PowerupPickup) {
+      return false;
+    }
     return rectangleCollides(other);
+  }
+
+  // TODO: Bør ikke la denne være public, kanskje finne et sted/interface hvor vi
+  // kan legge den inn, evt. om vi i det hele tatt trenger den
+  boolean isKicking() {
+    return isKicking;
   }
 
   @Override
@@ -199,20 +208,6 @@ public class Player implements GameObject, Collideable, IPowerup {
   @Override
   public Vector2 getVelocity() {
     return velocity.cpy();
-  }
-
-  public boolean isKicking() {
-    return isKicking;
-  }
-
-  @Override
-  public float getGravity() {
-    return gravity;
-  }
-
-  @Override
-  public void setGravity(float gravity) {
-    this.gravity = gravity;
   }
 
   @Override

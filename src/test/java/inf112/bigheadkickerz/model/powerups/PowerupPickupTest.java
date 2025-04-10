@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.Collideable;
 import inf112.bigheadkickerz.model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,8 @@ import org.mockito.Mockito;
 
 class PowerupPickupTest {
 
+  private Player player;
+  private Ball ball;
   private Powerup powerup;
   private Texture texture;
   private PowerupPickup pickup;
@@ -29,6 +33,9 @@ class PowerupPickupTest {
     texture = Mockito.mock(Texture.class);
     initialPosition = new Vector2(50, 50);
     pickup = new PowerupPickup(powerup, initialPosition, texture, size);
+    player = Mockito.mock(Player.class);
+    ball = Mockito.mock(Ball.class);
+    when(ball.getPlayerLastTouch()).thenReturn(player);
   }
 
   @Test
@@ -65,80 +72,76 @@ class PowerupPickupTest {
   }
 
   @Test
-  void testCollisionWithPlayerAppliesPowerupAndSetsCollected() {
-    Player player = Mockito.mock(Player.class);
-    pickup.collision(player);
+  void testCollisionWithBallAppliesPowerupAndSetsCollected() {
+    when(ball.getPlayerLastTouch()).thenReturn(player);
+    pickup.collision(ball);
     assertTrue(pickup.isCollected());
     Mockito.verify(powerup).apply(player);
   }
 
   @Test
-  void testCollisionWithPlayerOnlyAppliesOnce() {
-    Player player = Mockito.mock(Player.class);
-    pickup.collision(player);
-    pickup.collision(player);
+  void testCollisionWithBallOnlyAppliesOnce() {
+    pickup.collision(ball);
+    pickup.collision(ball);
     Mockito.verify(powerup, Mockito.times(1)).apply(player);
   }
 
   @Test
-  void testCollisionWithNonPlayerDoesNothing() {
-    Collideable nonPlayer = Mockito.mock(Collideable.class);
-    pickup.collision(nonPlayer);
+  void testCollisionWithNonBallDoesNothing() {
+    Collideable other = Mockito.mock(Collideable.class);
+    when(other.getPosition()).thenReturn(new Vector2(0, 0));
+    when(other.getWidth()).thenReturn(10f);
+    when(other.getHeight()).thenReturn(10f);
+    pickup.collision(other);
     assertFalse(pickup.isCollected());
     Mockito.verify(powerup, Mockito.never()).apply(Mockito.any());
   }
 
   @Test
-  void testCollidesReturnsTrueWhenOverlapping() {
-    Collideable other = Mockito.mock(Collideable.class);
-    Mockito.when(other.getPosition()).thenReturn(new Vector2(55, 55));
-    Mockito.when(other.getWidth()).thenReturn(10f);
-    Mockito.when(other.getHeight()).thenReturn(10f);
-
-    assertTrue(pickup.collides(other));
+  void testCollidesReturnsTrueWhenBallOverlapping() {
+    Mockito.when(ball.getPosition()).thenReturn(new Vector2(55, 55));
+    Mockito.when(ball.getWidth()).thenReturn(10f);
+    Mockito.when(ball.getHeight()).thenReturn(10f);
+    assertTrue(pickup.collides(ball));
   }
 
   @Test
   void testCollidesReturnsFalseWhenNotOverlapping() {
-    Collideable other = Mockito.mock(Collideable.class);
-    Mockito.when(other.getPosition()).thenReturn(new Vector2(200, 200));
-    Mockito.when(other.getWidth()).thenReturn(10f);
-    Mockito.when(other.getHeight()).thenReturn(10f);
+    Mockito.when(ball.getPosition()).thenReturn(new Vector2(200, 200));
+    Mockito.when(ball.getWidth()).thenReturn(10f);
+    Mockito.when(ball.getHeight()).thenReturn(10f);
 
-    assertFalse(pickup.collides(other));
+    assertFalse(pickup.collides(ball));
   }
 
   @Test
   void testCollidesOnEdgeTouchingShouldNotCollide() {
-    Collideable other = Mockito.mock(Collideable.class);
-    Mockito.when(other.getPosition())
+    Mockito.when(ball.getPosition())
         .thenReturn(new Vector2(initialPosition.x + size, initialPosition.y));
-    Mockito.when(other.getWidth()).thenReturn(10f);
-    Mockito.when(other.getHeight()).thenReturn(10f);
+    Mockito.when(ball.getWidth()).thenReturn(10f);
+    Mockito.when(ball.getHeight()).thenReturn(10f);
 
-    assertFalse(pickup.collides(other));
+    assertFalse(pickup.collides(ball));
   }
 
   @Test
   void testCollidesFullyContainedWithinPickup() {
-    Collideable other = Mockito.mock(Collideable.class);
-    Mockito.when(other.getPosition())
+    Mockito.when(ball.getPosition())
         .thenReturn(new Vector2(initialPosition.x + 5, initialPosition.y + 5));
-    Mockito.when(other.getWidth()).thenReturn(5f);
-    Mockito.when(other.getHeight()).thenReturn(5f);
+    Mockito.when(ball.getWidth()).thenReturn(5f);
+    Mockito.when(ball.getHeight()).thenReturn(5f);
 
-    assertTrue(pickup.collides(other));
+    assertTrue(pickup.collides(ball));
   }
 
   @Test
   void testCollidesFullySurroundsPickup() {
-    Collideable other = Mockito.mock(Collideable.class);
-    Mockito.when(other.getPosition())
+    Mockito.when(ball.getPosition())
         .thenReturn(new Vector2(initialPosition.x - 10, initialPosition.y - 10));
-    Mockito.when(other.getWidth()).thenReturn(100f);
-    Mockito.when(other.getHeight()).thenReturn(100f);
+    Mockito.when(ball.getWidth()).thenReturn(100f);
+    Mockito.when(ball.getHeight()).thenReturn(100f);
 
-    assertTrue(pickup.collides(other));
+    assertTrue(pickup.collides(ball));
   }
 
   @Test
@@ -152,9 +155,8 @@ class PowerupPickupTest {
   @Test
   void testDrawWhenCollectedDoesNotDraw() {
     SpriteBatch batch = Mockito.mock(SpriteBatch.class);
-    Player player = Mockito.mock(Player.class);
-    pickup.collision(player);
-
+    Ball ball = Mockito.mock(Ball.class);
+    pickup.collision(ball);
     pickup.draw(batch);
     Mockito.verify(batch, Mockito.never()).draw(
         Mockito.<Texture>any(),

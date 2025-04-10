@@ -88,9 +88,9 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     assessCurrentGameState(delta);
     handleGoal(delta);
     handleGameOver(delta);
+    updatePowerupSpawning(delta);
     updateGameObjects(delta);
 
-    updatePowerupSpawning(delta);
   }
 
   private void assessCurrentGameState(float delta) {
@@ -274,12 +274,12 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
 
   private void initCollideables() {
     collideables = new ArrayList<>();
+    collisionHandler = new CollisionHandler();
     collideables.add(ball);
     collideables.add(player2);
     collideables.add(player1);
     collideables.add(leftGoal);
     collideables.add(rightGoal);
-    collisionHandler = new CollisionHandler();
 
   }
 

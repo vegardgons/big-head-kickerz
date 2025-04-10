@@ -1,10 +1,9 @@
 package inf112.bigheadkickerz.model;
 
 /**
- * Interface for powerups in the game.
- * This interface defines the methods that all powerups must implement.
+ * Interface for player powerup properties.
  */
-public interface IPowerup {
+public interface IPlayerPowerup {
 
   /**
    * Get current movement speed.
@@ -19,20 +18,6 @@ public interface IPowerup {
    * @param movementSpeed new movement speed
    */
   void setMovementSpeed(float movementSpeed);
-
-  /**
-   * Get gravity.
-   *
-   * @return gravity
-   */
-  float getGravity();
-
-  /**
-   * Set gravity.
-   *
-   * @param gravity new gravity
-   */
-  void setGravity(float gravity);
 
   /**
    * Get kick power.

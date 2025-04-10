@@ -48,7 +48,6 @@ class BallTest {
     assertEquals(0.6f, ball.getHeight());
     assertEquals(0.5f, ball.getWeight());
     assertEquals(new Vector2(0, 0), ball.getVelocity());
-    assertEquals(-9.81f, ball.getGravity());
   }
 
   @Test
@@ -56,13 +55,6 @@ class BallTest {
     ball.draw(batch);
     Mockito.verify(batch).draw(Mockito.any(Texture.class), Mockito.anyFloat(), Mockito.anyFloat(),
         Mockito.anyFloat(), Mockito.anyFloat());
-  }
-
-  @Test
-  void testChangeGravity() {
-    assertEquals(-9.81f, ball.getGravity());
-    ball.setGravity(-5.0f);
-    assertEquals(-5.0f, ball.getGravity());
   }
 
   @Test

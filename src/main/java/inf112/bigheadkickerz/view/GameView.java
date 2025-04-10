@@ -25,7 +25,7 @@ public class GameView {
    *
    * @param model the game model to be rendered
    */
-  protected GameView(ViewableGameModel model) {
+  GameView(ViewableGameModel model) {
     this.model = model;
     this.spriteBatch = new SpriteBatch();
     this.inGameBackground = new Texture("OldTrafford.png");
@@ -36,7 +36,7 @@ public class GameView {
   /**
    * Draws the game objects on the screen.
    */
-  protected void draw() {
+  void draw() {
     FitViewport viewport = model.getViewport();
     viewport.apply();
     spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
@@ -47,6 +47,10 @@ public class GameView {
   private void drawObjects(FitViewport viewport) {
     spriteBatch.begin();
     spriteBatch.draw(inGameBackground, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+    PowerupPickup powerup = model.getCurrentPowerup();
+    if (powerup != null) {
+      powerup.draw(spriteBatch);
+    }
     Player p1 = model.getPlayer1();
     Player p2 = model.getPlayer2();
     Ball ball = model.getBall();
@@ -55,12 +59,9 @@ public class GameView {
     ball.draw(spriteBatch);
     Goal leftGoal = model.getLeftGoal();
     Goal rightGoal = model.getRightGoal();
-    PowerupPickup powerup = model.getCurrentPowerup();
     leftGoal.draw(spriteBatch);
     rightGoal.draw(spriteBatch);
-    if (powerup != null) {
-      powerup.draw(spriteBatch);
-    }
+
     spriteBatch.end();
 
     scoreBoard.drawPlayer1Score(model.getPlayer1Score());
@@ -87,14 +88,14 @@ public class GameView {
    * @param width  the new width of the window
    * @param height the new height of the window
    */
-  protected void resize(int width, int height) {
+  void resize(int width, int height) {
     model.getViewport().update(width, height, true);
   }
 
   /**
    * Disposes of the resources used by the GameView.
    */
-  protected void dispose() {
+  void dispose() {
     spriteBatch.dispose();
     scoreBoard.dispose();
     controlsOverlay.dispose();
