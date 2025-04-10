@@ -74,7 +74,8 @@ public interface Collideable {
   void setVelocity(Vector2 velocity);
 
   /**
-   * Check if this object collides with another Collideable object using rectangle
+   * Check if this object collides with another
+   * Collideable object using rectangle
    * collision detection.
    *
    * @param other the other Collideable object

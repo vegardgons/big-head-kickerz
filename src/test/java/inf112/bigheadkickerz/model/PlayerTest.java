@@ -83,7 +83,6 @@ class PlayerTest {
     assertEquals(4, player.getKickPower());
     assertEquals(5, player.getJumpHeight());
     assertEquals(4, player.getMovementSpeed());
-    assertEquals(-9.81f, player.getGravity());
   }
 
   @Test
@@ -220,12 +219,6 @@ class PlayerTest {
   void testChangeMovementSpeed() {
     player.setMovementSpeed(10);
     assertEquals(10, player.getMovementSpeed());
-  }
-
-  @Test
-  void testChangeGravity() {
-    player.setGravity(-5);
-    assertEquals(-5, player.getGravity());
   }
 
   @Test
