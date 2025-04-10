@@ -34,4 +34,7 @@ A, D og W og sparker med mellomromstasten.
 - Bilde av mål hentet fra https://creazilla.com/media/clipart/21507/soccer-goal
 - Bilde av bakgrunnen hentet fra https://eu.indystar.com/story/sports/soccer/2017/01/25/manchester-united-old-trafford-largest-stadium-england/97032978/
 - Bilde av skilt hentet fra https://pngtree.com/free-png-vectors/wood-sign
+- Lyd av fløyte hentet fra https://freesound.org/people/NebbiaOne/sounds/408417/
+- Lyd av mål hentet fra https://freesound.org/people/paulw2k/sounds/196461/
+- Lyd av menymusikk hentet fra https://freesound.org/people/neko_4444/sounds/744187/
 

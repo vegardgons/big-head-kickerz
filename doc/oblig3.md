@@ -42,22 +42,54 @@ Link til møtereferater: https://docs.google.com/document/d/1ZWcazwmUgAseS5O9PUc
 ## Krav og spesifikasjon
 
 ### Krav og MVP
-Vi har kommet forbi MVP, og har nå et fungerende spill. Vi har imidlertid fortsatt en del bugs og mye rom for forbedring. 
-Fra de tidligere brukerhistoriene har vi oppnådd alle krav med unntak av krav 4:  
+Vi har kommet forbi MVP, og har nå et fungerende spill. Siden forrige innlevering har vi egentlig prioritert samtlige av kravene fra brukerhistoriene. Vi har oppnådd alle krav med unntak av krav 4:  
 
 4. Som utvikler ønsker jeg at spillere og ballen skal ha en fysikkmotor, slik at bevegelser og kollisjoner føles naturlige.
 
-Vi har som sagt fortsatt en del bugs knyttet til kollisjon. Akkurat nå kan ballen "gå gjennom" spiller 2 dersom det blir en kollisjon mellom spiller-ball-spiller. Dette gjør naturligvis spillopplevelsen betydelig dårligere, og er høyt oppe på prioriteringslisten av bugs. 
+Vi har fortsatt en del bugs knyttet til kollisjon. Akkurat nå kan ballen "gå gjennom" spiller 2 dersom det blir en kollisjon mellom spiller-ball-spiller. Dette gjør naturligvis spillopplevelsen vesentlig dårligere, og er derfor høyt oppe på prioriteringslisten av videre forbedringer.
 
-Nye krav: 
-1. Som spiller ønsker jeg at spillerne har en fot som kan sparke ballen opp fra bakken 
-2. Som spiller ønsker jeg å ha bakgrunnslyd til spillet, samt flere lydeffekter for begivenheter i spillet.  
-3. Som spiller 
+I tillegg har vi et par nye krav: 
+1. Som spiller ønsker jeg at spillerne har en fot som kan sparke ballen opp fra bakken (foreløpig blir det bare en "boost") 
+    * Akseptansekriterier:
+    Spillerne skal ha en visuell fot som beveger seg når man sparker, helst i en pendelbevegelse.
+    Spark skal kunne utføres med en egen knapp eller tastekombinasjon.
+    Når ballen er på bakken og spark aktiveres, skal ballen skytes opp i lufta med merkbar kraft.
+    * Arbeidsoppgaver:
+    Legge til en ny animasjon for spark (den vi foreløpig har fungerer ikke helt som ønsket).
+    Implementere fysikk for å skyte ballen opp fra bakken når spark aktiveres.
+    Teste at sparking fungerer og gir ønsket ballbane.
+2. Som spiller ønsker jeg å ha bakgrunnslyd til spillet, samt flere lydeffekter for begivenheter i spillet. 
+    * Akseptansekriterier:
+    Det skal være bakgrunnslyd i spillet som starter når spillet begynner.
+    Vi vurderer lydeffekter for følgende hendelser:
+    - Spiller hopper
+    - Game Over
+    Lydnivåene skal være balanserte og ikke forstyrrende.
+    * Arbeidsoppgaver:
+    Finne eller lage passende bakgrunnslyd.
+    Finne eller lage lydeffekter for de ulike hendelsene.
+    Legge til kode for å spille av lydeffekter ved relevante hendelser.
+
+### Prioritering framover
+1. Forbedre kollisjon mellom spiller-ball-spiller.
+2. Endre implementasjon av fot og spark. Vi ønsker å ha en fot som beveger seg i en pendel-bevegelse og sparker ballen frem og opp
+3. Legge til ytterligere lydeffekter/musikk. 
 
 ### Bugs
-Enn så lenge er det en del bugs når det kommer til fysikken. For eksempel, dersom man står oppå en spiller så vil den spilleren synke sakte ned i bakken og ut av bildet. Ballen spretter også veldig unaturlig. Registreringen av mål må også ordnes opp i, da det tar litt tid fra ballen går i mål, til det registreres at det er mål.
+Som sagt er vår største bug kollisjonshåndteringen mellom ball og spiller når ballen havner mellom spillerne. Da ender ballen opp med å gå gjennom en av spillerne. 
+Foten sin størrelse og animasjon er ikke lang nok utfra kroppen til å gi ballen en boost både opp og frem (foreløpig bare fremover, og veldig lite synlig)
+Vi har en liten bug med at hvis en spiller står oppå en annen så vil øverste spiller sakte synke ned i nederste spiller. Dette skjer imidlertid sakte og vil trolig ikke ha så voldsomt mye å si for selve spillopplevelsen. 
 
 ## Produkt og kode
+
+### Utbedring av feil
+Vi har endret store deler av fysikkimplementasjonen, og det har ført til forbedring av mye av feilene knyttet til kollisjon. Blant annet:
+- Dersom en spiller står oppå en annen spiller vil ikke nederste spiller synke ned i bakken. 
+- Ballen har en mer naturlig fysikk og bevegelsesbane
+Registrering av mål skjer nå umiddelbart etter at ballen kommer i mål. 
+
+### Statiske analyseverktøy - SonarQube
+Vi har brukt SonarQube og det har vært et godt verktøy for å få en ytterligere oversikt over uløste issues, hvor mye test coverage vi har og eventuell duplikatkode. 
 
 ### Kjente feil og README
 Vi har så langt ikke rettet tidligere påpekte feil, da vi ikke tidligere har påpekt noen feil. README.md inneholder hvordan programmet bygges, kjøres, og testes. 
