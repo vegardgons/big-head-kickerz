@@ -26,6 +26,7 @@ public class Goal implements GameObject, Collideable {
   public Goal(Texture texture, float x, float y) {
     this.texture = texture;
     this.pos = new Vector2(x, y);
+
   }
 
   @Override
@@ -55,27 +56,27 @@ public class Goal implements GameObject, Collideable {
 
   @Override
   public void collision(Collideable other) {
-    if (other instanceof Player player) {
-      Vector2 playerPos = player.getPosition();
-      Vector2 playerVelocity = player.getVelocity();
-
-      if (playerPos.y + player.getHeight() < HEIGHT) {
-        player.setVelocity(new Vector2(playerVelocity.x, 0));
-      } else {
-        player.setPosition(new Vector2(playerPos.x, HEIGHT - 0.15f));
-        player.setVelocity(new Vector2(playerVelocity.x, 0));
-      }
-    } else if (other instanceof Ball ball) {
-      Vector2 ballPos = ball.getPosition();
-      Vector2 ballVelocity = ball.getVelocity();
-
-      if (ballPos.y + ball.getHeight() < HEIGHT) {
-        ball.setVelocity(new Vector2(ballVelocity.x, 0));
-      } else {
-        ball.setPosition(new Vector2(ballPos.x, HEIGHT - 0.1f));
-        ball.setVelocity(new Vector2(ballVelocity.x, -ballVelocity.y * 0.8f));
-      }
+    float crossbarY = pos.y + (HEIGHT - 0.2f);
+    Vector2 vel = other.getVelocity();
+    if (other.getPosition().y + other.getHeight() > crossbarY
+        && vel.y > 0) {
+      float newY = crossbarY - other.getHeight();
+      other.setPosition(new Vector2(other.getPosition().x, newY));
+      vel.y = -vel.y * 0.7f;
+      other.setVelocity(vel);
+    } else if (other.getPosition().y < crossbarY && vel.y < 0) {
+      float newY = crossbarY + 0.2f;
+      other.setPosition(new Vector2(other.getPosition().x, newY));
+      vel.y = -vel.y * 0.7f;
+      other.setVelocity(vel);
     }
+    vel = other.getVelocity();
+    if (other.getPosition().x < getWidth()) {
+      vel.x += 0.5f;
+    } else {
+      vel.x -= 0.5f;
+    }
+    other.setVelocity(vel);
   }
 
   @Override
