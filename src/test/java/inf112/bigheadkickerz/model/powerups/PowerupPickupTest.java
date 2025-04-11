@@ -155,7 +155,6 @@ class PowerupPickupTest {
   @Test
   void testDrawWhenCollectedDoesNotDraw() {
     SpriteBatch batch = Mockito.mock(SpriteBatch.class);
-    Ball ball = Mockito.mock(Ball.class);
     pickup.collision(ball);
     pickup.draw(batch);
     Mockito.verify(batch, Mockito.never()).draw(

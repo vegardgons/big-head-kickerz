@@ -25,6 +25,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private static final float WIDTH = 15;
   private static final float HEIGHT = 8;
 
+  private FitViewport viewport;
+
   // Powerup variables
   private PowerupPickup currentPowerup;
   private float powerupSpawnTimer = 0f;
@@ -40,27 +42,24 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private ArrayList<Collideable> collideables;
   private ICollisionHandler collisionHandler;
 
-  private SecureRandom random;
-
   // Score tracking
   private int player1Score;
   private int player2Score;
   private float goalTimer;
+  private static final int GOAL_THRESHOLD = 7;
   private static final float GOAL_DELAY = 2f;
   private static final float GAME_OVER_DELAY = 5f;
   private boolean isGoal;
-  private String goalText;
-  private boolean showControls = true;
-
-  private String gameOverText;
   private boolean gameOver = false;
-
-  private FitViewport viewport;
-
   private GameState gameState;
+
+  private boolean showControls = true;
+  private String gameOverText;
+  private String goalText;
   private float gameTime;
   private static final float DEFAULT_GAME_TIME = 60f;
-  private int goalThreshold;
+
+  private SecureRandom random;
 
   /**
    * Constructor initializes game objects and viewport.
@@ -68,12 +67,12 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   public GameModel(BigHeadKickerzGame game, GameState gameState) {
     initBasicComponents(game, gameState);
     initGameSystems();
-    configureGameMode(gameState);
   }
 
   private void initBasicComponents(BigHeadKickerzGame game, GameState gameState) {
     this.game = game;
     this.gameState = gameState;
+    this.gameTime = DEFAULT_GAME_TIME;
     this.viewport = new FitViewport(WIDTH, HEIGHT);
     this.random = new SecureRandom();
   }
@@ -84,23 +83,11 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     initScoreTracking();
   }
 
-  private void configureGameMode(GameState gameState) {
-    switch (gameState) {
-      case TIMED:
-        gameTime = DEFAULT_GAME_TIME;
-        break;
-      case FIRST_TO_SEVEN:
-        goalThreshold = 7;
-        break;
-    }
-  }
-
   @Override
   public void update(float delta) {
     if (showControls) {
       return;
     }
-
     assessCurrentGameState(delta);
     handleGoal(delta);
     handleGameOver(delta);
@@ -110,13 +97,10 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   }
 
   private void assessCurrentGameState(float delta) {
-    switch (gameState) {
-      case TIMED:
-        handleTimedMode(delta);
-        break;
-      case FIRST_TO_SEVEN:
-        handleFirstToSevenMode();
-        break;
+    if (gameState == GameState.TIMED) {
+      handleTimedMode(delta);
+    } else {
+      handleFirstToSevenMode();
     }
   }
 
@@ -137,7 +121,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   }
 
   private boolean hasPlayerReachedGoalThreshold() {
-    return player1Score >= goalThreshold || player2Score >= goalThreshold;
+    return player1Score >= GOAL_THRESHOLD || player2Score >= GOAL_THRESHOLD;
   }
 
   private void endGame() {
@@ -284,7 +268,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
       player2Score++;
     }
     Assets.playGoalSound();
-    if (gameState == GameState.FIRST_TO_SEVEN && getPlayerScore(scoringPlayer) >= goalThreshold) {
+    if (gameState == GameState.FIRST_TO_SEVEN && getPlayerScore(scoringPlayer) >= GOAL_THRESHOLD) {
       gameOver = true;
     } else {
       goalText = "Player " + scoringPlayer + " scored!";
