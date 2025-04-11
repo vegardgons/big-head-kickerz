@@ -2,6 +2,12 @@ package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class for loading and playing sound effects and music.
@@ -13,14 +19,21 @@ public final class Assets {
   private static Music goalSound;
   private static Music startWhistle;
 
+  private static final Map<String, Texture> textureCache = new HashMap<>();
+
+
   /**
    * Initializes the assets.
    * This method loads the music files from the assets folder.
    */
   public static void init() {
-    menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
-    goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
-    startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
+    try {
+      menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
+      goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
+      startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
+    } catch (Exception e) {
+      Gdx.app.error("Assets", "Error loading audio files", e);
+    }
   }
 
   /**
@@ -60,25 +73,26 @@ public final class Assets {
   }
 
   /**
-   * Plays the goal sound.
-   * This method plays the goal sound.
+   * Plays the sound effect for when a goal is scored.
    */
   public static void playGoalSound() {
     goalSound.play();
   }
 
   /**
-   * Disposes of the assets.
-   * This method disposes of the music assets to free up resources.
+   * Releases all audio resources from memory.
+   * Should be called when shutting down the game or transitioning between major game states.
    */
   public static void dispose() {
-    menuMusic.dispose();
-    goalSound.dispose();
-    startWhistle.dispose();
+    // Dispose all audio assets
+    List<Music> gameAudio = Arrays.asList(menuMusic, goalSound, startWhistle);
+    gameAudio.forEach(Music::dispose);
   }
 
+
   /**
-   * Getters for the music assets.
+   * Getter methods for accessing game audio assets.
+   * These methods provide access to various sound effects and music used in the game.
    */
   public static Music getMenuMusic() {
     return menuMusic;
@@ -93,17 +107,92 @@ public final class Assets {
   }
 
   /**
-   * Setters for the music assets.
+   * Setter methods for updating game audio assets.
+   * These methods allow updating the game's audio resources during runtime.
+   *
+   * @param music The new Music asset to be used
    */
   public static void setMenuMusic(Music music) {
+    if (music == null) {
+      throw new IllegalArgumentException("Menu music cannot be null");
+    }
     menuMusic = music;
   }
 
   public static void setGoalSound(Music music) {
+    if (music == null) {
+      throw new IllegalArgumentException("Goal sound cannot be null");
+    }
     goalSound = music;
   }
 
   public static void setStartWhistle(Music music) {
     startWhistle = music;
   }
+
+
+  /**
+   * Gets the ball texture from cache or loads it if not present.
+   *
+   * @return The ball texture
+   */
+  public static Texture getBallTexture() {
+    return getTexture("BallImage.png");
+  }
+
+  /**
+   * Gets the player 1 texture from cache or loads it if not present.
+   *
+   * @return The player 1 texture
+   */
+  public static Texture getPlayer1Texture() {
+    return getTexture("Player1.png");
+  }
+
+  /**
+   * Gets the player 2 texture from cache or loads it if not present.
+   *
+   * @return The player 2 texture
+   */
+  public static Texture getPlayer2Texture() {
+    return getTexture("Player2.png");
+  }
+
+  /**
+   * Gets the left goal texture from cache or loads it if not present.
+   *
+   * @return The left goal texture
+   */
+  public static Texture getLeftGoalTexture() {
+    return getTexture("GoalLeft.png");
+  }
+
+  /**
+   * Gets the right goal texture from cache or loads it if not present.
+   *
+   * @return The right goal texture
+   */
+  public static Texture getRightGoalTexture() {
+    return getTexture("GoalRight.png");
+  }
+
+  /**
+   * Helper method to get or load textures from cache.
+   *
+   * @param path The file path of the texture
+   * @return The cached or newly loaded texture
+   */
+  public static Texture getTexture(String path) {
+    return textureCache.computeIfAbsent(path, k -> new Texture(Gdx.files.internal(k)));
+  }
+
+  /**
+   * Disposes of all cached textures and clears the cache.
+   * Should be called when shutting down the game.
+   */
+  public static void disposeTextures() {
+    textureCache.values().forEach(Texture::dispose);
+    textureCache.clear();
+  }
+
 }

@@ -37,5 +37,6 @@ public class BigHeadKickerzGame extends Game {
   @Override
   public void dispose() {
     Assets.dispose();
+    Assets.disposeTextures();
   }
 }
