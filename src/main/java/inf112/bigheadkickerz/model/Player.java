@@ -19,7 +19,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
   private static final float WEIGHT = 300;
   private float width = 1f;
   private float height = 1.2f;
-  private float gravity = -9.81f;
   private float movementSpeed = 4f;
   private float jumpHeight = 5f;
   private float kickPower = 4f;
@@ -46,8 +45,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     this.isPlayer1 = isPlayer1;
   }
 
-  // TODO: Bør ikke la denne være public, kanskje finne et sted/interface hvor vi
-  // kan legge den inn, evt. om den bør være i denne klassen.
   public void kick() {
     if (!isKicking) {
       isKicking = true;
@@ -59,6 +56,7 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
   @Override
   public void update(Viewport viewport, float delta) {
 
+    float gravity = -9.81f;
     velocity.y += gravity * delta;
     Vector2 newVel = playerController.movePlayer();
     setVelocity(new Vector2(newVel));
@@ -104,8 +102,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     batch.draw(currentFrame, pos.x, pos.y, width, height);
   }
 
-  // TODO: Bør ikke la denne være public, kanskje finne et sted/interface hvor vi
-  // kan legge den inn
   void reset() {
     setPosition(new Vector2(startPos));
     setVelocity(new Vector2(0, 0));
@@ -169,8 +165,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     return rectangleCollides(other);
   }
 
-  // TODO: Bør ikke la denne være public, kanskje finne et sted/interface hvor vi
-  // kan legge den inn, evt. om vi i det hele tatt trenger den
   boolean isKicking() {
     return isKicking;
   }

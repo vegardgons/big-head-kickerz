@@ -11,7 +11,6 @@ public class Ball implements GameObject, Collideable {
   private static final float BALL_SIZE = 0.6f;
   private static final float WEIGHT = 0.5f;
   private static final float BOUNCE_FACTOR = 0.7f;
-  private float gravity = -9.81f;
 
   private final Vector2 startPos;
   private Vector2 pos;
@@ -30,6 +29,7 @@ public class Ball implements GameObject, Collideable {
 
   @Override
   public void update(Viewport viewport, float delta) {
+    float gravity = -9.81f;
     velocity.y += gravity * delta;
     velocity.x *= 0.98f;
     pos.add(velocity.x * delta, velocity.y * delta);
