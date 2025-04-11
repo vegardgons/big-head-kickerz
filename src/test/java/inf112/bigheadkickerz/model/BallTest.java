@@ -75,7 +75,6 @@ class BallTest {
   void testBoundariesLeftEdge() {
     ball.setPosition(new Vector2(-1, 5));
     ball.update(viewport, 1);
-    // Check if the ball's position is reset to 0
     assertEquals(0, ball.getPosition().x);
   }
 
@@ -83,7 +82,6 @@ class BallTest {
   void testBoundariesRightEdge() {
     ball.setPosition(new Vector2(10, 5));
     ball.update(viewport, 1);
-    // Check if the ball's position is reset to viewport width - ball width
     assertEquals(viewport.getWorldWidth() - ball.getWidth(), ball.getPosition().x);
   }
 
@@ -91,7 +89,6 @@ class BallTest {
   void testBoundariesTopEdge() {
     ball.setPosition(new Vector2(5, 20));
     ball.update(viewport, 1);
-    // Check if the ball's position is reset to viewport height - ball height
     assertEquals(viewport.getWorldHeight() - ball.getHeight(), ball.getPosition().y);
   }
 
@@ -99,7 +96,6 @@ class BallTest {
   void testBoundariesBottomEdge() {
     ball.setPosition(new Vector2(5, -1));
     ball.update(viewport, 1);
-    // Check if the ball's position is reset to 0
     assertEquals(0, ball.getPosition().y);
   }
 
@@ -120,8 +116,6 @@ class BallTest {
     when(goal.getWidth()).thenReturn(1f);
     when(goal.getHeight()).thenReturn(1.2f);
 
-    // Returns false even if the ball is in the goal, because the logic is in the
-    // Goal class
     assertFalse(ball.collides(goal));
   }
 
@@ -144,7 +138,6 @@ class BallTest {
 
     ball.collision(goal);
 
-    // Verify that the ball's velocity is not changed
     verify(goal, Mockito.never()).setVelocity(Mockito.any());
     verify(goal, Mockito.never()).setPosition(Mockito.any());
   }
