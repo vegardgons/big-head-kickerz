@@ -95,4 +95,4 @@ Vi har brukt SonarQube og det har vært et godt verktøy for å få en ytterlige
 Vi har så langt ikke rettet tidligere påpekte feil, da vi ikke tidligere har påpekt noen feil. README.md inneholder hvordan programmet bygges, kjøres, og testes. 
 
 ### Klassediagram
-![img.png](img.png)
+![class_diagram_2.png](class_diagram_2.png)

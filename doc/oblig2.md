@@ -57,4 +57,4 @@ Enn så lenge er det en del bugs når det kommer til fysikken. For eksempel, der
 Vi har så langt ikke rettet tidligere påpekte feil, da vi ikke tidligere har påpekt noen feil. README.md inneholder hvordan programmet bygges, kjøres, og testes. 
 
 ### Klassediagram
-![img.png](img.png)
+![class_diagram_1.png](class_diagram_1.png)
