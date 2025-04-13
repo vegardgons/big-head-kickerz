@@ -8,7 +8,9 @@ import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
+import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +33,8 @@ class PlayerControllerTest {
     playerController2 = new PlayerController(false, playerMock);
 
     Gdx.input = mock(Input.class);
+
+    Assets.setJumpingSound(mock(Sound.class));
   }
 
   @Test
