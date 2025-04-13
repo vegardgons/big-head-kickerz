@@ -14,6 +14,7 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl3.audio.Mp3.Music;
+import com.badlogic.gdx.backends.lwjgl3.audio.Ogg.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.GameState;
@@ -47,11 +48,15 @@ class BigHeadKickerzGameTest {
     when(mockFiles.internal(anyString())).thenReturn(mockHandle);
 
     Music mockMusic = mock(Music.class);
+    Sound mockSound = mock(Sound.class);
+
     Gdx.audio = mock(com.badlogic.gdx.Audio.class);
 
     Assets.setMenuMusic(mockMusic);
-    Assets.setGoalSound(mockMusic);
-    Assets.setStartWhistle(mockMusic);
+    Assets.setGoalSound(mockSound);
+    Assets.setStartWhistle(mockSound);
+    Assets.setJumpingSound(mockSound);
+    Assets.setGameOverSound(mockSound);
 
     doNothing().when(game).setScreen(any(Screen.class));
   }
@@ -98,8 +103,10 @@ class BigHeadKickerzGameTest {
   @Test
   void dispose_shouldCallAssetsDispose() {
     Assets.setMenuMusic(mock(com.badlogic.gdx.audio.Music.class));
-    Assets.setGoalSound(mock(com.badlogic.gdx.audio.Music.class));
-    Assets.setStartWhistle(mock(com.badlogic.gdx.audio.Music.class));
+    Assets.setGoalSound(mock(com.badlogic.gdx.audio.Sound.class));
+    Assets.setStartWhistle(mock(com.badlogic.gdx.audio.Sound.class));
+    Assets.setJumpingSound(mock(com.badlogic.gdx.audio.Sound.class));
+    Assets.setGameOverSound(mock(com.badlogic.gdx.audio.Sound.class));
 
     game.dispose();
 

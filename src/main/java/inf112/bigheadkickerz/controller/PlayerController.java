@@ -3,6 +3,8 @@ package inf112.bigheadkickerz.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+
+import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.Player;
 
 /** Class for controlling the player. */
@@ -60,11 +62,13 @@ public class PlayerController {
     if (isPlayer1) {
       if (Gdx.input.isKeyJustPressed(Input.Keys.W) && !isJumping) {
         isJumping = true;
+        Assets.playJumpingSound();
         return jumpHeight;
       }
     } else {
       if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && !isJumping) {
         isJumping = true;
+        Assets.playJumpingSound();
         return jumpHeight;
       }
     }

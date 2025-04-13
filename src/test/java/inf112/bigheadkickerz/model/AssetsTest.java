@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +21,11 @@ class AssetsTest {
   @BeforeEach
   void setupMocks() {
     Assets.setMenuMusic(mock(Music.class));
-    Assets.setGoalSound(mock(Music.class));
-    Assets.setStartWhistle(mock(Music.class));
+    Assets.setGoalSound(mock(Sound.class));
+    Assets.setStartWhistle(mock(Sound.class));
+    Assets.setJumpingSound(mock(Sound.class));
+    Assets.setGameOverSound(mock(Sound.class));
+
   }
 
   @Test
@@ -66,14 +70,28 @@ class AssetsTest {
   void playStartWhistle_shouldPlaySound() {
     Assets.playStartWhistle();
 
-    verify(Assets.getStartWhistle()).play();
+    verify(Assets.getStartWhistle()).play(2.0f);
   }
 
   @Test
   void playGoalSound_shouldPlaySound() {
     Assets.playGoalSound();
 
-    verify(Assets.getGoalSound()).play();
+    verify(Assets.getGoalSound()).play(0.5f);
+  }
+
+  @Test
+  void playJumpingSound_shouldPlaySound() {
+    Assets.playJumpingSound();
+
+    verify(Assets.getJumpingSound()).play(0.2f);
+  }
+
+  @Test
+  void playGameOverSound_shouldPlaySound() {
+    Assets.playGameOverSound();
+
+    verify(Assets.getGameOverSound()).play();
   }
 
   @Test
@@ -83,5 +101,7 @@ class AssetsTest {
     verify(Assets.getMenuMusic()).dispose();
     verify(Assets.getGoalSound()).dispose();
     verify(Assets.getStartWhistle()).dispose();
+    verify(Assets.getJumpingSound()).dispose();
+    verify(Assets.getGameOverSound()).dispose();
   }
 }

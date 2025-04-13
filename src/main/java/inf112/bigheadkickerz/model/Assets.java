@@ -2,11 +2,10 @@ package inf112.bigheadkickerz.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,11 +15,12 @@ import java.util.Map;
  */
 public final class Assets {
   private static Music menuMusic;
-  private static Music goalSound;
-  private static Music startWhistle;
+  private static Sound goalSound;
+  private static Sound startWhistle;
+  private static Sound gameOverSound;
+  private static Sound jumpingSound;
 
   private static final Map<String, Texture> textureCache = new HashMap<>();
-
 
   /**
    * Initializes the assets.
@@ -29,8 +29,11 @@ public final class Assets {
   public static void init() {
     try {
       menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/menu_sound.mp3"));
-      goalSound = Gdx.audio.newMusic(Gdx.files.internal("assets/goal_sound.mp3"));
-      startWhistle = Gdx.audio.newMusic(Gdx.files.internal("assets/start_game_whistle.mp3"));
+      goalSound = Gdx.audio.newSound(Gdx.files.internal("assets/goal_sound.mp3"));
+      startWhistle = Gdx.audio.newSound(Gdx.files.internal("assets/start_game_whistle.mp3"));
+      gameOverSound = Gdx.audio.newSound(Gdx.files.internal("assets/game_finished_sound.mp3"));
+      jumpingSound = Gdx.audio.newSound(Gdx.files.internal("assets/jumping_sound.mp3"));
+
     } catch (Exception e) {
       Gdx.app.error("Assets", "Error loading audio files", e);
     }
@@ -69,41 +72,68 @@ public final class Assets {
    * This method plays the start whistle sound.
    */
   public static void playStartWhistle() {
-    startWhistle.play();
+    startWhistle.play(2f);
   }
 
   /**
    * Plays the sound effect for when a goal is scored.
    */
   public static void playGoalSound() {
-    goalSound.play();
+    goalSound.play(0.5f);
+  }
+
+  /**
+   * Plays the Game sound.
+   * This method plays the goal sound.
+   */
+  public static void playGameOverSound() {
+    gameOverSound.play();
+  }
+
+  /**
+   * Plays the jumpingsound.
+   * This method plays the goal sound.
+   */
+  public static void playJumpingSound() {
+    jumpingSound.play(0.2f);
   }
 
   /**
    * Releases all audio resources from memory.
-   * Should be called when shutting down the game or transitioning between major game states.
+   * Should be called when shutting down the game or transitioning between major
+   * game states.
    */
   public static void dispose() {
-    // Dispose all audio assets
-    List<Music> gameAudio = Arrays.asList(menuMusic, goalSound, startWhistle);
-    gameAudio.forEach(Music::dispose);
+    menuMusic.dispose();
+    goalSound.dispose();
+    startWhistle.dispose();
+    jumpingSound.dispose();
+    gameOverSound.dispose();
   }
-
 
   /**
    * Getter methods for accessing game audio assets.
-   * These methods provide access to various sound effects and music used in the game.
+   * These methods provide access to various sound effects and music used in the
+   * game.
    */
   public static Music getMenuMusic() {
     return menuMusic;
   }
 
-  public static Music getGoalSound() {
+  public static Sound getGoalSound() {
     return goalSound;
   }
 
-  public static Music getStartWhistle() {
+  public static Sound getStartWhistle() {
     return startWhistle;
+  }
+
+  public static Sound getGameOverSound() {
+    return gameOverSound;
+  }
+
+  public static Sound getJumpingSound() {
+    return jumpingSound;
   }
 
   /**
@@ -119,17 +149,33 @@ public final class Assets {
     menuMusic = music;
   }
 
-  public static void setGoalSound(Music music) {
-    if (music == null) {
+  public static void setGoalSound(Sound sound) {
+    if (sound == null) {
       throw new IllegalArgumentException("Goal sound cannot be null");
     }
-    goalSound = music;
+    goalSound = sound;
   }
 
-  public static void setStartWhistle(Music music) {
-    startWhistle = music;
+  public static void setStartWhistle(Sound sound) {
+    if (sound == null) {
+      throw new IllegalArgumentException("Goal sound cannot be null");
+    }
+    startWhistle = sound;
   }
 
+  public static void setGameOverSound(Sound sound) {
+    if (sound == null) {
+      throw new IllegalArgumentException("Goal sound cannot be null");
+    }
+    gameOverSound = sound;
+  }
+
+  public static void setJumpingSound(Sound sound) {
+    if (sound == null) {
+      throw new IllegalArgumentException("Goal sound cannot be null");
+    }
+    jumpingSound = sound;
+  }
 
   /**
    * Gets the ball texture from cache or loads it if not present.

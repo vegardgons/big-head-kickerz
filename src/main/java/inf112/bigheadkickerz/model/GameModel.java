@@ -128,7 +128,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     gameOver = true;
   }
 
-
   private void handleGoal(float delta) {
     if (gameOver) {
       return;
@@ -180,7 +179,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     isGoal = false;
   }
 
-
   @Override
   public String getGameOverText() {
     return gameOverText;
@@ -196,6 +194,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
 
   private void initializeGameOverState() {
     if (gameState != GameState.GAME_OVER) {
+      Assets.playGameOverSound();
       gameState = GameState.GAME_OVER;
       gameTime = 0;
       gameOverText = determineGameOverText();
@@ -208,7 +207,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
       game.endScreen();
     }
   }
-
 
   private String determineGameOverText() {
     if (player1Score > player2Score) {
@@ -282,7 +280,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     }
     return player2Score;
   }
-
 
   private void resetPositions() {
     ball.reset();
