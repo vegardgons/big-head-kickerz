@@ -3,7 +3,6 @@ package inf112.bigheadkickerz.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-
 import inf112.bigheadkickerz.model.Assets;
 import inf112.bigheadkickerz.model.Player;
 

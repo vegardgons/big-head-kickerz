@@ -70,7 +70,7 @@ class AssetsTest {
   void playStartWhistle_shouldPlaySound() {
     Assets.playStartWhistle();
 
-    verify(Assets.getStartWhistle()).play(2.0f);
+    verify(Assets.getStartWhistle()).play();
   }
 
   @Test
