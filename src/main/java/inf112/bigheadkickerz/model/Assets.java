@@ -32,7 +32,7 @@ public final class Assets {
       goalSound = Gdx.audio.newSound(Gdx.files.internal("assets/goal_sound.mp3"));
       startWhistle = Gdx.audio.newSound(Gdx.files.internal("assets/start_game_whistle.mp3"));
       gameOverSound = Gdx.audio.newSound(Gdx.files.internal("assets/game_finished_sound.mp3"));
-      jumpingSound = Gdx.audio.newSound(Gdx.files.internal("assets/jumping_sound.mp3"));
+      jumpingSound = Gdx.audio.newSound(Gdx.files.internal("assets/jumping_sound.wav"));
 
     } catch (Exception e) {
       Gdx.app.error("Assets", "Error loading audio files", e);
@@ -72,7 +72,7 @@ public final class Assets {
    * This method plays the start whistle sound.
    */
   public static void playStartWhistle() {
-    startWhistle.play(2f);
+    startWhistle.play();
   }
 
   /**
