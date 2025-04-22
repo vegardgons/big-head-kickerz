@@ -1,77 +1,70 @@
 package inf112.bigheadkickerz.model.powerups;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.security.SecureRandom;
+import com.badlogic.gdx.graphics.Texture;
+import inf112.bigheadkickerz.model.Player;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for {@link PowerupFactory} after refactor to a registry‑based design.
+ */
 class PowerupFactoryTest {
 
-  SecureRandom random = new SecureRandom();
-
-  @Test
-  void testGetRandomPowerupReturnsNonNullPowerup() {
-    int rand = random.nextInt(6);
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
+  /**
+   * Simple stand‑in power‑up used for deterministic testing.
+   */
+  private static class DummyPowerup implements Powerup {
+    @Override public void apply(Player player) { /* no‑op */ }
+    @Override public void expire(Player player) { /* no‑op */ }
+    @Override public float getDuration() { return 0f; }
+    @Override public Texture getTexture() { return null; }
   }
 
   @Test
-  void testFasterPowerup() {
-    int rand = 0;
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
-    assert (powerup instanceof SpeedPowerup);
+  void getRandomPowerupReturnsNonNullInstance() {
+    assertNotNull(PowerupFactory.getRandomPowerup());
   }
 
   @Test
-  void testSlowerPowerup() {
-    int rand = 1;
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
-    assert (powerup instanceof SpeedPowerup);
-  }
+  void registerAddsSupplierAndFactoryCanReturnIt() {
+    Supplier<Powerup> dummySupplier = DummyPowerup::new;
+    int initialSize = PowerupFactory.getPowerupSuppliers().size();
 
-  @Test
-  void testSmallerJumpPowerup() {
-    int rand = 2;
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
-    assert (powerup instanceof JumpPowerup);
-  }
+    PowerupFactory.register(dummySupplier);
+    assertEquals(initialSize + 1, PowerupFactory.getPowerupSuppliers().size());
 
-  @Test
-  void testHigherJumpPowerup() {
-    int rand = 3;
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
-    assert (powerup instanceof JumpPowerup);
-  }
-
-  @Test
-  void testBiggerPowerup() {
-    int rand = 4;
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
-    assert (powerup instanceof SizePowerup);
-  }
-
-  @Test
-  void testSmallerPowerup() {
-    int rand = 5;
-    Powerup powerup = PowerupFactory.getRandomPowerup(rand);
-    assertNotNull(powerup);
-    assert (powerup instanceof SizePowerup);
-  }
-
-  @Test
-  void testDefaultException() {
-    int rand = 6;
-    try {
-      PowerupFactory.getRandomPowerup(rand);
-    } catch (IllegalStateException e) {
-      assertNotNull(e);
+    boolean produced = false;
+    // Try multiple times to compensate for randomness
+    for (int i = 0; i < 25 && !produced; i++) {
+      produced = PowerupFactory.getRandomPowerup() instanceof DummyPowerup;
     }
+    assertTrue(produced, "Factory did not produce DummyPowerup after registration");
+
+    PowerupFactory.unregister(dummySupplier);
+    assertEquals(initialSize, PowerupFactory.getPowerupSuppliers().size());
   }
+
+  @Test
+  void factoryThrowsWhenNoSuppliersRegistered() {
+    // Temporarily remove every supplier
+    List<Supplier<Powerup>> backups = new ArrayList<>(PowerupFactory.getPowerupSuppliers());
+    backups.forEach(PowerupFactory::unregister);
+
+    assertThrows(IllegalStateException.class, PowerupFactory::getRandomPowerup);
+
+    // Restore original suppliers so other tests are unaffected
+    backups.forEach(PowerupFactory::register);
+  }
+
+  @Test
+  void registerNullSupplierThrows() {
+    assertThrows(IllegalArgumentException.class, () -> PowerupFactory.register(null));
+  }
+
+  
 
 }

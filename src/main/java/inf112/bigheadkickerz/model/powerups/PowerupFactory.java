@@ -1,33 +1,77 @@
 package inf112.bigheadkickerz.model.powerups;
 
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
 /**
- * A factory to randomly generate a powerup.
+ * A registry‑based factory that can create random {@link Powerup} instances.
+ * <p>
+ * New power‑up types can be added at runtime by calling {@link #register(Supplier)},
  */
 public final class PowerupFactory {
-  private static final float DURATION = 8f;
+
+  private static final float DEFAULT_DURATION = 8f;
+  private static final SecureRandom RNG = new SecureRandom();
 
   /**
-   * Private constructor to prevent instantiation.
+   * List containing {@link Supplier}s that each build a new {@link Powerup} instance.
    */
+  private static final List<Supplier<Powerup>> POWERUPSUPPLIERS = new ArrayList<>();
+
+  // Register the built‑in power‑ups once when the class is loaded
+  static {
+    POWERUPSUPPLIERS.add(() -> new SpeedPowerup(DEFAULT_DURATION, 1.5f, true));
+    POWERUPSUPPLIERS.add(() -> new SpeedPowerup(DEFAULT_DURATION, 0.5f, false));
+    POWERUPSUPPLIERS.add(() -> new JumpPowerup(DEFAULT_DURATION, 0.5f, false));
+    POWERUPSUPPLIERS.add(() -> new JumpPowerup(DEFAULT_DURATION, 1.5f, true));
+    POWERUPSUPPLIERS.add(() -> new SizePowerup(DEFAULT_DURATION, 1.5f, true));
+    POWERUPSUPPLIERS.add(() -> new SizePowerup(DEFAULT_DURATION, 0.75f, false));
+  }
+
   private PowerupFactory() {
-    // Prevent instantiation
   }
 
   /**
-   * Generates a random powerup.
+   * Registers a new type of power‑up.
    *
-   * @return a random powerup
+   * @param powerupSupplier supplier that creates a fresh {@link Powerup} each time it is invoked
    */
-  public static Powerup getRandomPowerup(int rand) {
+  public static void register(Supplier<Powerup> powerupSupplier) {
+    if (powerupSupplier == null) {
+      throw new IllegalArgumentException("Supplier cannot be null");
+    }
+    POWERUPSUPPLIERS.add(powerupSupplier);
+  }
 
-    return switch (rand) {
-      case 0 -> new SpeedPowerup(DURATION, 1.5f, true);
-      case 1 -> new SpeedPowerup(DURATION, 0.5f, false);
-      case 2 -> new JumpPowerup(DURATION, 0.5f, false);
-      case 3 -> new JumpPowerup(DURATION, 1.5f, true);
-      case 4 -> new SizePowerup(DURATION, 1.5f, true);
-      case 5 -> new SizePowerup(DURATION, 0.75f, false);
-      default -> throw new IllegalStateException("Unexpected value: " + rand);
-    };
+  /**
+   * Removes a previously registered power‑up supplier.
+   *
+   * @param powerupSupplier the supplier to remove
+   */
+  public static void unregister(Supplier<Powerup> powerupSupplier) {
+    POWERUPSUPPLIERS.remove(powerupSupplier);
+  }
+
+  /**
+   * Returns an all currently registered PowerupSuppliers.
+   */
+  public static List<Supplier<Powerup>> getPowerupSuppliers() {
+    return POWERUPSUPPLIERS;
+  }
+
+  /**
+   * Creates a new random {@link Powerup} instance.
+   *
+   * @return a randomly selected power‑up
+   * @throws IllegalStateException if no power‑ups are registered
+   */
+  public static Powerup getRandomPowerup() {
+    if (POWERUPSUPPLIERS.isEmpty()) {
+      throw new IllegalStateException("No power‑ups registered");
+    }
+    Supplier<Powerup> supplier = POWERUPSUPPLIERS.get(RNG.nextInt(POWERUPSUPPLIERS.size()));
+    return supplier.get();
   }
 }
