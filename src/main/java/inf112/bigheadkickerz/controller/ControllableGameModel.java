@@ -1,7 +1,5 @@
 package inf112.bigheadkickerz.controller;
 
-import inf112.bigheadkickerz.model.GameState;
-
 /**
  * Interface for a controllable game model.
  */

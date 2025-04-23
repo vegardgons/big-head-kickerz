@@ -20,7 +20,7 @@ public final class Assets {
   private static Sound gameOverSound;
   private static Sound jumpingSound;
 
-  private static final String throwMessage = "Cannot be null";
+  private static final String THROW_MESSAGE = "Cannot be null";
 
   private static final Map<String, Texture> textureCache = new HashMap<>();
 
@@ -146,35 +146,35 @@ public final class Assets {
    */
   public static void setMenuMusic(Music music) {
     if (music == null) {
-      throw new IllegalArgumentException(throwMessage);
+      throw new IllegalArgumentException(THROW_MESSAGE);
     }
     menuMusic = music;
   }
 
   public static void setGoalSound(Sound sound) {
     if (sound == null) {
-      throw new IllegalArgumentException(throwMessage);
+      throw new IllegalArgumentException(THROW_MESSAGE);
     }
     goalSound = sound;
   }
 
   public static void setStartWhistle(Sound sound) {
     if (sound == null) {
-      throw new IllegalArgumentException(throwMessage);
+      throw new IllegalArgumentException(THROW_MESSAGE);
     }
     startWhistle = sound;
   }
 
   public static void setGameOverSound(Sound sound) {
     if (sound == null) {
-      throw new IllegalArgumentException(throwMessage);
+      throw new IllegalArgumentException(THROW_MESSAGE);
     }
     gameOverSound = sound;
   }
 
   public static void setJumpingSound(Sound sound) {
     if (sound == null) {
-      throw new IllegalArgumentException(throwMessage);
+      throw new IllegalArgumentException(THROW_MESSAGE);
     }
     jumpingSound = sound;
   }
