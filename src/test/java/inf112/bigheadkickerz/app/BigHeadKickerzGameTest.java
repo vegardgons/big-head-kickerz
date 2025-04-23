@@ -73,9 +73,7 @@ class BigHeadKickerzGameTest {
   @Test
   void startTimedMode_shouldSetGameScreenWithTimedState() {
     try (MockedConstruction<GameScreen> mocked = mockConstruction(GameScreen.class,
-        (mock, context) -> {
-          assertTrue(context.arguments().contains(GameState.TIMED));
-        })) {
+        (mock, context) -> assertTrue(context.arguments().contains(GameState.TIMED)))) {
       game.startTimedMode();
       verify(game).setScreen(any(GameScreen.class));
     }
@@ -84,9 +82,7 @@ class BigHeadKickerzGameTest {
   @Test
   void startFirstToSevenMode_shouldSetGameScreenWithFirstToSevenState() {
     try (MockedConstruction<GameScreen> mocked = mockConstruction(GameScreen.class,
-        (mock, context) -> {
-          assertTrue(context.arguments().contains(GameState.FIRST_TO_SEVEN));
-        })) {
+        (mock, context) -> assertTrue(context.arguments().contains(GameState.FIRST_TO_SEVEN)))) {
       game.startFirstToSevenMode();
       verify(game).setScreen(any(GameScreen.class));
     }

@@ -14,13 +14,6 @@ public interface ControllableGameModel {
   void update(float delta);
 
   /**
-   * Gets the game state.
-   *
-   * @return boolean indicating if the game is paused
-   */
-  GameState getGameState();
-
-  /**
    * Checks if the controls are currently being shown.
    *
    * @return boolean indicating if the controls are visible
