@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import inf112.bigheadkickerz.model.Assets;
+import inf112.bigheadkickerz.model.Foot;
 import inf112.bigheadkickerz.model.Player;
 
 /** Class for controlling the player. */
@@ -12,13 +13,16 @@ public class PlayerController {
   private boolean isJumping;
   private final boolean isPlayer1;
   private final Player player;
+  private final Foot foot;
+  private static final float FOOT_HEIGHT = 0.3f;
 
   /**
    * Constructor for PlayerController.
    */
-  public PlayerController(boolean isPlayer1, Player player) {
+  public PlayerController(boolean isPlayer1, Player player, Foot foot) {
     this.isPlayer1 = isPlayer1;
     this.player = player;
+    this.foot = foot;
   }
 
   /**
@@ -27,7 +31,7 @@ public class PlayerController {
    * @return the new velocity of the player
    */
   public Vector2 movePlayer() {
-    if (player.getPosition().y == 0) {
+    if (player.getPosition().y == FOOT_HEIGHT) {
       isJumping = false;
     }
 
@@ -77,11 +81,11 @@ public class PlayerController {
   private void handleKick() {
     if (isPlayer1) {
       if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-        player.kick();
+        foot.kick();
       }
     } else {
       if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-        player.kick();
+        foot.kick();
       }
     }
   }

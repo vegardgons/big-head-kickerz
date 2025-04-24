@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,6 +150,12 @@ public final class Assets {
     menuMusic = music;
   }
 
+  /**
+   * Method to set the goal sound.
+   *
+   * @param sound The new Sound asset to be used
+   * @throws IllegalArgumentException if the sound is null
+   */
   public static void setGoalSound(Sound sound) {
     if (sound == null) {
       throw new IllegalArgumentException(THROW_MESSAGE);
@@ -158,6 +163,12 @@ public final class Assets {
     goalSound = sound;
   }
 
+  /**
+   * Method to set the start whistle sound.
+   *
+   * @param sound The new Sound asset to be used
+   * @throws IllegalArgumentException if the sound is null
+   */
   public static void setStartWhistle(Sound sound) {
     if (sound == null) {
       throw new IllegalArgumentException(THROW_MESSAGE);
@@ -165,6 +176,12 @@ public final class Assets {
     startWhistle = sound;
   }
 
+  /**
+   * Method to set the game over sound.
+   *
+   * @param sound The new Sound asset to be used
+   * @throws IllegalArgumentException if the sound is null
+   */
   public static void setGameOverSound(Sound sound) {
     if (sound == null) {
       throw new IllegalArgumentException(THROW_MESSAGE);
@@ -172,6 +189,12 @@ public final class Assets {
     gameOverSound = sound;
   }
 
+  /**
+   * Method to set the jumping sound.
+   *
+   * @param sound The new Sound asset to be used
+   * @throws IllegalArgumentException if the sound is null
+   */
   public static void setJumpingSound(Sound sound) {
     if (sound == null) {
       throw new IllegalArgumentException(THROW_MESSAGE);

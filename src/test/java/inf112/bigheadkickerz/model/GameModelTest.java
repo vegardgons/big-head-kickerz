@@ -91,8 +91,9 @@ public class GameModelTest {
     float ballStartPosX = gameModel.getViewport().getWorldWidth()
         / 2 - gameModel.getBall().getWidth() / 2;
     float ballStartPosY = gameModel.getViewport().getWorldHeight() / 2 + 1.5f;
-    assertEquals(new Vector2(player1StartPosX, 0), gameModel.getPlayer1().getPosition());
-    assertEquals(new Vector2(player2StartPosX, 0), gameModel.getPlayer2().getPosition());
+    // y-coordinate of the player is 0.3 because of the foot
+    assertEquals(new Vector2(player1StartPosX, 0.3f), gameModel.getPlayer1().getPosition());
+    assertEquals(new Vector2(player2StartPosX, 0.3f), gameModel.getPlayer2().getPosition());
     assertEquals(new Vector2(ballStartPosX, ballStartPosY), gameModel.getBall().getPosition());
   }
 

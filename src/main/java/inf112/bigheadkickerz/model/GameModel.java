@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
+import inf112.bigheadkickerz.controller.PlayerController;
 import inf112.bigheadkickerz.model.powerups.Powerup;
 import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import inf112.bigheadkickerz.view.ViewableGameModel;
-
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +36,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private BigHeadKickerzGame game;
   private Player player1;
   private Player player2;
+  private Foot footPlayer1;
+  private Foot footPlayer2;
   private Ball ball;
   private Goal leftGoal;
   private Goal rightGoal;
@@ -161,7 +163,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   private void initCollideables() {
     collideables = new ArrayList<>();
     collisionHandler = new CollisionHandler();
-    addCollideables(Arrays.asList(ball, player2, player1, leftGoal, rightGoal));
+    addCollideables(Arrays.asList(
+        ball, player2, player1, leftGoal, rightGoal, footPlayer1, footPlayer2));
   }
 
   private void addCollideables(List<Collideable> objects) {
@@ -177,11 +180,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     player2Score = 0;
     goalTimer = 0;
     isGoal = false;
-  }
-
-  @Override
-  public String getGameOverText() {
-    return gameOverText;
   }
 
   private void handleGameOver(float delta) {
@@ -222,6 +220,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     player1.update(viewport, delta);
     player2.update(viewport, delta);
     ball.update(viewport, delta);
+    footPlayer1.update(viewport, delta);
+    footPlayer2.update(viewport, delta);
     collisionHandler.checkCollisions(collideables);
   }
 
@@ -285,6 +285,8 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     ball.reset();
     player2.reset();
     player1.reset();
+    footPlayer1.reset();
+    footPlayer2.reset();
   }
 
   @Override
@@ -327,6 +329,11 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     return this.player2Score;
   }
 
+  @Override
+  public String getGameOverText() {
+    return gameOverText;
+  }
+
   private void initGameObjects() {
     // Initialize ball at center
     float ballX = viewport.getWorldWidth() / 2;
@@ -334,32 +341,36 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     Texture ballTexture = Assets.getBallTexture();
     ball = new Ball(ballTexture, ballX, ballY);
 
-    // Initialize players at opposite ends
+    // Initialize player, foot and controller for player2
     float player2X = viewport.getWorldWidth() / 8 * 6.5f;
     Texture player2Texture = Assets.getPlayer2Texture();
     player2 = new Player(player2Texture, player2X, 0, false);
 
+    Texture footPlayer2Texture = new Texture("FootPlayer2.png");
+    footPlayer2 = new Foot(footPlayer2Texture, player2);
+
+    PlayerController player2Controller = new PlayerController(false, player2, footPlayer2);
+    player2.setPlayerController(player2Controller);
+
+    // Initialize player, foot and controller for player1
     float playerWidth = player2.getWidth();
     float player1X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
     Texture player1Texture = Assets.getPlayer1Texture();
     player1 = new Player(player1Texture, player1X, 0, true);
 
+    Texture footPlayer1Texture = new Texture("FootPlayer1.png");
+    footPlayer1 = new Foot(footPlayer1Texture, player1);
+
+    PlayerController player1Controller = new PlayerController(true, player1, footPlayer1);
+    player1.setPlayerController(player1Controller);
+
+    // Initialize goals
     Texture leftGoalTexture = Assets.getLeftGoalTexture();
     leftGoal = new Goal(leftGoalTexture, 0, 0);
 
     Texture rightGoalTexture = Assets.getRightGoalTexture();
     float rightGoalX = viewport.getWorldWidth() - leftGoal.getWidth();
     rightGoal = new Goal(rightGoalTexture, rightGoalX, 0);
-  }
-
-  @Override
-  public GameState getGameState() {
-    return this.gameState;
-  }
-
-  @Override
-  public float getRemainingTime() {
-    return gameTime;
   }
 
   private float getRandomSpawnDelay() {
@@ -413,6 +424,16 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   }
 
   @Override
+  public GameState getGameState() {
+    return this.gameState;
+  }
+
+  @Override
+  public float getRemainingTime() {
+    return gameTime;
+  }
+
+  @Override
   public PowerupPickup getCurrentPowerup() {
     return currentPowerup;
   }
@@ -430,6 +451,16 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   @Override
   public boolean isGameOverTextActive() {
     return gameOverText != null;
+  }
+
+  @Override
+  public Foot getFootPlayer1() {
+    return this.footPlayer1;
+  }
+
+  @Override
+  public Foot getFootPlayer2() {
+    return this.footPlayer2;
   }
 
 }

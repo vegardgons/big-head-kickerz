@@ -2,6 +2,7 @@ package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.model.Ball;
+import inf112.bigheadkickerz.model.Foot;
 import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.model.Goal;
 import inf112.bigheadkickerz.model.Player;
@@ -123,5 +124,19 @@ public interface ViewableGameModel {
    * @return true if the game over text is active, false otherwise
    */
   boolean isGameOverTextActive();
+
+  /**
+   * Returns the foot object for player 1.
+   *
+   * @return the Foot object for player 1
+   */
+  Foot getFootPlayer1();
+
+  /**
+   * Returns the foot object for player 2.
+   *
+   * @return the Foot object for player 2
+   */
+  Foot getFootPlayer2();
 
 }

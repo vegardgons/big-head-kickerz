@@ -97,25 +97,12 @@ public class Ball implements GameObject, Collideable {
     Vector2 impulseVector = normal.scl(impulse);
 
     boolean isPlayer = other instanceof Player;
+    boolean isFoot = other instanceof Foot;
 
     if (isPlayer) {
-      this.lastPlayerTouch = (Player) other;
-      Vector2 playerVelocity = other.getVelocity();
-
-      Vector2 kickBoost = playerVelocity.cpy();
-      if (playerVelocity.len() > 0.3f) {
-        kickBoost.y += 2f;
-      }
-      Player player = (Player) other;
-      if (player.isKicking() && playerVelocity.len() > 0.1f) {
-        Vector2 facing = playerVelocity.cpy().nor();
-        float dot = facing.dot(normal);
-        if (dot > 0.7f) {
-          Vector2 extraBoost = facing.scl(player.getKickPower());
-          kickBoost.add(extraBoost);
-        }
-      }
-      velocity.set(impulseVector.scl(1 / WEIGHT).add(kickBoost));
+      collideWithPlayer(other, impulseVector);
+    } else if (isFoot) {
+      collideWithFoot(other, impulseVector);
     } else {
       velocity.add(impulseVector.scl(1 / WEIGHT));
     }
@@ -164,6 +151,29 @@ public class Ball implements GameObject, Collideable {
    */
   public Player getPlayerLastTouch() {
     return lastPlayerTouch;
+  }
+
+  private void collideWithPlayer(Collideable other, Vector2 impulseVector) {
+    this.lastPlayerTouch = (Player) other;
+    Vector2 playerVelocity = other.getVelocity();
+
+    Vector2 boost = playerVelocity.cpy();
+    if (playerVelocity.len() > 0.3f) {
+      boost.y += 2f;
+    }
+    velocity.set(impulseVector.scl(1 / WEIGHT).add(boost));
+  }
+
+  private void collideWithFoot(Collideable other, Vector2 impulseVector) {
+    Foot foot = (Foot) other;
+
+    if (foot.isKicking()) {
+      float kickBoostFactor = foot.getKickPower();
+      float impulseY = 10f;
+      velocity.set(impulseVector.scl(1 / WEIGHT).add(new Vector2(kickBoostFactor, impulseY)));
+    }
+
+    this.lastPlayerTouch = foot.getPlayer();
   }
 
 }

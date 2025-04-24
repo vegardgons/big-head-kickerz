@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.model.Ball;
+import inf112.bigheadkickerz.model.Foot;
 import inf112.bigheadkickerz.model.GameState;
 import inf112.bigheadkickerz.model.Goal;
 import inf112.bigheadkickerz.model.Player;
@@ -41,7 +42,6 @@ public class GameView {
     viewport.apply();
     spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
     drawObjects(viewport);
-
   }
 
   private void drawObjects(FitViewport viewport) {
@@ -51,6 +51,10 @@ public class GameView {
     if (powerup != null) {
       powerup.draw(spriteBatch);
     }
+    Foot foot1 = model.getFootPlayer1();
+    Foot foot2 = model.getFootPlayer2();
+    foot1.draw(spriteBatch);
+    foot2.draw(spriteBatch);
     Player p1 = model.getPlayer1();
     Player p2 = model.getPlayer2();
     Ball ball = model.getBall();

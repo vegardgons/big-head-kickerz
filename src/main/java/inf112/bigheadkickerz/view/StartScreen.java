@@ -26,13 +26,8 @@ public class StartScreen extends AScreen {
   }
 
   private void setUpScreen() {
-    // Create Start Button
     createTimedButton();
     createFirstToSevenButton();
-    // Create Change PlayType Button: "First To Seven", "Timed"
-
-    // Create Change PlayerType Button: "Human", "AI"
-
   }
 
   private void createTimedButton() {
