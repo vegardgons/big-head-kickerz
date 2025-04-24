@@ -91,11 +91,11 @@ public class Foot implements GameObject, Collideable {
       return false;
     } else if (other instanceof Goal goal) {
       return goal.collides(this);
-    } else if (other instanceof Player player) {
-      if (player.isPlayer1() == this.player.isPlayer1()) {
+    } else if (other instanceof Player newPlayer) {
+      if (newPlayer.isPlayer1() == this.player.isPlayer1()) {
         return false;
       } else {
-        return player.collides(this);
+        return newPlayer.collides(this);
       }
     }
     return rectangleCollides(other);
@@ -128,11 +128,14 @@ public class Foot implements GameObject, Collideable {
 
   @Override
   public void setPosition(Vector2 pos) {
-
+    // This method is not used for the foot object as it is always
+    // positioned relative to the player.
   }
 
   @Override
   public void setVelocity(Vector2 velocity) {
+    // This method is not used for the foot object as it is always
+    // positioned relative to the player.
   }
 
   /** Resets the foot to its starting position. */
@@ -184,9 +187,7 @@ public class Foot implements GameObject, Collideable {
     } else {
       smoothT = (float) (1 - Math.pow(-2 * t + 2, 3) / 2);
     }
-    float angle = smoothT * maxKickAngle;
-
-    return angle;
+    return smoothT * maxKickAngle;
   }
 
   /**
