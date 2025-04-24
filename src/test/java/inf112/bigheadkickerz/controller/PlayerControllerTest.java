@@ -2,8 +2,6 @@ package inf112.bigheadkickerz.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.Gdx;
@@ -11,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import inf112.bigheadkickerz.model.Assets;
+import inf112.bigheadkickerz.model.Foot;
 import inf112.bigheadkickerz.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,19 +17,21 @@ import org.junit.jupiter.api.Test;
 class PlayerControllerTest {
 
   private Player playerMock;
+  private Foot footMock;
   private PlayerController playerController1;
   private PlayerController playerController2;
 
   @BeforeEach
   void setUp() {
     playerMock = mock(Player.class);
+    footMock = mock(Foot.class);
     when(playerMock.getMovementSpeed()).thenReturn(5f);
     when(playerMock.getJumpHeight()).thenReturn(10f);
     when(playerMock.getVelocity()).thenReturn(new Vector2(0, 0));
     when(playerMock.getPosition()).thenReturn(new Vector2(0, 0));
 
-    playerController1 = new PlayerController(true, playerMock);
-    playerController2 = new PlayerController(false, playerMock);
+    playerController1 = new PlayerController(true, playerMock, footMock);
+    playerController2 = new PlayerController(false, playerMock, footMock);
 
     Gdx.input = mock(Input.class);
 
@@ -59,13 +60,6 @@ class PlayerControllerTest {
   }
 
   @Test
-  void testKick() {
-    when(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)).thenReturn(true);
-    playerController1.movePlayer();
-    verify(playerMock, times(1)).kick();
-  }
-
-  @Test
   void testMoveLeftPlayer2() {
     when(Gdx.input.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
     Vector2 newVel = playerController2.movePlayer();
@@ -84,13 +78,6 @@ class PlayerControllerTest {
     when(Gdx.input.isKeyJustPressed(Input.Keys.UP)).thenReturn(true);
     Vector2 newVel = playerController2.movePlayer();
     assertEquals(new Vector2(0, 10f), newVel);
-  }
-
-  @Test
-  void testKickPlayer2() {
-    when(Gdx.input.isKeyJustPressed(Input.Keys.P)).thenReturn(true);
-    playerController2.movePlayer();
-    verify(playerMock, times(1)).kick();
   }
 
 }

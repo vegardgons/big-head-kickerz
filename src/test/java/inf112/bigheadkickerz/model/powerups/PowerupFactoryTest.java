@@ -1,6 +1,9 @@
 package inf112.bigheadkickerz.model.powerups;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.badlogic.gdx.graphics.Texture;
 import inf112.bigheadkickerz.model.Player;
@@ -10,7 +13,8 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link PowerupFactory} after refactor to a registry‑based design.
+ * Unit tests for {@link PowerupFactory} after refactor to a registry‑based
+ * design.
  */
 class PowerupFactoryTest {
 
@@ -18,10 +22,25 @@ class PowerupFactoryTest {
    * Simple stand‑in power‑up used for deterministic testing.
    */
   private static class DummyPowerup implements Powerup {
-    @Override public void apply(Player player) { /* no‑op */ }
-    @Override public void expire(Player player) { /* no‑op */ }
-    @Override public float getDuration() { return 0f; }
-    @Override public Texture getTexture() { return null; }
+    @Override
+    public void apply(Player player) {
+      /* no‑op */
+    }
+
+    @Override
+    public void expire(Player player) {
+      /* no‑op */
+    }
+
+    @Override
+    public float getDuration() {
+      return 0f;
+    }
+
+    @Override
+    public Texture getTexture() {
+      return null;
+    }
   }
 
   @Test
@@ -64,7 +83,5 @@ class PowerupFactoryTest {
   void registerNullSupplierThrows() {
     assertThrows(IllegalArgumentException.class, () -> PowerupFactory.register(null));
   }
-
-  
 
 }

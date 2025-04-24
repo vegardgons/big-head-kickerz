@@ -1,56 +1,36 @@
 package inf112.bigheadkickerz.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.controller.PlayerController;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
-import java.util.Comparator;
 
 /** Class for the player object. */
 public class Player implements GameObject, Collideable, IPlayerPowerup {
 
   private static final float WEIGHT = 300;
+  private static final float FOOT_HEIGHT = 0.3f;
   private float width = 1f;
-  private float height = 1.2f;
+  private float height = 1f;
   private float movementSpeed = 4f;
   private float jumpHeight = 5f;
-  private float kickPower = 4f;
+  private final boolean isPlayer1;
 
-  private final PlayerController playerController;
+  private PlayerController playerController;
   private Vector2 velocity;
   private final Vector2 startPos;
   private Vector2 pos;
-  private final boolean isPlayer1;
-
-  // fields for kick animation
-  private boolean isKicking = false;
-  private float kickStateTime = 0f;
-  private Animation<TextureRegion> kickAnimation;
-  private final TextureRegion idleFrame;
+  private final Texture texture;
 
   /** Constructor for Player. */
   public Player(Texture texture, float startX, float startY, boolean isPlayer1) {
-    this.idleFrame = new TextureRegion(texture);
-    this.startPos = new Vector2(startX, startY);
-    this.pos = new Vector2(startX, startY);
+    this.texture = texture;
+    this.startPos = new Vector2(startX, startY + FOOT_HEIGHT);
+    this.pos = new Vector2(startX, startY + FOOT_HEIGHT);
     this.velocity = new Vector2(0, 0);
-    this.playerController = new PlayerController(isPlayer1, this);
     this.isPlayer1 = isPlayer1;
-  }
-
-  public void kick() {
-    if (!isKicking) {
-      isKicking = true;
-      kickStateTime = 0f;
-      initKickAnimation();
-    }
   }
 
   @Override
@@ -63,13 +43,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     pos.add(velocity.x * delta, velocity.y * delta);
 
     boundaries(viewport);
-
-    if (isKicking) {
-      kickStateTime += delta;
-      if (kickAnimation.isAnimationFinished(kickStateTime)) {
-        isKicking = false;
-      }
-    }
   }
 
   private void boundaries(Viewport viewport) {
@@ -81,8 +54,8 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
       pos.x = viewport.getWorldWidth() - width;
       velocity.x = 0;
     }
-    if (pos.y < 0) {
-      pos.y = 0;
+    if (pos.y < FOOT_HEIGHT) {
+      pos.y = FOOT_HEIGHT;
       velocity.y = 0;
     }
     if (pos.y + height > viewport.getWorldHeight()) {
@@ -93,13 +66,7 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
 
   @Override
   public void draw(SpriteBatch batch) {
-    TextureRegion currentFrame;
-    if (isKicking) {
-      currentFrame = kickAnimation.getKeyFrame(kickStateTime, false);
-    } else {
-      currentFrame = idleFrame;
-    }
-    batch.draw(currentFrame, pos.x, pos.y, width, height);
+    batch.draw(texture, pos.x, pos.y, width, height);
   }
 
   void reset() {
@@ -107,24 +74,9 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     setVelocity(new Vector2(0, 0));
   }
 
-  private void initKickAnimation() {
-    TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("kick_animation.atlas"));
-    Array<TextureAtlas.AtlasRegion> frames = atlas.findRegions("kick");
-
-    frames.sort(Comparator.comparingInt(a -> a.index));
-
-    if (!isPlayer1) {
-      for (TextureAtlas.AtlasRegion region : frames) {
-        region.flip(true, false);
-      }
-    }
-    kickAnimation = new Animation<>(0.015f, frames);
-    kickAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-  }
-
   @Override
   public void collision(Collideable other) {
-    if (other instanceof Ball || other instanceof Goal) {
+    if (other instanceof Ball || other instanceof Goal || other instanceof Foot) {
       return;
     }
 
@@ -135,17 +87,17 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
 
     if (overlapX < overlapY) {
       if (pos.x < otherPos.x) {
-        setPosition(new Vector2(pos.x - overlapX / 2, pos.y)); // Move left
-        other.setPosition(new Vector2(otherPos.x + overlapX / 2, otherPos.y)); // Move right
+        setPosition(new Vector2(pos.x - overlapX / 2, pos.y));
+        other.setPosition(new Vector2(otherPos.x + overlapX / 2, otherPos.y));
       } else {
-        setPosition(new Vector2(pos.x + overlapX / 2, pos.y)); // Move right
-        other.setPosition(new Vector2(otherPos.x - overlapX / 2, otherPos.y)); // Move left
+        setPosition(new Vector2(pos.x + overlapX / 2, pos.y));
+        other.setPosition(new Vector2(otherPos.x - overlapX / 2, otherPos.y));
       }
     } else {
       if (pos.y < otherPos.y) {
-        other.setPosition(new Vector2(otherPos.x, otherPos.y + overlapY / 2)); // Move up
+        other.setPosition(new Vector2(otherPos.x, otherPos.y + overlapY / 2));
       } else {
-        setPosition(new Vector2(pos.x, pos.y + overlapY / 2)); // Move up
+        setPosition(new Vector2(pos.x, pos.y + overlapY / 2));
       }
     }
 
@@ -163,10 +115,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
       return false;
     }
     return rectangleCollides(other);
-  }
-
-  boolean isKicking() {
-    return isKicking;
   }
 
   @Override
@@ -234,14 +182,17 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     this.jumpHeight = jumpHeight;
   }
 
-  @Override
-  public float getKickPower() {
-    return kickPower;
+  /**
+   * Returns if the player is player 1 or not.
+   *
+   * @return true if the player is player 1, false otherwise
+   */
+  public boolean isPlayer1() {
+    return isPlayer1;
   }
 
-  @Override
-  public void setKickPower(float kickPower) {
-    this.kickPower = kickPower;
+  public void setPlayerController(PlayerController player1Controller) {
+    this.playerController = player1Controller;
   }
 
 }

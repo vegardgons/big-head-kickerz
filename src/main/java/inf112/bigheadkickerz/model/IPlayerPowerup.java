@@ -20,20 +20,6 @@ public interface IPlayerPowerup {
   void setMovementSpeed(float movementSpeed);
 
   /**
-   * Get kick power.
-   *
-   * @return kick power
-   */
-  float getKickPower();
-
-  /**
-   * Set kick power.
-   *
-   * @param kickPower new kick power
-   */
-  void setKickPower(float kickPower);
-
-  /**
    * Get width.
    *
    * @return width

@@ -7,8 +7,6 @@ import java.util.function.Supplier;
 
 /**
  * A registry‑based factory that can create random {@link Powerup} instances.
- * <p>
- * New power‑up types can be added at runtime by calling {@link #register(Supplier)},
  */
 public final class PowerupFactory {
 
@@ -16,7 +14,8 @@ public final class PowerupFactory {
   private static final SecureRandom RNG = new SecureRandom();
 
   /**
-   * List containing {@link Supplier}s that each build a new {@link Powerup} instance.
+   * List containing {@link Supplier}s that each build a new {@link Powerup}
+   * instance.
    */
   private static final List<Supplier<Powerup>> POWERUPSUPPLIERS = new ArrayList<>();
 
@@ -36,7 +35,8 @@ public final class PowerupFactory {
   /**
    * Registers a new type of power‑up.
    *
-   * @param powerupSupplier supplier that creates a fresh {@link Powerup} each time it is invoked
+   * @param powerupSupplier supplier that creates a fresh {@link Powerup} each
+   *                        time it is invoked
    */
   public static void register(Supplier<Powerup> powerupSupplier) {
     if (powerupSupplier == null) {

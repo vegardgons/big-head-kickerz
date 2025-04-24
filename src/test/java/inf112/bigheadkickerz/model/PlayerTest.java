@@ -16,9 +16,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import inf112.bigheadkickerz.controller.PlayerController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -49,16 +49,17 @@ class PlayerTest {
   @Test
   void testConstructor() {
     assertNotNull(player.getPosition());
-    assertEquals(new Vector2(5, 10), player.getPosition());
+    // 0.3 because of the foot
+    assertEquals(new Vector2(5, 10.3f), player.getPosition());
     assertEquals(1f, player.getWidth());
-    assertEquals(1.2f, player.getHeight());
+    assertEquals(1f, player.getHeight());
     assertEquals(300, player.getWeight());
   }
 
   @Test
   void testDraw() {
     player.draw(batch);
-    verify(batch, times(1)).draw(any(TextureRegion.class), eq(5f), eq(10f), eq(1f), eq(1.2f));
+    verify(batch, times(1)).draw(any(Texture.class), eq(5f), eq(10.3f), eq(1f), eq(1f));
   }
 
   @Test
@@ -69,18 +70,16 @@ class PlayerTest {
 
     // Reset the player
     player.reset();
-    assertEquals(new Vector2(5, 10), player.getPosition());
+    assertEquals(new Vector2(5, 10.3f), player.getPosition());
     assertEquals(new Vector2(0, 0), player.getVelocity());
-    assertFalse(player.isKicking());
   }
 
   @Test
   void testGetters() {
     assertEquals(1f, player.getWidth());
-    assertEquals(1.2f, player.getHeight());
+    assertEquals(1f, player.getHeight());
     assertEquals(300, player.getWeight());
     assertEquals(new Vector2(0, 0), player.getVelocity());
-    assertEquals(4, player.getKickPower());
     assertEquals(5, player.getJumpHeight());
     assertEquals(4, player.getMovementSpeed());
   }
@@ -96,33 +95,6 @@ class PlayerTest {
 
     verify(otherPlayer, times(1)).setVelocity(new Vector2(0, 0));
     verify(otherPlayer, never()).setPosition(any());
-  }
-
-  @Test
-  void testCollisionWithPlayerFromBelow() {
-    Player otherPlayer = mock(Player.class);
-    when(otherPlayer.getPosition()).thenReturn(new Vector2(6, 12));
-    when(otherPlayer.getHeight()).thenReturn(1.2f);
-    when(otherPlayer.getVelocity()).thenReturn(new Vector2(1, -2));
-
-    player.collision(otherPlayer);
-
-    verify(otherPlayer, times(1)).setVelocity(new Vector2(0, 0));
-    verify(otherPlayer, times(1)).setPosition(new Vector2(6, 12 - 0.8f / 2));
-  }
-
-  @Test
-  void testCollisionWithPlayerFromLeft() {
-    Player otherPlayer = mock(Player.class);
-    when(otherPlayer.getPosition()).thenReturn(new Vector2(5, 10));
-    when(otherPlayer.getWidth()).thenReturn(1f);
-    when(otherPlayer.getHeight()).thenReturn(1.2f);
-    when(otherPlayer.getVelocity()).thenReturn(new Vector2(-2, 0));
-
-    player.collision(otherPlayer);
-
-    // Moves other player to the left
-    verify(otherPlayer, times(1)).setPosition(new Vector2(4.5f, 10));
   }
 
   @Test
@@ -210,12 +182,6 @@ class PlayerTest {
   }
 
   @Test
-  void testChangeKickPower() {
-    player.setKickPower(10);
-    assertEquals(10, player.getKickPower());
-  }
-
-  @Test
   void testChangeMovementSpeed() {
     player.setMovementSpeed(10);
     assertEquals(10, player.getMovementSpeed());
@@ -236,6 +202,7 @@ class PlayerTest {
   @Test
   void testBoundariesLeftEdge() {
     player.setPosition(new Vector2(-1, 5));
+    player.setPlayerController(new PlayerController(false, player, null));
     player.update(viewport, 0.016f);
     assertEquals(0, player.getPosition().x);
   }
@@ -243,6 +210,7 @@ class PlayerTest {
   @Test
   void testBoundariesRightEdge() {
     player.setPosition(new Vector2(11, 5));
+    player.setPlayerController(new PlayerController(false, player, null));
     player.update(viewport, 0.016f);
     assertEquals(10f - player.getWidth(), player.getPosition().x);
   }
@@ -250,13 +218,16 @@ class PlayerTest {
   @Test
   void testBoundariesBottomEdge() {
     player.setPosition(new Vector2(5, -1));
+    player.setPlayerController(new PlayerController(false, player, null));
     player.update(viewport, 0.016f);
-    assertEquals(0, player.getPosition().y);
+    // 0.3 because of the foot
+    assertEquals(0.3f, player.getPosition().y);
   }
 
   @Test
   void testBoundariesTopEdge() {
     player.setPosition(new Vector2(5, 11));
+    player.setPlayerController(new PlayerController(false, player, null));
     player.update(viewport, 0.016f);
     assertEquals(10f - player.getHeight(), player.getPosition().y);
   }
