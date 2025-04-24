@@ -155,4 +155,48 @@ class BallTest {
 
     verify(player, Mockito.never()).setPosition(Mockito.any());
   }
+
+  @Test
+  void testCollisionWithPlayerSetsLastTouchAndBoostsVelocity() {
+    Player player = mock(Player.class);
+    when(player.getPosition()).thenReturn(new Vector2(5, 10));
+    when(player.getVelocity()).thenReturn(new Vector2(1f, 0.4f));
+    when(player.getWeight()).thenReturn(70f);
+    when(player.getWidth()).thenReturn(1f);
+    when(player.getHeight()).thenReturn(1.2f);
+
+    ball.setVelocity(new Vector2(0, 0));
+    ball.setPosition(new Vector2(5, 10));
+
+    ball.collision(player);
+
+    assertEquals(player, ball.getPlayerLastTouch());
+    assertTrue(ball.getVelocity().y > 0);
+  }
+
+  @Test
+  void testCollisionWithFootKickingAppliesKickBoost() {
+    Foot foot = mock(Foot.class);
+    Player player = mock(Player.class);
+    when(player.getPosition()).thenReturn(new Vector2(5, 10));
+    when(player.getWidth()).thenReturn(1f);
+    when(player.getHeight()).thenReturn(2f);
+    when(player.getVelocity()).thenReturn(new Vector2(0, 0));
+
+    when(foot.getPosition()).thenReturn(new Vector2(5, 10));
+    when(foot.getVelocity()).thenReturn(new Vector2(0, 0));
+    when(foot.getWeight()).thenReturn(300f);
+    when(foot.getPlayer()).thenReturn(player);
+    when(foot.isKicking()).thenReturn(true);
+    when(foot.getKickPower()).thenReturn(5f);
+
+    ball.setPosition(new Vector2(5, 10));
+    ball.setVelocity(new Vector2(0, 0));
+
+    ball.collision(foot);
+
+    assertEquals(player, ball.getPlayerLastTouch());
+    assertTrue(ball.getVelocity().x > 0);
+    assertTrue(ball.getVelocity().y > 0);
+  }
 }

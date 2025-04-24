@@ -170,4 +170,41 @@ class PowerupPickupTest {
     Viewport viewport = Mockito.mock(Viewport.class);
     assertDoesNotThrow(() -> pickup.update(viewport, 0.16f));
   }
+
+  @Test
+  void testCollidesBallTouchesCorner() {
+    Mockito.when(ball.getPosition())
+        .thenReturn(new Vector2(initialPosition.x + size - 1, initialPosition.y + size - 1));
+    Mockito.when(ball.getWidth()).thenReturn(2f);
+    Mockito.when(ball.getHeight()).thenReturn(2f);
+
+    assertTrue(pickup.collides(ball));
+  }
+
+  @Test
+  void testCollidesOverlapXOnlyShouldReturnFalse() {
+    Mockito.when(ball.getPosition()).thenReturn(
+        new Vector2(initialPosition.x + 5, initialPosition.y + size + 1));
+    Mockito.when(ball.getWidth()).thenReturn(5f);
+    Mockito.when(ball.getHeight()).thenReturn(5f);
+
+    assertFalse(pickup.collides(ball));
+  }
+
+  @Test
+  void testCollidesOverlapYOnlyShouldReturnFalse() {
+    Mockito.when(ball.getPosition()).thenReturn(
+        new Vector2(initialPosition.x + size + 1, initialPosition.y + 5));
+    Mockito.when(ball.getWidth()).thenReturn(5f);
+    Mockito.when(ball.getHeight()).thenReturn(5f);
+
+    assertFalse(pickup.collides(ball));
+  }
+
+  @Test
+  void testSetVelocityDoesNothing() {
+    Vector2 originalPos = pickup.getPosition().cpy();
+    pickup.setVelocity(new Vector2(100, 100));
+    assertEquals(originalPos, pickup.getPosition());
+  }
 }
