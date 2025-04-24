@@ -2,6 +2,8 @@ package inf112.bigheadkickerz.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.Gdx;
@@ -78,6 +80,20 @@ class PlayerControllerTest {
     when(Gdx.input.isKeyJustPressed(Input.Keys.UP)).thenReturn(true);
     Vector2 newVel = playerController2.movePlayer();
     assertEquals(new Vector2(0, 10f), newVel);
+  }
+
+  @Test
+  void testKickPlayer1() {
+    when(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)).thenReturn(true);
+    playerController1.movePlayer();
+    verify(footMock, times(1)).kick();
+  }
+
+  @Test
+  void testKickPlayer2() {
+    when(Gdx.input.isKeyJustPressed(Input.Keys.P)).thenReturn(true);
+    playerController2.movePlayer();
+    verify(footMock, times(1)).kick();
   }
 
 }

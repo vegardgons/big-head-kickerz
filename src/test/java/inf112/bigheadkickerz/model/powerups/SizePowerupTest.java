@@ -1,5 +1,6 @@
 package inf112.bigheadkickerz.model.powerups;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -85,6 +86,12 @@ class SizePowerupTest {
   void testConstructorNotNullSmall() {
     SizePowerup newPowerup = new SizePowerup(DURATION, SIZE_MULTIPLIER, false);
     assertNotNull(newPowerup);
+  }
+
+  @Test
+  void testGetDuration() {
+    assertEquals(DURATION, biggerPowerup.getDuration());
+    assertEquals(DURATION, smallerPowerup.getDuration());
   }
 
 }
