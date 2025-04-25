@@ -16,6 +16,9 @@ public class CollisionHandler implements ICollisionHandler {
         Collideable b = objects.get(j);
 
         if (a.collides(b)) {
+          // if (a instanceof Foot || b instanceof Foot) {
+          // System.out.println("Collision detected between " + a + " and " + b);
+          // }
           a.collision(b);
           b.collision(a);
         }

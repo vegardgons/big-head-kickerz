@@ -10,73 +10,104 @@ import inf112.bigheadkickerz.model.powerups.PowerupPickup;
  * Class for the foot object.
  * The foot is a part of the player and is used for collision detection.
  */
+@SuppressWarnings("PointlessArithmeticExpression")
 public class Foot implements GameObject, Collideable {
 
-  private static final float WEIGHT = 300;
-  private float width = 0.8f;
-  private float height = 0.3f;
-  private float kickPower = 3f;
-  private final Vector2 startPos;
-  private Vector2 pos;
-  private Vector2 velocity;
-  private Texture texture;
-  private Player player;
-  private boolean kicking = false;
-  private float kickTimer = 0f;
-  private float kickDuration = 0.25f;
-  private float maxKickAngle = (float) Math.toRadians(5);
-  private float kickRadius = 0.75f;
+  private static final float WEIGHT          = 300f;   // collision mass
+  private static final float BASE_WIDTH      = 0.80f;
+  private static final float BASE_HEIGHT     = 0.30f;
+  private static final float RADIUS          = 0.65f;  // hip→ankle distance
+  private static final float MAX_SWING_DEG   = 90f;    // forward swing limit
+  private static final float HALF_SWING_TIME = 0.25f;  // seconds per phase
+  private static final float KICK_POWER      = 3f;     // impulse boost
+
+  private final Player  player;
+  private final Texture texture;
+
+  private float width  = BASE_WIDTH;
+  private float height = BASE_HEIGHT;
+
+  private final Vector2 pos      = new Vector2();
+  private final Vector2 velocity = new Vector2();
+
+  private enum State { IDLE, FORWARD, RETURN }
+  private State state   = State.IDLE;
+  private float timer   = 0f;
+  private float theta   = 0f;   // radians, 0 = downwards
 
   /** Constructor for Foot. */
-  public Foot(Texture texture, Player player) {
-    this.velocity = new Vector2(0, 0);
-    this.player = player;
-    float startX = player.getPosition().x + (player.getWidth() / 2) - (width / 2);
-    this.startPos = new Vector2(startX, 0);
-    this.pos = new Vector2(startX, 0);
+  public Foot(Texture texture, Player owner) {
     this.texture = texture;
+    this.player  = owner;
+    computeRestingPose();
   }
 
   @Override
   public void update(Viewport viewport, float delta) {
-    if (kicking) {
-      kickTimer += delta;
-      float t = kickTimer / kickDuration;
+    velocity.set(player.getVelocity());
 
-      if (t >= 1f) {
-        kicking = false;
-        kickTimer = 0f;
-      } else {
-        float angle = calculateAngle(t);
-        Vector2 newPos = calculatePos(angle);
-        pos.set(newPos.x, newPos.y);
-      }
+    switch (state) {
+      case IDLE -> computeRestingPose();
+      case FORWARD, RETURN -> advanceSwing(delta);
+    }
+  }
+
+  private void advanceSwing(float dt) {
+    timer += dt;
+    float progress = Math.min(timer / HALF_SWING_TIME, 1f);
+    float eased    = easeInOutSine(progress);
+
+    if (state == State.FORWARD) {
+      theta = lerp(0f, degToRad(MAX_SWING_DEG), eased);
+      if (progress >= 1f) changeState(State.RETURN);
     } else {
-      float x = player.getPosition().x + (player.getWidth() / 2) - (width / 2);
-      float y = player.getPosition().y - height;
-      pos.set(x, y);
+      theta = lerp(degToRad(MAX_SWING_DEG), 0f, eased);
+      if (progress >= 1f) changeState(State.IDLE);
     }
 
-    velocity.set(player.getVelocity());
+    calculateFootPosition();
+  }
+
+  private void changeState(State next) {
+    state = next;
+    timer = 0f;
+  }
+
+  private void computeRestingPose() {
+    theta = 0f;
+    calculateFootPosition();
   }
 
   @Override
   public void draw(SpriteBatch batch) {
-    if (kicking) {
-      float t = kickTimer / kickDuration;
-      float angle = calculateAngle(t);
-      Vector2 newPos = calculatePos(angle);
-      float rotation;
-      if (player.isPlayer1()) {
-        rotation = 60f;
-      } else {
-        rotation = -60f;
-      }
-      drawRotation(batch, newPos.x, newPos.y, rotation);
-    } else {
-      batch.draw(texture, pos.x, pos.y, width, height);
-    }
+    float rotation = (float) Math.toDegrees(theta) * (player.isPlayer1() ? 1f : -1f);
+
+    batch.draw(
+        texture,
+        pos.x, pos.y,
+        width / 2, height / 2,
+        width, height,
+        1f, 1f,
+        rotation,
+        0, 0,
+        texture.getWidth(), texture.getHeight(),
+        false, false);
   }
+
+  public void kick() {
+    if (state == State.IDLE) changeState(State.FORWARD);
+  }
+
+  public void reset() {
+    state = State.IDLE;
+    timer = 0f;
+    computeRestingPose();
+    velocity.setZero();
+  }
+
+  public boolean isKicking() { return state != State.IDLE; }
+  public float   getKickPower() { return KICK_POWER; }
+  public Player  getPlayer() { return player; }
 
   @Override
   public void collision(Collideable other) {
@@ -87,133 +118,67 @@ public class Foot implements GameObject, Collideable {
 
   @Override
   public boolean collides(Collideable other) {
-    if (other instanceof PowerupPickup) {
-      return false;
-    } else if (other instanceof Goal goal) {
-      return goal.collides(this);
-    } else if (other instanceof Player newPlayer) {
-      if (newPlayer.isPlayer1() == this.player.isPlayer1()) {
-        return false;
-      } else {
-        return newPlayer.collides(this);
-      }
-    }
+    if (other instanceof PowerupPickup) return false;
+    if (other instanceof Goal goal)     return goal.collides(this);
+    if (other instanceof Player p && p.isPlayer1() == player.isPlayer1()) return false;
     return rectangleCollides(other);
   }
+  private void calculateFootPosition() {
+    Vector2 hip = new Vector2(
+        player.getPosition().x + player.getWidth()  * 0.5f,
+        player.getPosition().y + player.getHeight() * 0.5f);
 
-  @Override
-  public float getWeight() {
+    float sin = (float) Math.sin(theta);
+    float cos = (float) Math.cos(theta);
+
+    float offsetX = sin * RADIUS;                 // sin(0)=0  → x‑offset 0 when hanging
+    if (!player.isPlayer1()) offsetX = -offsetX;  // mirror for player 2
+
+    float offsetY = -cos * RADIUS;                // cos(0)=1 → y‑offset −RADIUS when hanging
+
+    float x = hip.x + offsetX - width  * 0.5f;
+    float y = hip.y + offsetY - height * 0.5f;
+
+    pos.set(x, y);
+  }
+
+  private static float easeInOutSine(float t) {
+    return (float) (-0.5 * (Math.cos(Math.PI * t) - 1.0));
+  }
+
+  private static float lerp(float a, float b, float t) { return a + (b - a) * t; }
+  private static float degToRad(float deg) { return (float) (deg * Math.PI / 180.0); }
+
+  @Override 
+  public float getWeight(){
     return WEIGHT;
   }
-
-  @Override
-  public float getWidth() {
+  @Override public float getWidth(){ 
     return width;
   }
-
-  @Override
-  public float getHeight() {
-    return height;
+  @Override public float   getHeight(){
+    return height;  
   }
-
-  @Override
-  public Vector2 getPosition() {
-    return pos;
+  @Override public Vector2 getPosition(){
+    return pos;     
   }
-
-  @Override
-  public Vector2 getVelocity() {
+  @Override public Vector2 getVelocity(){
     return velocity;
   }
 
   @Override
   public void setPosition(Vector2 pos) {
-    // This method is not used for the foot object as it is always
-    // positioned relative to the player.
   }
 
   @Override
   public void setVelocity(Vector2 velocity) {
-    // This method is not used for the foot object as it is always
-    // positioned relative to the player.
   }
 
-  /** Resets the foot to its starting position. */
-  public void reset() {
-    this.pos = startPos;
-    this.velocity = new Vector2(0, 0);
+  public void setHeight(float height) {
+    this.height = height;
   }
 
-  /** Sets the foot to the kicking position. */
-  public void kick() {
-    if (!kicking) {
-      kicking = true;
-      kickTimer = 0f;
-    }
-  }
-
-  private Vector2 calculatePos(float angle) {
-    Vector2 playerCenter = new Vector2(
-        player.getPosition().x + player.getWidth() / 2,
-        player.getPosition().y + player.getHeight() / 2);
-
-    float x;
-    if (player.isPlayer1()) {
-      x = playerCenter.x + (float) Math.cos(angle) * kickRadius - width / 2;
-    } else {
-      x = playerCenter.x - (float) Math.cos(angle) * kickRadius - width / 2;
-    }
-    float y = playerCenter.y - height / 2 + (float) Math.sin(angle) * kickRadius;
-    return new Vector2(x, y);
-  }
-
-  private void drawRotation(SpriteBatch batch, float x, float y, float rotation) {
-    batch.draw(
-        texture,
-        x, y,
-        width / 2, height / 2,
-        width, height,
-        1f, 1f,
-        rotation,
-        0, 0,
-        texture.getWidth(), texture.getHeight(),
-        false, false);
-  }
-
-  private float calculateAngle(float t) {
-    float smoothT;
-    if (t < 0.5f) {
-      smoothT = 4 * t * t * t;
-    } else {
-      smoothT = (float) (1 - Math.pow(-2 * t + 2, 3) / 2);
-    }
-    return smoothT * maxKickAngle;
-  }
-
-  /**
-   * Returns the player that the foot belongs to.
-   *
-   * @return the player that the foot belongs to
-   */
-  public Player getPlayer() {
-    return player;
-  }
-
-  /**
-   * Returns the kick power of the foot.
-   *
-   * @return the kick power of the foot
-   */
-  public float getKickPower() {
-    return kickPower;
-  }
-
-  /**
-   * Returns if the foot is kicking.
-   *
-   * @return true if the foot is kicking, false otherwise
-   */
-  public boolean isKicking() {
-    return kicking;
+  public void setWidth(float width) {
+    this.width = width;
   }
 }
