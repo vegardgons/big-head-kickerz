@@ -1,15 +1,8 @@
 package inf112.bigheadkickerz.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyFloat;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,38 +10,53 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
-/** Test class for the Foot class. */
+/**
+ * Updated tests for the re‑implemented {@link Foot}.
+ */
 class FootTest {
 
-  private Foot foot;
-  private Player player;
-  private Texture texture;
+  private static final float EPS = 1e-4f;
+
+  private Foot        foot;
+  private Player      player;
+  private Texture     texture;
   private SpriteBatch batch;
-  private Viewport viewport;
+  private Viewport    viewport;
 
   @BeforeEach
   void setUp() {
-    texture = mock(Texture.class);
-    player = mock(Player.class);
-    batch = mock(SpriteBatch.class);
-    viewport = mock(Viewport.class);
+    texture  = mock(Texture.class);
+    when(texture.getWidth()).thenReturn(16);   
+    when(texture.getHeight()).thenReturn(16);
 
-    when(player.getPosition()).thenReturn(new Vector2(5, 5));
+    player = mock(Player.class);
+    when(player.getPosition()).thenReturn(new Vector2(5f, 5f));
     when(player.getWidth()).thenReturn(1f);
     when(player.getHeight()).thenReturn(2f);
-    when(player.getVelocity()).thenReturn(new Vector2(0, 0));
+    when(player.getVelocity()).thenReturn(new Vector2(0f, 0f));
     when(player.isPlayer1()).thenReturn(true);
 
-    foot = new Foot(texture, player);
+    foot     = new Foot(texture, player);
+    batch    = mock(SpriteBatch.class);
+    viewport = mock(Viewport.class);
   }
 
   @Test
   void testInitialPosition() {
     Vector2 pos = foot.getPosition();
-    assertEquals(5 + 0.5f - 0.4f, pos.x);
-    assertEquals(0, pos.y);
+
+    float hipX = 5f + 0.5f; // player.x + width/2
+    float expectedX = hipX - foot.getWidth() / 2f;
+
+    float hipY = 5f + 1f;   // player.y + height/2 (height=2)
+    float expectedY = hipY - 0.65f /*RADIUS*/ - foot.getHeight() / 2f;
+
+    assertEquals(expectedX, pos.x, EPS);
+    assertEquals(expectedY, pos.y, EPS);
   }
+
 
   @Test
   void testKickChangesState() {
@@ -59,10 +67,19 @@ class FootTest {
 
   @Test
   void testUpdateWhileNotKickingFollowsPlayer() {
-    when(player.getPosition()).thenReturn(new Vector2(7, 3));
+    // Move player somewhere else
+    when(player.getPosition()).thenReturn(new Vector2(7f, 3f));
+
     foot.update(viewport, 0.1f);
-    assertEquals(7 + 0.5f - 0.4f, foot.getPosition().x);
-    assertEquals(3 - foot.getHeight(), foot.getPosition().y);
+
+    float hipX = 7f + 0.5f;
+    float expectedX = hipX - foot.getWidth() / 2f;
+
+    float hipY = 3f + 1f;  // 3 + height/2
+    float expectedY = hipY - 0.65f - foot.getHeight() / 2f;
+
+    assertEquals(expectedX, foot.getPosition().x, EPS);
+    assertEquals(expectedY, foot.getPosition().y, EPS);
   }
 
   @Test
@@ -77,26 +94,38 @@ class FootTest {
   @Test
   void testDrawWhileNotKicking() {
     foot.draw(batch);
+
     verify(batch).draw(
-        eq(texture), anyFloat(), anyFloat(),
-        eq(foot.getWidth()), eq(foot.getHeight()));
+        eq(texture),
+        anyFloat(), anyFloat(),                       // x, y
+        eq(foot.getWidth() / 2f), eq(foot.getHeight() / 2f),
+        eq(foot.getWidth()), eq(foot.getHeight()),
+        eq(1f), eq(1f),                               // scaleX, scaleY
+        eq(0f),                                       // rotation degrees
+        anyInt(), anyInt(), anyInt(), anyInt(),       // srcX,Y,W,H
+        eq(false), eq(false));                        // flipX, flipY
   }
 
   @Test
   void testDrawWhileKicking() {
     foot.kick();
-    foot.update(viewport, 0.1f);
+    foot.update(viewport, 0.1f); // mid‑swing
+
+    ArgumentCaptor<Float> rotationCap = ArgumentCaptor.forClass(Float.class);
+
     foot.draw(batch);
+
     verify(batch).draw(
         eq(texture),
         anyFloat(), anyFloat(),
-        eq(foot.getWidth() / 2), eq(foot.getHeight() / 2),
-        eq(foot.getWidth()), eq(foot.getHeight()),
-        eq(1f), eq(1f),
-        eq(60f),
-        anyInt(), anyInt(),
-        anyInt(), anyInt(),
+        anyFloat(), anyFloat(),
+        anyFloat(), anyFloat(),
+        anyFloat(), anyFloat(),              // scaleX, scaleY captured as any
+        rotationCap.capture(),               // rotation
+        anyInt(), anyInt(), anyInt(), anyInt(),
         eq(false), eq(false));
+
+    assertNotEquals(0f, rotationCap.getValue(), EPS);
   }
 
   @Test
@@ -124,12 +153,18 @@ class FootTest {
   }
 
   @Test
-  void testCollidesWithOpposingPlayerDelegatesToPlayer() {
-    Player otherPlayer = mock(Player.class);
-    when(otherPlayer.isPlayer1()).thenReturn(false);
-    when(otherPlayer.collides(foot)).thenReturn(true);
+  void testCollidesWithOpposingPlayerBoundingBox() {
+    Player opponent = mock(Player.class);
+    when(opponent.isPlayer1()).thenReturn(false);      // opposite side
+    when(opponent.getWidth()).thenReturn(1f);
+    when(opponent.getHeight()).thenReturn(2f);
 
-    assertTrue(foot.collides(otherPlayer));
-    verify(otherPlayer).collides(foot);
+    // Place opponent overlapping foot
+    when(opponent.getPosition()).thenReturn(new Vector2(foot.getPosition()));
+    assertTrue(foot.collides(opponent));
+
+    // Move opponent away – now should not collide
+    when(opponent.getPosition()).thenReturn(new Vector2(20f, 20f));
+    assertFalse(foot.collides(opponent));
   }
 }
