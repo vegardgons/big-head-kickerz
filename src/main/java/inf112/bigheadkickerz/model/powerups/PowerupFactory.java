@@ -3,7 +3,6 @@ package inf112.bigheadkickerz.model.powerups;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * A registry‑based factory that can create random {@link Powerup} instances.
@@ -12,21 +11,16 @@ public final class PowerupFactory {
 
   private static final float DEFAULT_DURATION = 8f;
   private static final SecureRandom RNG = new SecureRandom();
-
-  /**
-   * List containing {@link Supplier}s that each build a new {@link Powerup}
-   * instance.
-   */
-  private static final List<Supplier<Powerup>> POWERUPSUPPLIERS = new ArrayList<>();
+  private static final List<Powerup> POWERUPLIST = new ArrayList<>();
 
   // Register the built‑in power‑ups once when the class is loaded
   static {
-    POWERUPSUPPLIERS.add(() -> new SpeedPowerup(DEFAULT_DURATION, 1.5f, true));
-    POWERUPSUPPLIERS.add(() -> new SpeedPowerup(DEFAULT_DURATION, 0.5f, false));
-    POWERUPSUPPLIERS.add(() -> new JumpPowerup(DEFAULT_DURATION, 0.5f, false));
-    POWERUPSUPPLIERS.add(() -> new JumpPowerup(DEFAULT_DURATION, 1.5f, true));
-    POWERUPSUPPLIERS.add(() -> new SizePowerup(DEFAULT_DURATION, 1.5f, true));
-    POWERUPSUPPLIERS.add(() -> new SizePowerup(DEFAULT_DURATION, 0.75f, false));
+    register(new SpeedPowerup(DEFAULT_DURATION, 1.5f, true));
+    register(new SpeedPowerup(DEFAULT_DURATION, 0.5f, false));
+    register(new JumpPowerup(DEFAULT_DURATION, 0.5f, false));
+    register(new JumpPowerup(DEFAULT_DURATION, 1.5f, true));
+    register(new SizePowerup(DEFAULT_DURATION, 1.5f, true));
+    register(new SizePowerup(DEFAULT_DURATION, 0.75f, false));
   }
 
   private PowerupFactory() {
@@ -35,30 +29,30 @@ public final class PowerupFactory {
   /**
    * Registers a new type of power‑up.
    *
-   * @param powerupSupplier supplier that creates a fresh {@link Powerup} each
-   *                        time it is invoked
+   * @param powerup that creates a fresh {@link Powerup} each
+   *                time it is invoked
    */
-  public static void register(Supplier<Powerup> powerupSupplier) {
-    if (powerupSupplier == null) {
-      throw new IllegalArgumentException("Supplier cannot be null");
+  public static void register(Powerup powerup) {
+    if (powerup == null) {
+      throw new IllegalArgumentException("Powerup cannot be null");
     }
-    POWERUPSUPPLIERS.add(powerupSupplier);
+    POWERUPLIST.add(powerup);
   }
 
   /**
-   * Removes a previously registered power‑up supplier.
+   * Removes a previously registered power‑up.
    *
-   * @param powerupSupplier the supplier to remove
+   * @param powerup the powerup to remove
    */
-  public static void unregister(Supplier<Powerup> powerupSupplier) {
-    POWERUPSUPPLIERS.remove(powerupSupplier);
+  public static void unregister(Powerup powerup) {
+    POWERUPLIST.remove(powerup);
   }
 
   /**
-   * Returns an all currently registered PowerupSuppliers.
+   * Returns an all currently registered Powerup.
    */
-  public static List<Supplier<Powerup>> getPowerupSuppliers() {
-    return POWERUPSUPPLIERS;
+  public static List<Powerup> getPowerup() {
+    return POWERUPLIST;
   }
 
   /**
@@ -68,10 +62,9 @@ public final class PowerupFactory {
    * @throws IllegalStateException if no power‑ups are registered
    */
   public static Powerup getRandomPowerup() {
-    if (POWERUPSUPPLIERS.isEmpty()) {
+    if (POWERUPLIST.isEmpty()) {
       throw new IllegalStateException("No power‑ups registered");
     }
-    Supplier<Powerup> supplier = POWERUPSUPPLIERS.get(RNG.nextInt(POWERUPSUPPLIERS.size()));
-    return supplier.get();
+    return POWERUPLIST.get(RNG.nextInt(POWERUPLIST.size()));
   }
 }

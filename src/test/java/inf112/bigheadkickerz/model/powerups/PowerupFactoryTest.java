@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import inf112.bigheadkickerz.model.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,12 +48,12 @@ class PowerupFactoryTest {
   }
 
   @Test
-  void registerAddsSupplierAndFactoryCanReturnIt() {
-    Supplier<Powerup> dummySupplier = DummyPowerup::new;
-    int initialSize = PowerupFactory.getPowerupSuppliers().size();
+  void registerAddsPowerupAndFactoryCanReturnIt() {
+    Powerup dummyPowerup = new DummyPowerup();
+    int initialSize = PowerupFactory.getPowerup().size();
 
-    PowerupFactory.register(dummySupplier);
-    assertEquals(initialSize + 1, PowerupFactory.getPowerupSuppliers().size());
+    PowerupFactory.register(dummyPowerup);
+    assertEquals(initialSize + 1, PowerupFactory.getPowerup().size());
 
     boolean produced = false;
     // Try multiple times to compensate for randomness
@@ -63,24 +62,24 @@ class PowerupFactoryTest {
     }
     assertTrue(produced, "Factory did not produce DummyPowerup after registration");
 
-    PowerupFactory.unregister(dummySupplier);
-    assertEquals(initialSize, PowerupFactory.getPowerupSuppliers().size());
+    PowerupFactory.unregister(dummyPowerup);
+    assertEquals(initialSize, PowerupFactory.getPowerup().size());
   }
 
   @Test
-  void factoryThrowsWhenNoSuppliersRegistered() {
-    // Temporarily remove every supplier
-    List<Supplier<Powerup>> backups = new ArrayList<>(PowerupFactory.getPowerupSuppliers());
+  void factoryThrowsWhenNoPowerupsRegistered() {
+    // Temporarily remove every powerup
+    List<Powerup> backups = new ArrayList<>(PowerupFactory.getPowerup());
     backups.forEach(PowerupFactory::unregister);
 
     assertThrows(IllegalStateException.class, PowerupFactory::getRandomPowerup);
 
-    // Restore original suppliers so other tests are unaffected
+    // Restore original powerup so other tests are unaffected
     backups.forEach(PowerupFactory::register);
   }
 
   @Test
-  void registerNullSupplierThrows() {
+  void registerNullPowerupsThrows() {
     assertThrows(IllegalArgumentException.class, () -> PowerupFactory.register(null));
   }
 

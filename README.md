@@ -19,7 +19,7 @@ A, D og W og sparker med mellomromstasten.
 
 ## Kjøring
 * Kompileres med `mvn package`.
-* Kjøres med `java -jar target/gdx-template-25v-1.0-SNAPSHOT-fat.jar`
+* Kjøres med `java -jar target/big-head-kickerz-1.0-SNAPSHOT-fat.jar`
 * Testes med `mvn verify`
 * Krever Java 21 eller senere
 
