@@ -1,7 +1,7 @@
 package inf112.bigheadkickerz.model.powerups;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.model.IPlayerPowerup;
 
 /**
  * Decreases the player's movement speed.
@@ -23,12 +23,12 @@ public class SpeedPowerup extends AbstractPowerup {
   }
 
   @Override
-  public void apply(Player player) {
+  public void apply(IPlayerPowerup player) {
     player.setMovementSpeed(player.getMovementSpeed() * slowMultiplier);
   }
 
   @Override
-  public void expire(Player player) {
+  public void expire(IPlayerPowerup player) {
     player.setMovementSpeed(player.getMovementSpeed() / slowMultiplier);
   }
 

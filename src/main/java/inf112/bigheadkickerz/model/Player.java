@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import inf112.bigheadkickerz.controller.PlayerController;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 
 /** Class for the player object. */
@@ -18,7 +17,6 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
   private float jumpHeight = 5f;
   private final boolean isPlayer1;
 
-  private PlayerController playerController;
   private Vector2 velocity;
   private final Vector2 startPos;
   private Vector2 pos;
@@ -38,7 +36,7 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
 
     float gravity = -9.81f;
     velocity.y += gravity * delta;
-    Vector2 newVel = playerController.movePlayer();
+    Vector2 newVel = new Vector2(velocity.x, velocity.y);
     setVelocity(new Vector2(newVel));
     pos.add(velocity.x * delta, velocity.y * delta);
 
@@ -182,6 +180,14 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     this.jumpHeight = jumpHeight;
   }
 
+  public boolean jump() {
+    if (velocity.y == 0) {
+      velocity.y = jumpHeight;
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Returns if the player is player 1 or not.
    *
@@ -191,8 +197,16 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     return isPlayer1;
   }
 
-  public void setPlayerController(PlayerController player1Controller) {
-    this.playerController = player1Controller;
+  @Override
+  public boolean setDirection(int direction) {
+    if (direction == 1) {
+      setVelocity(new Vector2(movementSpeed, velocity.y));
+    } else if (direction == -1) {
+      setVelocity(new Vector2(-movementSpeed, velocity.y));
+    } else {
+      setVelocity(new Vector2(0, velocity.y));
+    }
+    return true;
   }
 
 }

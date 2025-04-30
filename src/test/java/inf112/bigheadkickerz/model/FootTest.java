@@ -1,8 +1,15 @@
 package inf112.bigheadkickerz.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,16 +26,16 @@ class FootTest {
 
   private static final float EPS = 1e-4f;
 
-  private Foot        foot;
-  private Player      player;
-  private Texture     texture;
+  private Foot foot;
+  private Player player;
+  private Texture texture;
   private SpriteBatch batch;
-  private Viewport    viewport;
+  private Viewport viewport;
 
   @BeforeEach
   void setUp() {
-    texture  = mock(Texture.class);
-    when(texture.getWidth()).thenReturn(16);   
+    texture = mock(Texture.class);
+    when(texture.getWidth()).thenReturn(16);
     when(texture.getHeight()).thenReturn(16);
 
     player = mock(Player.class);
@@ -38,8 +45,8 @@ class FootTest {
     when(player.getVelocity()).thenReturn(new Vector2(0f, 0f));
     when(player.isPlayer1()).thenReturn(true);
 
-    foot     = new Foot(texture, player);
-    batch    = mock(SpriteBatch.class);
+    foot = new Foot(texture, player);
+    batch = mock(SpriteBatch.class);
     viewport = mock(Viewport.class);
   }
 
@@ -50,13 +57,12 @@ class FootTest {
     float hipX = 5f + 0.5f; // player.x + width/2
     float expectedX = hipX - foot.getWidth() / 2f;
 
-    float hipY = 5f + 1f;   // player.y + height/2 (height=2)
-    float expectedY = hipY - 0.65f /*RADIUS*/ - foot.getHeight() / 2f;
+    float hipY = 5f + 1f; // player.y + height/2 (height=2)
+    float expectedY = hipY - 0.65f /* RADIUS */ - foot.getHeight() / 2f;
 
     assertEquals(expectedX, pos.x, EPS);
     assertEquals(expectedY, pos.y, EPS);
   }
-
 
   @Test
   void testKickChangesState() {
@@ -75,7 +81,7 @@ class FootTest {
     float hipX = 7f + 0.5f;
     float expectedX = hipX - foot.getWidth() / 2f;
 
-    float hipY = 3f + 1f;  // 3 + height/2
+    float hipY = 3f + 1f; // 3 + height/2
     float expectedY = hipY - 0.65f - foot.getHeight() / 2f;
 
     assertEquals(expectedX, foot.getPosition().x, EPS);
@@ -97,13 +103,13 @@ class FootTest {
 
     verify(batch).draw(
         eq(texture),
-        anyFloat(), anyFloat(),                       // x, y
+        anyFloat(), anyFloat(), // x, y
         eq(foot.getWidth() / 2f), eq(foot.getHeight() / 2f),
         eq(foot.getWidth()), eq(foot.getHeight()),
-        eq(1f), eq(1f),                               // scaleX, scaleY
-        eq(0f),                                       // rotation degrees
-        anyInt(), anyInt(), anyInt(), anyInt(),       // srcX,Y,W,H
-        eq(false), eq(false));                        // flipX, flipY
+        eq(1f), eq(1f), // scaleX, scaleY
+        eq(0f), // rotation degrees
+        anyInt(), anyInt(), anyInt(), anyInt(), // srcX,Y,W,H
+        eq(false), eq(false)); // flipX, flipY
   }
 
   @Test
@@ -120,8 +126,8 @@ class FootTest {
         anyFloat(), anyFloat(),
         anyFloat(), anyFloat(),
         anyFloat(), anyFloat(),
-        anyFloat(), anyFloat(),              // scaleX, scaleY captured as any
-        rotationCap.capture(),               // rotation
+        anyFloat(), anyFloat(), // scaleX, scaleY captured as any
+        rotationCap.capture(), // rotation
         anyInt(), anyInt(), anyInt(), anyInt(),
         eq(false), eq(false));
 
@@ -155,7 +161,7 @@ class FootTest {
   @Test
   void testCollidesWithOpposingPlayerBoundingBox() {
     Player opponent = mock(Player.class);
-    when(opponent.isPlayer1()).thenReturn(false);      // opposite side
+    when(opponent.isPlayer1()).thenReturn(false); // opposite side
     when(opponent.getWidth()).thenReturn(1f);
     when(opponent.getHeight()).thenReturn(2f);
 

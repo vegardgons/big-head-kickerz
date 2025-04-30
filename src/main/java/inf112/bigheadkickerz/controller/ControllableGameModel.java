@@ -23,4 +23,20 @@ public interface ControllableGameModel {
    */
   void dismissControls();
 
+  /**
+   * Makes the player jump.
+   */
+  void jump(boolean isPlayer1);
+
+  /**
+   * Makes the player kick.
+   */
+  void kick(boolean isPlayer1);
+
+  /**
+   * Sets the player direction.
+   *
+   * @param i the direction to set the player to.
+   */
+  void setPlayerDirection(boolean isPlayer1, int i);
 }

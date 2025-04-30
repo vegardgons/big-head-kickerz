@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.model.IPlayerPowerup;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -22,12 +22,12 @@ class PowerupFactoryTest {
    */
   private static class DummyPowerup implements Powerup {
     @Override
-    public void apply(Player player) {
+    public void apply(IPlayerPowerup player) {
       /* no‑op */
     }
 
     @Override
-    public void expire(Player player) {
+    public void expire(IPlayerPowerup player) {
       /* no‑op */
     }
 

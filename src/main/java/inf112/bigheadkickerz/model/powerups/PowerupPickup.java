@@ -104,7 +104,14 @@ public class PowerupPickup implements GameObject, Collideable {
     return getWidth();
   }
 
+  @Override
+  public boolean setDirection(int direction) {
+    // No direction for powerup pickup
+    return false;
+  }
+
   public boolean isCollected() {
     return collected;
   }
+
 }

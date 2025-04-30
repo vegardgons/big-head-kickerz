@@ -74,6 +74,14 @@ public interface Collideable {
   void setVelocity(Vector2 velocity);
 
   /**
+   * Set the direction of the game object.
+   *
+   * @param direction the new direction of the game object
+   * @return true if the direction was set successfully, false otherwise
+   */
+  boolean setDirection(int direction);
+
+  /**
    * Check if this object collides with another
    * Collideable object using rectangle
    * collision detection.

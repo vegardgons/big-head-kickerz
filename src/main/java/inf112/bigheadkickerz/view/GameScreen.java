@@ -1,5 +1,6 @@
 package inf112.bigheadkickerz.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.GameController;
@@ -12,7 +13,7 @@ import inf112.bigheadkickerz.model.GameState;
  */
 public class GameScreen extends ScreenAdapter {
 
-  private final GameController controller;
+  private final GameModel model;
   private final GameView view;
 
   /**
@@ -22,14 +23,16 @@ public class GameScreen extends ScreenAdapter {
    * @param gameState the current game state
    */
   public GameScreen(BigHeadKickerzGame game, GameState gameState) {
-    GameModel model = new GameModel(game, gameState);
-    this.controller = new GameController(model);
+    model = new GameModel(game, gameState);
+    new GameController(model);
     this.view = new GameView(model);
+    Gdx.input.setInputProcessor(new GameController(model));
+
   }
 
   @Override
   public void render(float delta) {
-    controller.update(delta);
+    model.update(delta);
     view.draw();
   }
 
