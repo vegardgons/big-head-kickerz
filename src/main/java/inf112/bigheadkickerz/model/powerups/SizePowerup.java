@@ -1,7 +1,7 @@
 package inf112.bigheadkickerz.model.powerups;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.model.IPlayerPowerup;
 
 /**
  * Increases the player's size.
@@ -25,13 +25,13 @@ public class SizePowerup extends AbstractPowerup {
   }
 
   @Override
-  public void apply(Player player) {
+  public void apply(IPlayerPowerup player) {
     player.setHeight(player.getHeight() * sizeMultiplier);
     player.setWidth(player.getWidth() * sizeMultiplier);
   }
 
   @Override
-  public void expire(Player player) {
+  public void expire(IPlayerPowerup player) {
     player.setHeight(player.getHeight() / sizeMultiplier);
     player.setWidth(player.getWidth() / sizeMultiplier);
   }

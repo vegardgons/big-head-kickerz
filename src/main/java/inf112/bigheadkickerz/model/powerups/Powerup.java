@@ -1,7 +1,7 @@
 package inf112.bigheadkickerz.model.powerups;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.model.IPlayerPowerup;
 
 /**
  * An interface for a powerup effect.
@@ -10,12 +10,12 @@ public interface Powerup {
   /**
    * Apply this powerup effect to the player.
    */
-  void apply(Player player);
+  void apply(IPlayerPowerup player);
 
   /**
    * Remove (expire) this powerup effect from the player.
    */
-  void expire(Player player);
+  void expire(IPlayerPowerup player);
 
   /**
    * Returns the duration of this powerup effect in seconds.

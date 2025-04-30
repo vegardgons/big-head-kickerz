@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
-import inf112.bigheadkickerz.controller.PlayerController;
 import inf112.bigheadkickerz.model.powerups.Powerup;
 import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
@@ -233,6 +232,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   @Override
   public void dismissControls() {
     showControls = false;
+    Assets.playStartWhistle();
   }
 
   private boolean checkForGoal() {
@@ -349,9 +349,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     Texture footPlayer2Texture = new Texture("FootPlayer2.png");
     footPlayer2 = new Foot(footPlayer2Texture, player2);
 
-    PlayerController player2Controller = new PlayerController(false, player2, footPlayer2);
-    player2.setPlayerController(player2Controller);
-
     // Initialize player, foot and controller for player1
     float playerWidth = player2.getWidth();
     float player1X = viewport.getWorldWidth() / 8 * (8 - 6.5f) - playerWidth;
@@ -360,9 +357,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
 
     Texture footPlayer1Texture = new Texture("FootPlayer1.png");
     footPlayer1 = new Foot(footPlayer1Texture, player1);
-
-    PlayerController player1Controller = new PlayerController(true, player1, footPlayer1);
-    player1.setPlayerController(player1Controller);
 
     // Initialize goals
     Texture leftGoalTexture = Assets.getLeftGoalTexture();
@@ -463,4 +457,33 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     return this.footPlayer2;
   }
 
+  @Override
+  public void jump(boolean isPlayer1) {
+    if (isPlayer1) {
+      player1.jump();
+    } else {
+      player2.jump();
+    }
+    Assets.playJumpingSound();
+  }
+
+  @Override
+  public void kick(boolean isPlayer1) {
+    if (isPlayer1) {
+      footPlayer1.kick();
+    } else {
+      footPlayer2.kick();
+    }
+    // Assets.playKickingSound();
+  }
+
+  @Override
+  public void setPlayerDirection(boolean isPlayer1, int direction) {
+    if (isPlayer1) {
+      player1.setDirection(direction);
+    } else {
+      player2.setDirection(direction);
+    }
+    // Assets.playWalkingSound();
+  }
 }

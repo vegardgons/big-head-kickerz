@@ -15,7 +15,6 @@ public class Goal implements GameObject, Collideable {
   private static final float WIDTH = 1.6f;
   private static final float HEIGHT = 3f;
   private static final float WEIGHT = 1000;
-  private static final float FOOT_HEIGHT = 0.3f;
 
   /**
    * Constructor for the goal object.
@@ -118,6 +117,11 @@ public class Goal implements GameObject, Collideable {
   @Override
   public Vector2 getPosition() {
     return pos;
+  }
+
+  @Override
+  public boolean setDirection(int direction) {
+    return false;
   }
 
 }

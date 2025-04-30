@@ -1,7 +1,7 @@
 package inf112.bigheadkickerz.model.powerups;
 
 import com.badlogic.gdx.graphics.Texture;
-import inf112.bigheadkickerz.model.Player;
+import inf112.bigheadkickerz.model.IPlayerPowerup;
 
 /**
  * Increases the player's JumpHeight.
@@ -25,12 +25,12 @@ public class JumpPowerup extends AbstractPowerup {
   }
 
   @Override
-  public void apply(Player player) {
+  public void apply(IPlayerPowerup player) {
     player.setJumpHeight(player.getJumpHeight() * jumpBoostMultiplier);
   }
 
   @Override
-  public void expire(Player player) {
+  public void expire(IPlayerPowerup player) {
     player.setJumpHeight(player.getJumpHeight() / jumpBoostMultiplier);
   }
 

@@ -144,6 +144,12 @@ public class Ball implements GameObject, Collideable {
     return getWidth();
   }
 
+  @Override
+  public boolean setDirection(int direction) {
+    // Not applicable for Ball
+    return false;
+  }
+
   /**
    * Returns the last player that touched the ball.
    *
