@@ -180,6 +180,11 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
     this.jumpHeight = jumpHeight;
   }
 
+  /**
+   * Sets the jump height of the player.
+   *
+   * @return true if jump height was changed, false otherwise
+   */
   public boolean jump() {
     if (velocity.y == 0) {
       velocity.y = jumpHeight;
