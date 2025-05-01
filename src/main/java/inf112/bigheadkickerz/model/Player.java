@@ -188,6 +188,7 @@ public class Player implements GameObject, Collideable, IPlayerPowerup {
   public boolean jump() {
     if (velocity.y == 0) {
       velocity.y = jumpHeight;
+      Assets.playJumpingSound();
       return true;
     }
     return false;

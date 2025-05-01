@@ -108,7 +108,9 @@ public class Foot implements GameObject, Collideable {
   public boolean kick() {
     if (state == State.IDLE) {
       changeState(State.FORWARD);
+      Assets.playKickingSound();
       return true;
+
     }
     return false;
   }

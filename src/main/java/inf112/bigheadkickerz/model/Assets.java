@@ -18,6 +18,7 @@ public final class Assets {
   private static Sound startWhistle;
   private static Sound gameOverSound;
   private static Sound jumpingSound;
+  private static Sound kickingSound;
 
   private static final String THROW_MESSAGE = "Cannot be null";
 
@@ -34,6 +35,7 @@ public final class Assets {
       startWhistle = Gdx.audio.newSound(Gdx.files.internal("assets/start_game_whistle.mp3"));
       gameOverSound = Gdx.audio.newSound(Gdx.files.internal("assets/game_finished_sound.mp3"));
       jumpingSound = Gdx.audio.newSound(Gdx.files.internal("assets/jumping_sound.wav"));
+      kickingSound = Gdx.audio.newSound(Gdx.files.internal("assets/kicking_sound.wav"));
 
     } catch (Exception e) {
       Gdx.app.error("Assets", "Error loading audio files", e);
@@ -84,19 +86,24 @@ public final class Assets {
   }
 
   /**
-   * Plays the Game sound.
-   * This method plays the goal sound.
+   * Plays the game over sound.
    */
   public static void playGameOverSound() {
     gameOverSound.play();
   }
 
   /**
-   * Plays the jumpingsound.
-   * This method plays the goal sound.
+   * Plays the jumping sound.
    */
   public static void playJumpingSound() {
-    jumpingSound.play(0.2f);
+    jumpingSound.play(0.1f);
+  }
+
+  /**
+   * Plays the kicking sound.
+   */
+  public static void playKickingSound() {
+    kickingSound.play(0.6f);
   }
 
   /**
@@ -110,6 +117,8 @@ public final class Assets {
     startWhistle.dispose();
     jumpingSound.dispose();
     gameOverSound.dispose();
+    kickingSound.dispose();
+    disposeTextures();
   }
 
   /**
@@ -257,11 +266,7 @@ public final class Assets {
     return textureCache.computeIfAbsent(path, k -> new Texture(Gdx.files.internal(k)));
   }
 
-  /**
-   * Disposes of all cached textures and clears the cache.
-   * Should be called when shutting down the game.
-   */
-  public static void disposeTextures() {
+  private static void disposeTextures() {
     textureCache.values().forEach(Texture::dispose);
     textureCache.clear();
   }

@@ -6,7 +6,7 @@ import java.util.List;
  * CollisionHandler is responsible for checking and handling collisions
  * between Collideable objects in the game.
  */
-public class CollisionHandler implements ICollisionHandler {
+class CollisionHandler implements ICollisionHandler {
 
   @Override
   public void checkCollisions(List<Collideable> objects) {
@@ -16,9 +16,6 @@ public class CollisionHandler implements ICollisionHandler {
         Collideable b = objects.get(j);
 
         if (a.collides(b)) {
-          // if (a instanceof Foot || b instanceof Foot) {
-          // System.out.println("Collision detected between " + a + " and " + b);
-          // }
           a.collision(b);
           b.collision(a);
         }

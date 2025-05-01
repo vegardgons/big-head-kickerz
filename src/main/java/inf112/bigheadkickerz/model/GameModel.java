@@ -464,7 +464,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     } else {
       player2.jump();
     }
-    Assets.playJumpingSound();
   }
 
   @Override
@@ -474,7 +473,6 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     } else {
       footPlayer2.kick();
     }
-    // Assets.playKickingSound();
   }
 
   @Override
@@ -484,6 +482,5 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     } else {
       player2.setDirection(direction);
     }
-    // Assets.playWalkingSound();
   }
 }

@@ -6,13 +6,13 @@
       "name": "Main",
       "request": "launch",
       "mainClass": "inf112.bigheadkickerz.app.Main",
-      "projectName": "BigHeadKickerz",
+      "projectName": "big-head-kickerz"
     },
     {
       "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"
-    },
+    }
   ]
 }
