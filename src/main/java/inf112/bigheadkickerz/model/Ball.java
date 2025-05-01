@@ -10,7 +10,7 @@ public class Ball implements GameObject, Collideable {
 
   private static final float BALL_SIZE = 0.6f;
   private static final float WEIGHT = 0.5f;
-  private static final float BOUNCE_FACTOR = 0.7f;
+  private static final float BOUNCE_FACTOR = 0.5f;
 
   private final Vector2 startPos;
   private Vector2 pos;
