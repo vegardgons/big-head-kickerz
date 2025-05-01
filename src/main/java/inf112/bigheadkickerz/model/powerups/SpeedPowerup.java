@@ -7,29 +7,29 @@ import inf112.bigheadkickerz.model.IPlayerPowerup;
  * Decreases the player's movement speed.
  */
 public class SpeedPowerup extends AbstractPowerup {
-  private final float slowMultiplier;
+  private final float multiplier;
   private final boolean speedBoost;
 
   /**
    * Constructor for SuperSlowPowerup.
    *
-   * @param duration       the duration of the powerup
-   * @param slowMultiplier the multiplier for the player's movement speed
+   * @param duration   the duration of the powerup
+   * @param multiplier the multiplier for the player's movement speed
    */
-  public SpeedPowerup(float duration, float slowMultiplier, boolean speedBoost) {
+  public SpeedPowerup(float duration, float multiplier, boolean speedBoost) {
     super(duration);
-    this.slowMultiplier = slowMultiplier;
+    this.multiplier = multiplier;
     this.speedBoost = speedBoost;
   }
 
   @Override
   public void apply(IPlayerPowerup player) {
-    player.setMovementSpeed(player.getMovementSpeed() * slowMultiplier);
+    player.setMovementSpeed(player.getMovementSpeed() * multiplier);
   }
 
   @Override
   public void expire(IPlayerPowerup player) {
-    player.setMovementSpeed(player.getMovementSpeed() / slowMultiplier);
+    player.setMovementSpeed(player.getMovementSpeed() / multiplier);
   }
 
   @Override
