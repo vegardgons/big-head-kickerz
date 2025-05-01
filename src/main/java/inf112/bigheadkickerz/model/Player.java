@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
+import inf112.bigheadkickerz.view.Assets;
 
 /** Class for the player object. */
 public class Player implements GameObject, Collideable, IPlayerPowerup {

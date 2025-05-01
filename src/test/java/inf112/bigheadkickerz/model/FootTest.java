@@ -16,6 +16,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import inf112.bigheadkickerz.view.Assets;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -36,6 +39,7 @@ class FootTest {
 
   @BeforeEach
   void setUp() {
+    Assets.setKickingSound(mock(Sound.class));
     texture = mock(Texture.class);
     when(texture.getWidth()).thenReturn(16);
     when(texture.getHeight()).thenReturn(16);
@@ -145,6 +149,12 @@ class FootTest {
     foot.reset();
     assertEquals(new Vector2(foot.getPosition()), foot.getPosition());
     assertEquals(new Vector2(0, 0), foot.getVelocity());
+  }
+
+  @Test
+  void testKickWhileKickingDoesNothing() {
+    foot.kick();
+    assertFalse(foot.kick()); // andre forsøk bør ikke gjøre noe
   }
 
   @Test

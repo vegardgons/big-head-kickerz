@@ -1,4 +1,4 @@
-package inf112.bigheadkickerz.model;
+package inf112.bigheadkickerz.view;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -96,12 +96,21 @@ class AssetsTest {
 
   @Test
   void dispose_shouldDisposeAllMusic() {
+
+    Music menuMusic = Assets.getMenuMusic();
+    Sound goalSound = Assets.getGoalSound();
+    Sound startWhistle = Assets.getStartWhistle();
+    Sound jumpingSound = Assets.getJumpingSound();
+    Sound gameOverSound = Assets.getGameOverSound();
+    Sound kickingSound = Assets.getKickingSound();
+
     Assets.dispose();
 
-    verify(Assets.getMenuMusic()).dispose();
-    verify(Assets.getGoalSound()).dispose();
-    verify(Assets.getStartWhistle()).dispose();
-    verify(Assets.getJumpingSound()).dispose();
-    verify(Assets.getGameOverSound()).dispose();
+    verify(menuMusic).dispose();
+    verify(goalSound).dispose();
+    verify(startWhistle).dispose();
+    verify(jumpingSound).dispose();
+    verify(gameOverSound).dispose();
+    verify(kickingSound).dispose();
   }
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
-import inf112.bigheadkickerz.model.Assets;
 
 /**
  * Class to represent the start screen of the game.

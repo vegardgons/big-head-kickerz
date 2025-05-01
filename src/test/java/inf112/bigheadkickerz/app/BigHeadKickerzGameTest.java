@@ -16,8 +16,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl3.audio.Mp3.Music;
 import com.badlogic.gdx.backends.lwjgl3.audio.Ogg.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import inf112.bigheadkickerz.model.Assets;
+
 import inf112.bigheadkickerz.model.GameState;
+import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.EndScreen;
 import inf112.bigheadkickerz.view.GameScreen;
 import inf112.bigheadkickerz.view.StartScreen;
