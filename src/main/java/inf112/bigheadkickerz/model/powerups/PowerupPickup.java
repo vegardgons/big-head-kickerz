@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.bigheadkickerz.model.Ball;
 import inf112.bigheadkickerz.model.Collideable;
 import inf112.bigheadkickerz.model.GameObject;
+import inf112.bigheadkickerz.model.Player;
 
 /**
  * Class representing a powerup pickup in the game.
@@ -59,8 +60,13 @@ public class PowerupPickup implements GameObject, Collideable {
   @Override
   public void collision(Collideable other) {
     if (!collected && other instanceof Ball ball) {
-      powerup.apply(ball.getPlayerLastTouch());
-      PowerupManager.addPowerup(ball.getPlayerLastTouch(), powerup);
+
+      Player collector = ball.getPlayerLastTouch();
+      if (collector == null) {
+        return;
+      }
+      powerup.apply(collector);
+      PowerupManager.addPowerup(collector, powerup);
       collected = true;
     }
   }

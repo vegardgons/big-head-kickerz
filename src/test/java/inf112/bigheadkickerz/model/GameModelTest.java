@@ -18,7 +18,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import inf112.bigheadkickerz.view.Assets;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
