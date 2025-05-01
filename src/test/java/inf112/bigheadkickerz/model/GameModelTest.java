@@ -3,6 +3,8 @@ package inf112.bigheadkickerz.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -14,6 +16,7 @@ import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
+import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -142,6 +145,63 @@ public class GameModelTest {
   private void scoreGoal() {
     gameModel.getBall().setPosition(new Vector2(0, 0));
     gameModel.update(2f);
+  }
+
+  @Test
+  void testFootGettersReturnSameInstances() {
+    assertSame(gameModel.getFootPlayer1(), gameModel.getFootPlayer1());
+    assertSame(gameModel.getFootPlayer2(), gameModel.getFootPlayer2());
+    assertNotSame(gameModel.getFootPlayer1(), gameModel.getFootPlayer2());
+  }
+
+  @Test
+  void testKickDelegatesToCorrectFoot() {
+    assertTrue(gameModel.getFootPlayer1().kick());
+    gameModel.kick(true);
+
+    assertTrue(gameModel.getFootPlayer2().kick());
+    gameModel.kick(false);
+  }
+
+  @Test
+  void testSetPlayerDirectionDelegates() {
+    gameModel.setPlayerDirection(true, 1);
+    assertEquals(+gameModel.getPlayer1().getMovementSpeed(),
+        gameModel.getPlayer1().getVelocity().x, 0.0001);
+
+    gameModel.setPlayerDirection(false, -1);
+    assertEquals(-gameModel.getPlayer2().getMovementSpeed(),
+        gameModel.getPlayer2().getVelocity().x, 0.0001);
+  }
+
+  @Test
+  void testGoalTextAndActivityFlags() {
+    // 1) Force a goal for player 2 (ball into left goal) -> goalText set
+    gameModel.getBall().setPosition(new Vector2(0, 0));
+    gameModel.update(0.1f);
+    assertTrue(gameModel.isGoalTextActive());
+    assertNotNull(gameModel.getGoalText());
+
+    // 2) Let the goal reset expire so text disappears
+    gameModel.update(2.1f);
+    assertFalse(gameModel.isGoalTextActive());
+
+    // 3) Force game-over to set gameOverText
+    for (int i = 0; i < 7; i++) {
+      scoreGoal(); // helper from your existing test
+    }
+    assertTrue(gameModel.isGameOverTextActive());
+    assertNotNull(gameModel.getGameOverText());
+  }
+
+  @Test
+  void testCurrentPowerupGetterAfterSpawn() {
+    for (int i = 0; i < 14; i++) {
+      gameModel.update(1f);
+    }
+    PowerupPickup pickup = gameModel.getCurrentPowerup();
+    assertNotNull(pickup, "Power-up should have spawned after > nextSpawnDelay seconds");
+    assertSame(pickup, gameModel.getCurrentPowerup());
   }
 
 }

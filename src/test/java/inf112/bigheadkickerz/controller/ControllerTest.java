@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@link GameController}.
  */
-public class ControllerTest {
+class ControllerTest {
 
   private ControllableGameModel model;
   private GameController controller;
@@ -71,4 +71,56 @@ public class ControllerTest {
     controller.keyDown(Input.Keys.A);
     verify(model, never()).setPlayerDirection(true, -1);
   }
+
+  @Test
+  void testKeyUpPlayer1A() {
+    controller.keyUp(Input.Keys.A);
+    verify(model).setPlayerDirection(true, 0);
+  }
+
+  @Test
+  void testKeyUpPlayer1D() {
+    controller.keyUp(Input.Keys.D);
+    verify(model).setPlayerDirection(true, 0);
+  }
+
+  void testKeyUpPlayer2Left() {
+    controller.keyUp(Input.Keys.LEFT);
+    verify(model).setPlayerDirection(false, 0);
+  }
+
+  @Test
+  void testKeyUpPlayer2Right() {
+    controller.keyUp(Input.Keys.RIGHT);
+    verify(model).setPlayerDirection(false, 0);
+  }
+
+  @Test
+  void testKeyUpPlayer1StillHoldingA() {
+    when(Gdx.input.isKeyPressed(Input.Keys.A)).thenReturn(true);
+    controller.keyUp(Input.Keys.A);
+    verify(model, never()).setPlayerDirection(true, 0);
+  }
+
+  @Test
+  void testKeyUpPlayer1StillHoldingD() {
+    when(Gdx.input.isKeyPressed(Input.Keys.D)).thenReturn(true);
+    controller.keyUp(Input.Keys.D);
+    verify(model, never()).setPlayerDirection(true, 0);
+  }
+
+  @Test
+  void testKeyUpPlayer2StillHoldingLeft() {
+    when(Gdx.input.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
+    controller.keyUp(Input.Keys.LEFT);
+    verify(model, never()).setPlayerDirection(false, 0);
+  }
+
+  @Test
+  void testKeyUpPlayer2StillHoldingRight() {
+    when(Gdx.input.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
+    controller.keyUp(Input.Keys.RIGHT);
+    verify(model, never()).setPlayerDirection(false, 0);
+  }
+
 }

@@ -53,6 +53,8 @@ public class GameController extends InputAdapter {
         case Input.Keys.P:
           model.kick(false);
           break;
+        default:
+          return false;
       }
     }
     return true;
@@ -62,22 +64,22 @@ public class GameController extends InputAdapter {
   public boolean keyUp(int keycode) {
 
     switch (keycode) {
-      case Input.Keys.A:
-      case Input.Keys.D:
+      case Input.Keys.A, Input.Keys.D:
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D)) {
           break;
         } else {
           model.setPlayerDirection(true, 0);
         }
         break;
-      case Input.Keys.LEFT:
-      case Input.Keys.RIGHT:
+      case Input.Keys.LEFT, Input.Keys.RIGHT:
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
           break;
         } else {
           model.setPlayerDirection(false, 0);
         }
         break;
+      default:
+        return false;
     }
     return true;
   }
