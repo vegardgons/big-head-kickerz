@@ -346,7 +346,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     Texture player2Texture = Assets.getPlayer2Texture();
     player2 = new Player(player2Texture, player2X, 0, false);
 
-    Texture footPlayer2Texture = new Texture("FootPlayer2.png");
+    Texture footPlayer2Texture = Assets.getFootPlayer2Texture();
     footPlayer2 = new Foot(footPlayer2Texture, player2);
 
     // Initialize player, foot and controller for player1
@@ -355,7 +355,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
     Texture player1Texture = Assets.getPlayer1Texture();
     player1 = new Player(player1Texture, player1X, 0, true);
 
-    Texture footPlayer1Texture = new Texture("FootPlayer1.png");
+    Texture footPlayer1Texture = Assets.getFootPlayer1Texture();
     footPlayer1 = new Foot(footPlayer1Texture, player1);
 
     // Initialize goals

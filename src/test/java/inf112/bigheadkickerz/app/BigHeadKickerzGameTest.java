@@ -57,6 +57,7 @@ class BigHeadKickerzGameTest {
     Assets.setStartWhistle(mockSound);
     Assets.setJumpingSound(mockSound);
     Assets.setGameOverSound(mockSound);
+    Assets.setKickingSound(mockSound);
 
     doNothing().when(game).setScreen(any(Screen.class));
   }
@@ -103,11 +104,14 @@ class BigHeadKickerzGameTest {
     Assets.setStartWhistle(mock(com.badlogic.gdx.audio.Sound.class));
     Assets.setJumpingSound(mock(com.badlogic.gdx.audio.Sound.class));
     Assets.setGameOverSound(mock(com.badlogic.gdx.audio.Sound.class));
+    Assets.setKickingSound(mock(com.badlogic.gdx.audio.Sound.class));
 
     game.dispose();
 
     verify(Assets.getMenuMusic()).dispose();
     verify(Assets.getGoalSound()).dispose();
     verify(Assets.getStartWhistle()).dispose();
+    verify(Assets.getJumpingSound()).dispose();
+    verify(Assets.getGameOverSound()).dispose();
   }
 }

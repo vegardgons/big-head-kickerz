@@ -1,5 +1,6 @@
 package inf112.bigheadkickerz.controller;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -20,38 +21,55 @@ class ControllerTest {
 
   @BeforeEach
   void setUp() {
-
     model = mock(ControllableGameModel.class);
     controller = new GameController(model);
     Gdx.input = mock(Input.class);
   }
 
   @Test
-  void testKeyDownPlayer1() {
+  void testKeyDownPlayer1W() {
     controller.keyDown(Input.Keys.W);
     verify(model).jump(true);
+  }
 
+  @Test
+  void testKeyDownPlayer1A() {
     controller.keyDown(Input.Keys.A);
     verify(model).setPlayerDirection(true, -1);
+  }
 
+  @Test
+  void testKeyDownPlayer1D() {
     controller.keyDown(Input.Keys.D);
     verify(model).setPlayerDirection(true, 1);
+  }
 
+  @Test
+  void testKeyDownPlayer1Space() {
     controller.keyDown(Input.Keys.SPACE);
     verify(model).kick(true);
   }
 
   @Test
-  void testKeyDownPlayer2() {
+  void testKeyDownPlayer2Up() {
     controller.keyDown(Input.Keys.UP);
     verify(model).jump(false);
+  }
 
+  @Test
+  void testKeyDownPlayer2Left() {
     controller.keyDown(Input.Keys.LEFT);
     verify(model).setPlayerDirection(false, -1);
+  }
 
+  @Test
+  void testKeyDownPlayer2Right() {
     controller.keyDown(Input.Keys.RIGHT);
     verify(model).setPlayerDirection(false, 1);
+  }
 
+  @Test
+  void testKeyDownPlayer2P() {
     controller.keyDown(Input.Keys.P);
     verify(model).kick(false);
   }
@@ -84,6 +102,7 @@ class ControllerTest {
     verify(model).setPlayerDirection(true, 0);
   }
 
+  @Test
   void testKeyUpPlayer2Left() {
     controller.keyUp(Input.Keys.LEFT);
     verify(model).setPlayerDirection(false, 0);
@@ -96,31 +115,13 @@ class ControllerTest {
   }
 
   @Test
-  void testKeyUpPlayer1StillHoldingA() {
-    when(Gdx.input.isKeyPressed(Input.Keys.A)).thenReturn(true);
-    controller.keyUp(Input.Keys.A);
-    verify(model, never()).setPlayerDirection(true, 0);
+  void testKeyDownNoHit() {
+    assertFalse(controller.keyDown(Input.Keys.X));
   }
 
   @Test
-  void testKeyUpPlayer1StillHoldingD() {
-    when(Gdx.input.isKeyPressed(Input.Keys.D)).thenReturn(true);
-    controller.keyUp(Input.Keys.D);
-    verify(model, never()).setPlayerDirection(true, 0);
-  }
-
-  @Test
-  void testKeyUpPlayer2StillHoldingLeft() {
-    when(Gdx.input.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
-    controller.keyUp(Input.Keys.LEFT);
-    verify(model, never()).setPlayerDirection(false, 0);
-  }
-
-  @Test
-  void testKeyUpPlayer2StillHoldingRight() {
-    when(Gdx.input.isKeyPressed(Input.Keys.RIGHT)).thenReturn(true);
-    controller.keyUp(Input.Keys.RIGHT);
-    verify(model, never()).setPlayerDirection(false, 0);
+  void testKeyUpNoHit() {
+    assertFalse(controller.keyUp(Input.Keys.X));
   }
 
 }

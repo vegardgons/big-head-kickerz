@@ -1,6 +1,5 @@
 package inf112.bigheadkickerz.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
@@ -10,7 +9,9 @@ import com.badlogic.gdx.InputAdapter;
  */
 public class GameController extends InputAdapter {
 
-  private ControllableGameModel model;
+  private final ControllableGameModel model;
+
+  private boolean p1Left, p1Right, p2Left, p2Right;
 
   /**
    * Constructor for GameController.
@@ -27,34 +28,37 @@ public class GameController extends InputAdapter {
       if (keycode == Input.Keys.SPACE) {
         model.dismissControls();
       }
-    } else {
-      switch (keycode) {
-        case Input.Keys.W:
-          model.jump(true);
-          break;
-        case Input.Keys.UP:
-          model.jump(false);
-          break;
-        case Input.Keys.A:
-          model.setPlayerDirection(true, -1);
-          break;
-        case Input.Keys.LEFT:
-          model.setPlayerDirection(false, -1);
-          break;
-        case Input.Keys.D:
-          model.setPlayerDirection(true, 1);
-          break;
-        case Input.Keys.RIGHT:
-          model.setPlayerDirection(false, 1);
-          break;
-        case Input.Keys.SPACE:
-          model.kick(true);
-          break;
-        case Input.Keys.P:
-          model.kick(false);
-          break;
-        default:
-          return false;
+      return true;
+    }
+    switch (keycode) {
+      case Input.Keys.W -> model.jump(true);
+      case Input.Keys.A -> {
+        p1Left = true;
+        updateDirection(true);
+        break;
+      }
+      case Input.Keys.D -> {
+        p1Right = true;
+        updateDirection(true);
+      }
+      case Input.Keys.SPACE -> {
+        model.kick(true);
+      }
+
+      case Input.Keys.UP -> model.jump(false);
+      case Input.Keys.LEFT -> {
+        p2Left = true;
+        updateDirection(false);
+      }
+      case Input.Keys.RIGHT -> {
+        p2Right = true;
+        updateDirection(false);
+      }
+      case Input.Keys.P -> {
+        model.kick(false);
+      }
+      default -> {
+        return false;
       }
     }
     return true;
@@ -62,25 +66,48 @@ public class GameController extends InputAdapter {
 
   @Override
   public boolean keyUp(int keycode) {
-
     switch (keycode) {
-      case Input.Keys.A, Input.Keys.D:
-        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-          break;
-        } else {
-          model.setPlayerDirection(true, 0);
-        }
-        break;
-      case Input.Keys.LEFT, Input.Keys.RIGHT:
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-          break;
-        } else {
-          model.setPlayerDirection(false, 0);
-        }
-        break;
-      default:
+      case Input.Keys.A -> {
+        p1Left = false;
+        updateDirection(true);
+      }
+      case Input.Keys.D -> {
+        p1Right = false;
+        updateDirection(true);
+      }
+      case Input.Keys.LEFT -> {
+        p2Left = false;
+        updateDirection(false);
+      }
+      case Input.Keys.RIGHT -> {
+        p2Right = false;
+        updateDirection(false);
+      }
+      default -> {
         return false;
+      }
     }
     return true;
+  }
+
+  private void updateDirection(boolean isPlayer1) {
+    int dir = 0;
+
+    if (isPlayer1) {
+      if (p1Left && !p1Right) {
+        dir = -1;
+      }
+      if (p1Right && !p1Left) {
+        dir = 1;
+      }
+    } else {
+      if (p2Left && !p2Right) {
+        dir = -1;
+      }
+      if (p2Right && !p2Left) {
+        dir = 1;
+      }
+    }
+    model.setPlayerDirection(isPlayer1, dir);
   }
 }

@@ -25,6 +25,7 @@ class AssetsTest {
     Assets.setStartWhistle(mock(Sound.class));
     Assets.setJumpingSound(mock(Sound.class));
     Assets.setGameOverSound(mock(Sound.class));
+    Assets.setKickingSound(mock(Sound.class));
 
   }
 
@@ -53,7 +54,6 @@ class AssetsTest {
     when(Assets.getMenuMusic().isPlaying()).thenReturn(true);
 
     Assets.stopMenuMusic();
-
     verify(Assets.getMenuMusic()).stop();
   }
 
@@ -84,7 +84,7 @@ class AssetsTest {
   void playJumpingSound_shouldPlaySound() {
     Assets.playJumpingSound();
 
-    verify(Assets.getJumpingSound()).play(0.2f);
+    verify(Assets.getJumpingSound()).play(0.1f);
   }
 
   @Test
