@@ -9,6 +9,7 @@ import inf112.bigheadkickerz.model.powerups.Powerup;
 import inf112.bigheadkickerz.model.powerups.PowerupFactory;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
+import inf112.bigheadkickerz.view.Assets;
 import inf112.bigheadkickerz.view.ViewableGameModel;
 import java.security.SecureRandom;
 import java.util.ArrayList;

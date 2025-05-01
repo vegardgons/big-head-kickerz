@@ -1,4 +1,4 @@
-package inf112.bigheadkickerz.model;
+package inf112.bigheadkickerz.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -146,6 +146,10 @@ public final class Assets {
     return jumpingSound;
   }
 
+  public static Sound getKickingSound() {
+    return kickingSound;
+  }
+
   /**
    * Setter methods for updating game audio assets.
    * These methods allow updating the game's audio resources during runtime.
@@ -217,6 +221,7 @@ public final class Assets {
    * @param sound The new Sound asset to be used
    * @throws IllegalArgumentException if the sound is null
    */
+
   public static void setKickingSound(Sound sound) {
     if (sound == null) {
       throw new IllegalArgumentException(THROW_MESSAGE);

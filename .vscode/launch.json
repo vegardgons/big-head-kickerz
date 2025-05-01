@@ -6,6 +6,13 @@
       "name": "Main",
       "request": "launch",
       "mainClass": "inf112.bigheadkickerz.app.Main",
+      "projectName": "gdx-template-25v"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "inf112.bigheadkickerz.app.Main",
       "projectName": "big-head-kickerz"
     },
     {
