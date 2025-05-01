@@ -11,7 +11,10 @@ public class GameController extends InputAdapter {
 
   private final ControllableGameModel model;
 
-  private boolean p1Left, p1Right, p2Left, p2Right;
+  private boolean p1Left;
+  private boolean p1Right;
+  private boolean p2Left;
+  private boolean p2Right;
 
   /**
    * Constructor for GameController.
@@ -35,16 +38,12 @@ public class GameController extends InputAdapter {
       case Input.Keys.A -> {
         p1Left = true;
         updateDirection(true);
-        break;
       }
       case Input.Keys.D -> {
         p1Right = true;
         updateDirection(true);
       }
-      case Input.Keys.SPACE -> {
-        model.kick(true);
-      }
-
+      case Input.Keys.SPACE -> model.kick(true);
       case Input.Keys.UP -> model.jump(false);
       case Input.Keys.LEFT -> {
         p2Left = true;
@@ -54,9 +53,8 @@ public class GameController extends InputAdapter {
         p2Right = true;
         updateDirection(false);
       }
-      case Input.Keys.P -> {
-        model.kick(false);
-      }
+      case Input.Keys.P -> model.kick(false);
+
       default -> {
         return false;
       }

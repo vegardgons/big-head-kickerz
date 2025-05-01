@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import inf112.bigheadkickerz.app.BigHeadKickerzGame;
 import inf112.bigheadkickerz.controller.ControllableGameModel;
 import inf112.bigheadkickerz.model.powerups.Powerup;
-import inf112.bigheadkickerz.model.powerups.PowerupFactory;
+import inf112.bigheadkickerz.model.powerups.PowerupCatalogue;
 import inf112.bigheadkickerz.model.powerups.PowerupManager;
 import inf112.bigheadkickerz.model.powerups.PowerupPickup;
 import inf112.bigheadkickerz.view.Assets;
@@ -407,7 +407,7 @@ public class GameModel implements ViewableGameModel, ControllableGameModel {
   }
 
   private void spawnPowerup() {
-    Powerup randomPowerup = PowerupFactory.getRandomPowerup();
+    Powerup randomPowerup = PowerupCatalogue.createRandomPowerup();
     float widthToRightGoal = viewport.getWorldWidth() - leftGoal.getWidth() * 2;
     float spawnX = leftGoal.getWidth()
         + (random.nextFloat() * widthToRightGoal);
