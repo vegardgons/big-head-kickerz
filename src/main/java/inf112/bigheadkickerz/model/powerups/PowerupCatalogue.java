@@ -25,6 +25,10 @@ public final class PowerupCatalogue {
       () -> new SizePowerup(
           DEFAULT_DURATION, 0.5f, false));
 
+  private PowerupCatalogue() {
+    // Prevent instantiation
+  }
+
   /**
    * Returns a list of all factories.
    */

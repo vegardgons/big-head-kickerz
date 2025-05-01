@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for the {@link PowerupCatalogue} class.
  */
-public class PowerupCatalogueTest {
+class PowerupCatalogueTest {
 
   @Test
   void createRandomPowerup_returnsNonNull() {
