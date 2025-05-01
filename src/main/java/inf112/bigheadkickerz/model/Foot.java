@@ -217,10 +217,12 @@ public class Foot implements GameObject, Collideable {
 
   @Override
   public void setPosition(Vector2 pos) {
+    this.pos.set(pos);
   }
 
   @Override
   public void setVelocity(Vector2 velocity) {
+    this.velocity.set(velocity);
   }
 
   @Override
