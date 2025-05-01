@@ -117,7 +117,7 @@ public final class Assets {
     startWhistle.dispose();
     jumpingSound.dispose();
     gameOverSound.dispose();
-    kickingSound.dispose();
+    kickingSound.dispose();    
     disposeTextures();
   }
 
@@ -212,6 +212,19 @@ public final class Assets {
   }
 
   /**
+   * Method to set the kicking sound.
+   *
+   * @param sound The new Sound asset to be used
+   * @throws IllegalArgumentException if the sound is null
+   */
+  public static void setKickingSound(Sound sound) {
+    if (sound == null) {
+      throw new IllegalArgumentException(THROW_MESSAGE);
+    }
+    kickingSound = sound;
+  }
+
+  /**
    * Gets the ball texture from cache or loads it if not present.
    *
    * @return The ball texture
@@ -257,12 +270,24 @@ public final class Assets {
   }
 
   /**
-   * Helper method to get or load textures from cache.
+   * Gets the foot player 1 texture from cache or loads it if not present.
    *
-   * @param path The file path of the texture
-   * @return The cached or newly loaded texture
+   * @return The foot player 1 texture
    */
-  public static Texture getTexture(String path) {
+  public static Texture getFootPlayer1Texture() {
+    return getTexture("FootPlayer1.png");
+  }
+
+  /**
+   * Gets the foot player 2 texture from cache or loads it if not present.
+   *
+   * @return The foot player 2 texture
+   */
+  public static Texture getFootPlayer2Texture() {
+    return getTexture("FootPlayer2.png");
+  }
+
+  private static Texture getTexture(String path) {
     return textureCache.computeIfAbsent(path, k -> new Texture(Gdx.files.internal(k)));
   }
 
