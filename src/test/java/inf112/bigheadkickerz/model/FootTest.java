@@ -16,13 +16,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import inf112.bigheadkickerz.view.Assets;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
 /**
  * Updated tests for the re‑implemented {@link Foot}.
@@ -52,10 +49,8 @@ class FootTest {
     when(player.isPlayer1()).thenReturn(true);
 
     foot = new Foot(texture, player);
-
     batch = mock(SpriteBatch.class);
     viewport = mock(Viewport.class);
-    Assets.setKickingSound(Mockito.mock(Sound.class));
   }
 
   @Test

@@ -24,8 +24,7 @@ A, D og W og sparker med SPACE.
 * Krever Java 21 eller senere
 
 ## Kjente feil
-- Problemer med sparking av ballen, foten er ikke langt nok ut fra kroppen til at sparkingen gjør noe særlig forskjell.
-- Litt trøbbel med fysikk, særlig når ballen er mellom to spillere og det blir kollisjon mellom spiller-ball-spiller. Da kan ballen gå gjennom en av spillerne.
+- Når ballen er mellom to spillere og det blir kollisjon mellom spiller-ball-spiller, så presses ballen gjennom en av spillerne.
 
 ## Credits
 - Inspirasjon hentet fra https://www.kongregate.com/games/mousebreaker/sports-heads-football-championship
@@ -37,4 +36,6 @@ A, D og W og sparker med SPACE.
 - Lyd av fløyte hentet fra https://freesound.org/people/NebbiaOne/sounds/408417/
 - Lyd av mål hentet fra https://freesound.org/people/paulw2k/sounds/196461/
 - Lyd av menymusikk hentet fra https://freesound.org/people/neko_4444/sounds/744187/
+- Lydeffekt for hopping hentet fra https://freesound.org/people/Bastianhallo/sounds/462958/
+- Lydeffekt for game over hentet fra https://freesound.org/people/FunWithSound/sounds/456966/
 
