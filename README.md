@@ -15,7 +15,7 @@ i jakten på seier.
 ## Beskrivelse av spillet
 Big Head Kickerz er et 2D fotballspill hvor to spillere konkurrerer om å score mest mål.
 Den ene spilleren beveges ved bruk av piltastene og sparker med "p". Den andre spilleren beveges med
-A, D og W og sparker med SPACE. 
+WASD og sparker med SPACE. 
 
 ## Kjøring
 * Kompileres med `mvn package`.
@@ -24,7 +24,12 @@ A, D og W og sparker med SPACE.
 * Krever Java 21 eller senere
 
 ## Kjente feil
-- Når ballen er mellom to spillere og det blir kollisjon mellom spiller-ball-spiller, så presses ballen gjennom en av spillerne.
+* Når ballen er mellom to spillere og det blir kollisjon mellom spiller-ball-spiller, så presses ballen gjennom en av spillerne.
+* Når ballen kolliderer med en powerup, så stopper den littegrann opp før den fortsetter på sin bane.
+* Foten sin virkning er litt uforutsigbar og gir ikke alltid ønsket effekt.
+* Hvis en spiller står oppå den andre spilleren, så vil den øverste spilleren sakte synke ned i den nederste spilleren.
+* Når spilleren blir mindre av en powerup, vil spilleren flyte over foten og foten havne litt ned i bakken. Det er kun spilleren som blir mindre og ikke foten. 
+* Når spilleren blir større av en powerup blir kun spilleren stor og ikke foten. 
 
 ## Credits
 - Inspirasjon hentet fra https://www.kongregate.com/games/mousebreaker/sports-heads-football-championship
@@ -36,6 +41,7 @@ A, D og W og sparker med SPACE.
 - Lyd av fløyte hentet fra https://freesound.org/people/NebbiaOne/sounds/408417/
 - Lyd av mål hentet fra https://freesound.org/people/paulw2k/sounds/196461/
 - Lyd av menymusikk hentet fra https://freesound.org/people/neko_4444/sounds/744187/
+- Lyd av spark hentet fra https://freesound.org/people/KEVOY/sounds/82309/
 - Lydeffekt for hopping hentet fra https://freesound.org/people/Bastianhallo/sounds/462958/
 - Lydeffekt for game over hentet fra https://freesound.org/people/FunWithSound/sounds/456966/
 
