@@ -106,7 +106,7 @@ public class Foot implements GameObject, Collideable {
   /**
    * Makes the player kick.
    */
-  public boolean kick() {
+  boolean kick() {
     if (state == State.IDLE) {
       changeState(State.FORWARD);
       Assets.playKickingSound();
@@ -118,22 +118,22 @@ public class Foot implements GameObject, Collideable {
   /**
    * Resets the foot to its initial state.
    */
-  public void reset() {
+  void reset() {
     state = State.IDLE;
     timer = 0f;
     computeRestingPose();
     velocity.setZero();
   }
 
-  public boolean isKicking() {
+  boolean isKicking() {
     return state != State.IDLE;
   }
 
-  public float getKickPower() {
+  float getKickPower() {
     return KICK_POWER;
   }
 
-  public Player getPlayer() {
+  Player getPlayer() {
     return player;
   }
 
