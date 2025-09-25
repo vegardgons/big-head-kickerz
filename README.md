@@ -4,7 +4,6 @@ Simple skeleton with [libGDX](https://libgdx.com/).
 # INF112 Project – *Big Head Kickerz*
 
 * Team: *Beta Krigerne* (Gruppe 6): *Mikal Arolkar, Andreas Aasheim Farup, Vegard Gjertsen Gonsholt, Olav Hilland Lidal*
-* Lenke til prosjektet: https://git.app.uib.no/inf112/25v/proj/beta-krigerne.
 
 ## Om spillet
 Velkommen til Big Head Kickerz – spillet der fysikk er valgfritt og hodestøt er lov! 
