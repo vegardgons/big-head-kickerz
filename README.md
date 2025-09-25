@@ -1,10 +1,8 @@
-# INF112 libGDX + Maven template
-
-Simple skeleton with [libGDX](https://libgdx.com/).
-
 # INF112 Project – *Big Head Kickerz*
 
 * Team: *Beta Krigerne* (Gruppe 6): *Mikal Arolkar, Andreas Aasheim Farup, Vegard Gjertsen Gonsholt, Olav Hilland Lidal*
+
+Simple skeleton with [libGDX](https://libgdx.com/).
 
 ## Om spillet
 
